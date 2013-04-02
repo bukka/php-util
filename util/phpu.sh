@@ -65,11 +65,19 @@ function phpu_gentest {
 
 # configure php
 function phpu_conf {
-  EXTRA_OPTS="--with-config-file-path=/etc"
+  CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+  PHPU_INIDIR=$PHPU_CONF/$CURRENT_BRANCH
+  if [ ! -d $PHPU_INIDIR ]; then
+	mkdir $PHPU_INIDIR
+  fi
+  EXTRA_OPTS="--with-config-file-path="$PHPU_INIDIR
   if [ $# -gt 0 ]; then
 	EXTRA_OPTS="$EXTRA_OPTS $*"
   else
 	EXTRA_OPTS="$EXTRA_OPTS --enable-debug --enable-maintainer-zts"
+  fi
+  if [[ "${CURRENT_BRANCH:4:1}" == "4" ]] || [[ "${CURRENT_BRANCH:6:1}" =~ (3|2|1|0) ]]; then
+	export PHP_AUTOCONF=autoconf-2.13
   fi
   ./buildconf --force
   ./configure $EXTRA_OPTS `cat $PHPU_CONF_FILE`
@@ -95,7 +103,22 @@ function phpu_new {
 	  fi
 	done
 	cd $PHPU_SRC
-	if git branch --track $BRANCH upstream/$BRANCH; then
+	if [ -d "$PHPU_BUILD/$NAME" ]; then
+	  echo "Build $NAME already exists"
+	  while true; do
+		echo -n "Do you want to replace it [y/N]: "
+		read CONFIRM
+		case $CONFIRM in
+		  y|Y|YES|yes|Yes)
+			rm -rf "$PHPU_BUILD/$NAME"
+			break
+			;;
+		  n|N|no|NO|No|"")
+			exit
+		esac
+	  done
+	fi
+	if git branch --list | grep -q $BRANCH || git branch --track $BRANCH upstream/$BRANCH; then
 	  cd $PHPU_BUILD
 	  git clone ../src $NAME
 	  cd $NAME
