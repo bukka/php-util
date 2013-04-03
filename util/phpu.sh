@@ -17,12 +17,16 @@
 #
 #  PHP utility script
 
+# autoconf file for PHP 5.3-
+PHPU_AUTOCONF_213=autoconf-2.13
+
 # set base directory
 if readlink ${BASH_SOURCE[0]} > /dev/null; then
   PHPU_ROOT="$( dirname "$( dirname "$( readlink ${BASH_SOURCE[0]} )" )" )"
 else  
   PHPU_ROOT="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )"/.. && pwd )"
 fi
+
 
 PHPU_CONF=$PHPU_ROOT/conf
 PHPU_CONF_FILE=$PHPU_CONF/options.conf
@@ -65,52 +69,52 @@ function phpu_gentest {
 
 # configure php
 function phpu_conf {
-  CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
-  PHPU_INIDIR=$PHPU_CONF/$CURRENT_BRANCH
+  PHPU_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+  PHPU_INIDIR=$PHPU_CONF/$PHPU_CURRENT_BRANCH
   if [ ! -d $PHPU_INIDIR ]; then
 	mkdir $PHPU_INIDIR
   fi
-  EXTRA_OPTS="--with-config-file-path="$PHPU_INIDIR
+  PHPU_EXTRA_OPTS="--with-config-file-path="$PHPU_INIDIR
   if [ $# -gt 0 ]; then
-	EXTRA_OPTS="$EXTRA_OPTS $*"
+	PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS $*"
   else
-	EXTRA_OPTS="$EXTRA_OPTS --enable-debug --enable-maintainer-zts"
+	PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-debug --enable-maintainer-zts"
   fi
-  if [[ "${CURRENT_BRANCH:4:1}" == "4" ]] || [[ "${CURRENT_BRANCH:6:1}" =~ (3|2|1|0) ]]; then
-	export PHP_AUTOCONF=autoconf-2.13
+  if [[ "${PHPU_CURRENT_BRANCH:4:1}" == "4" ]] || [[ "${PHPU_CURRENT_BRANCH:6:1}" =~ (3|2|1|0) ]]; then
+	export PHP_AUTOCONF=$PHPU_AUTOCONF_213
   fi
   ./buildconf --force
-  ./configure $EXTRA_OPTS `cat $PHPU_CONF_FILE`
+  ./configure $PHPU_EXTRA_OPTS `cat $PHPU_CONF_FILE`
 }
 
 # create new build
 function phpu_new {
   if [ -n "$1" ]; then
-	BRANCH=$1
-	NAME=$BRANCH
-	CONF_OPTS=""
+	PHPU_BRANCH=$1
+	PHPU_NAME=$PHPU_BRANCH
+	PHPU_CONF_OPTS=""
 	shift
 	for PARAM in $@; do
-	  if [[ "$PARAM" == "debug" ]] && [ -z "$HAS_DEBUG" ]; then
-		HAS_DEBUG=1
-		CONF_OPTS=$CONF_OPTS" --enable-debug"
-		NAME=$NAME"_debug"
+	  if [[ "$PARAM" == "debug" ]] && [ -z "$PHPU_HAS_DEBUG" ]; then
+		PHPU_HAS_DEBUG=1
+		PHPU_CONF_OPTS=$PHPU_CONF_OPTS" --enable-debug"
+		PHPU_NAME=$PHPU_NAME"_debug"
 	  fi
-	  if [[ "$PARAM" == "zts" ]] && [ -z "$HAS_ZTS" ]; then
-		HAS_DEBUG=1
-		CONF_OPTS=$CONF_OPTS" --enable-maintainer-zts"
-		NAME=$NAME"_zts"
+	  if [[ "$PARAM" == "zts" ]] && [ -z "$PHPU_HAS_ZTS" ]; then
+		PHPU_HAS_DEBUG=1
+		PHPU_CONF_OPTS=$PHPU_CONF_OPTS" --enable-maintainer-zts"
+		PHPU_NAME=$PHPU_NAME"_zts"
 	  fi
 	done
 	cd $PHPU_SRC
-	if [ -d "$PHPU_BUILD/$NAME" ]; then
-	  echo "Build $NAME already exists"
+	if [ -d "$PHPU_BUILD/$PHPU_NAME" ]; then
+	  echo "Build $PHPU_NAME already exists"
 	  while true; do
 		echo -n "Do you want to replace it [y/N]: "
 		read CONFIRM
 		case $CONFIRM in
 		  y|Y|YES|yes|Yes)
-			rm -rf "$PHPU_BUILD/$NAME"
+			rm -rf "$PHPU_BUILD/$PHPU_NAME"
 			break
 			;;
 		  n|N|no|NO|No|"")
@@ -118,12 +122,12 @@ function phpu_new {
 		esac
 	  done
 	fi
-	if git branch --list | grep -q $BRANCH || git branch --track $BRANCH upstream/$BRANCH; then
+	if git branch --list | grep -q $PHPU_BRANCH || git branch --track $PHPU_BRANCH upstream/$PHPU_BRANCH; then
 	  cd $PHPU_BUILD
-	  git clone ../src $NAME
-	  cd $NAME
-	  git checkout $BRANCH
-	  phpu_conf $CONF_OPTS
+	  git clone ../src $PHPU_NAME
+	  cd $PHPU_NAME
+	  git checkout $PHPU_BRANCH
+	  phpu_conf $PHPU_CONF_OPTS
 	fi
   fi
 }
