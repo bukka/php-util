@@ -20,6 +20,9 @@
 # autoconf file for PHP 5.3-
 PHPU_AUTOCONF_213=autoconf-2.13
 
+# apache httpd restart command
+PHPU_HTTPD_RESTART="systemctl restart httpd.service"
+
 # set base directory
 if readlink ${BASH_SOURCE[0]} > /dev/null; then
   PHPU_ROOT="$( dirname "$( dirname "$( readlink ${BASH_SOURCE[0]} )" )" )"
@@ -73,11 +76,11 @@ function phpu_conf {
   PHPU_INIDIR=$PHPU_CONF/$PHPU_CURRENT_BRANCH
   if [ ! -d $PHPU_INIDIR ]; then
 	mkdir $PHPU_INIDIR
+	cp php.ini-development $PHPU_INIDIR/php.ini
   fi
-  PHPU_EXTRA_OPTS="--with-config-file-path="$PHPU_INIDIR
-  if [ $# -gt 0 ]; then
-	PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS $*"
-  else
+  PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_INIDIR $*"
+  PHPU_CURRENT_DIR=$( basename `pwd` )
+  if [[ $PHPU_CURRENT_DIR == "src" ]]; then
 	PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-debug --enable-maintainer-zts"
   fi
   if [[ "${PHPU_CURRENT_BRANCH:4:1}" == "4" ]] || [[ "${PHPU_CURRENT_BRANCH:6:1}" =~ (3|2|1|0) ]]; then
@@ -87,25 +90,31 @@ function phpu_conf {
   ./configure $PHPU_EXTRA_OPTS `cat $PHPU_CONF_FILE`
 }
 
+# process params for phpu_new
+function _phpu_process_params {
+  PHPU_BRANCH=$1
+  PHPU_NAME=$PHPU_BRANCH
+  PHPU_CONF_OPTS=""
+  shift
+  for PARAM in $@; do
+	if [[ "$PARAM" == "debug" ]] && [ -z "$PHPU_HAS_DEBUG" ]; then
+	  PHPU_HAS_DEBUG=1
+	  PHPU_CONF_OPTS="$PHPU_CONF_OPTS --enable-debug"
+	  PHPU_NAME=$PHPU_NAME"_debug"
+	fi
+	if [[ "$PARAM" == "zts" ]] && [ -z "$PHPU_HAS_ZTS" ]; then
+	  PHPU_HAS_DEBUG=1
+	  PHPU_CONF_OPTS="$PHPU_CONF_OPTS --enable-maintainer-zts"
+	  PHPU_NAME=$PHPU_NAME"_zts"
+	fi
+  done
+  PHPU_BUILD_NAME="$PHPU_BUILD/$PHPU_NAME"
+}
+
 # create new build
 function phpu_new {
   if [ -n "$1" ]; then
-	PHPU_BRANCH=$1
-	PHPU_NAME=$PHPU_BRANCH
-	PHPU_CONF_OPTS=""
-	shift
-	for PARAM in $@; do
-	  if [[ "$PARAM" == "debug" ]] && [ -z "$PHPU_HAS_DEBUG" ]; then
-		PHPU_HAS_DEBUG=1
-		PHPU_CONF_OPTS=$PHPU_CONF_OPTS" --enable-debug"
-		PHPU_NAME=$PHPU_NAME"_debug"
-	  fi
-	  if [[ "$PARAM" == "zts" ]] && [ -z "$PHPU_HAS_ZTS" ]; then
-		PHPU_HAS_DEBUG=1
-		PHPU_CONF_OPTS=$PHPU_CONF_OPTS" --enable-maintainer-zts"
-		PHPU_NAME=$PHPU_NAME"_zts"
-	  fi
-	done
+	_phpu_process_params $@
 	cd $PHPU_SRC
 	if [ -d "$PHPU_BUILD/$PHPU_NAME" ]; then
 	  echo "Build $PHPU_NAME already exists"
@@ -114,7 +123,7 @@ function phpu_new {
 		read CONFIRM
 		case $CONFIRM in
 		  y|Y|YES|yes|Yes)
-			rm -rf "$PHPU_BUILD/$PHPU_NAME"
+			rm -rf "$PHPU_BUILD_NAME"
 			break
 			;;
 		  n|N|no|NO|No|"")
@@ -122,12 +131,29 @@ function phpu_new {
 		esac
 	  done
 	fi
-	if git branch --list | grep -q $PHPU_BRANCH || git branch --track $PHPU_BRANCH upstream/$PHPU_BRANCH; then
+	if git branch --list | grep -q $PHPU_BRANCH; then
+	  git branch -d $PHPU_BRANCH
+	fi
+	if git branch --track $PHPU_BRANCH upstream/$PHPU_BRANCH; then
 	  cd $PHPU_BUILD
 	  git clone ../src $PHPU_NAME
 	  cd $PHPU_NAME
 	  git checkout $PHPU_BRANCH
 	  phpu_conf $PHPU_CONF_OPTS
+	fi
+  fi
+}
+
+function phpu_use {
+  if [ -n "$1" ]; then
+	_phpu_process_params $@
+	if [ -d "$PHPU_BUILD_NAME" ]; then
+	  cd "$PHPU_BUILD_NAME"
+	  sudo -l > /dev/null
+	  make && sudo make install
+	  sudo $PHPU_HTTPD_RESTART
+	else
+	  echo "The $PHPU_NAME has not been created yet"
 	fi
   fi
 }
@@ -162,6 +188,10 @@ case $ACTION in
   use)
     phpu_use $@
     ;;
+  install)
+	phpu_new $@
+	phpu_use $@
+	;;
   sync)
     phpu_sync $@
     ;;
