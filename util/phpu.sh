@@ -36,6 +36,7 @@ PHPU_CONF_FILE=$PHPU_CONF/options.conf
 PHPU_SRC=$PHPU_ROOT/src
 PHPU_CLI=$PHPU_SRC/sapi/cli/php
 PHPU_BUILD=$PHPU_ROOT/build
+PHPU_ETC=/usr/local/etc
 
 # show error
 function error {
@@ -70,26 +71,6 @@ function phpu_gentest {
   $PHPU_CLI $PHPU_SRC/scripts/dev/generate-phpt.phar $*
 }
 
-# configure php
-function phpu_conf {
-  PHPU_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
-  PHPU_INIDIR=$PHPU_CONF/$PHPU_CURRENT_BRANCH
-  if [ ! -d $PHPU_INIDIR ]; then
-	mkdir $PHPU_INIDIR
-	cp php.ini-development $PHPU_INIDIR/php.ini
-  fi
-  PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_INIDIR $*"
-  PHPU_CURRENT_DIR=$( basename `pwd` )
-  if [[ $PHPU_CURRENT_DIR == "src" ]]; then
-	PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-debug --enable-maintainer-zts"
-  fi
-  if [[ "${PHPU_CURRENT_BRANCH:4:1}" == "4" ]] || [[ "${PHPU_CURRENT_BRANCH:6:1}" =~ (3|2|1|0) ]]; then
-	export PHP_AUTOCONF=$PHPU_AUTOCONF_213
-  fi
-  ./buildconf --force
-  ./configure $PHPU_EXTRA_OPTS `cat $PHPU_CONF_FILE`
-}
-
 # process params for phpu_new
 function _phpu_process_params {
   PHPU_BRANCH=$1
@@ -110,6 +91,27 @@ function _phpu_process_params {
   done
   PHPU_BUILD_NAME="$PHPU_BUILD/$PHPU_NAME"
 }
+
+function _phpu_init_install_vars {
+  PHPU_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+  PHPU_INIDIR="$PHPU_ETC/$PHPU_CURRENT_BRANCH"
+}
+
+# configure php
+function phpu_conf {
+  _phpu_init_install_vars
+  PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_INIDIR $*"
+  PHPU_CURRENT_DIR=$( basename `pwd` )
+  if [[ $PHPU_CURRENT_DIR == "src" ]]; then
+	PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-debug --enable-maintainer-zts"
+  fi
+  if [[ "${PHPU_CURRENT_BRANCH:4:1}" == "4" ]] || [[ "${PHPU_CURRENT_BRANCH:6:1}" =~ (3|2|1|0) ]]; then
+	export PHP_AUTOCONF=$PHPU_AUTOCONF_213
+  fi
+  ./buildconf --force
+  ./configure $PHPU_EXTRA_OPTS `cat $PHPU_CONF_FILE`
+}
+
 
 # create new build
 function phpu_new {
@@ -150,6 +152,11 @@ function phpu_use {
 	if [ -d "$PHPU_BUILD_NAME" ]; then
 	  cd "$PHPU_BUILD_NAME"
 	  sudo -l > /dev/null
+	  _phpu_init_install_vars
+	  if [ ! -d $PHPU_INIDIR ]; then
+		sudo mkdir -p $PHPU_INIDIR
+		sudo cp php.ini-development $PHPU_INIDIR/php.ini
+	  fi
 	  make && sudo make install
 	  sudo $PHPU_HTTPD_RESTART
 	else
