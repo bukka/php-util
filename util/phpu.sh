@@ -94,17 +94,24 @@ function _phpu_process_params {
 
 function _phpu_init_install_vars {
   PHPU_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
-  PHPU_INIDIR="$PHPU_ETC/$PHPU_CURRENT_BRANCH"
+  PHPU_INIDIR="$PHPU_CONF/$PHPU_CURRENT_BRANCH"
 }
 
 # configure php
 function phpu_conf {
   _phpu_init_install_vars
-  PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_INIDIR $*"
+  # copy conf
+  if [ ! -d $PHPU_INIDIR ]; then
+	mkdir -p $PHPU_INIDIR
+	cp php.ini-development $PHPU_INIDIR/php.ini
+  fi
+  # extra options for configure
+  PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_ETC $*"
   PHPU_CURRENT_DIR=$( basename `pwd` )
   if [[ $PHPU_CURRENT_DIR == "src" ]]; then
 	PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-debug --enable-maintainer-zts"
   fi
+  # use old autoconf for PHP-5.3 and lower
   if [[ "${PHPU_CURRENT_BRANCH:4:1}" == "4" ]] || [[ "${PHPU_CURRENT_BRANCH:6:1}" =~ (3|2|1|0) ]]; then
 	export PHP_AUTOCONF=$PHPU_AUTOCONF_213
   fi
@@ -153,10 +160,10 @@ function phpu_use {
 	  cd "$PHPU_BUILD_NAME"
 	  sudo -l > /dev/null
 	  _phpu_init_install_vars
-	  if [ ! -d $PHPU_INIDIR ]; then
-		sudo mkdir -p $PHPU_INIDIR
-		sudo cp php.ini-development $PHPU_INIDIR/php.ini
+	  if [ ! -d $PHPU_ETC ]; then
+		sudo mkdir -p $PHPU_ETC
 	  fi
+	  sudo cp $PHPU_INIDIR/php.ini $PHPU_ETC
 	  make && sudo make install
 	  sudo $PHPU_HTTPD_RESTART
 	else
@@ -196,6 +203,7 @@ case $ACTION in
     phpu_use $@
     ;;
   install)
+	sudo -l > /dev/null
 	phpu_new $@
 	phpu_use $@
 	;;
