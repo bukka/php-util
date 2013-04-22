@@ -172,6 +172,14 @@ function phpu_use {
   fi
 }
 
+function phpu_update {
+  if [ -z "$1" ] || [[ "$1" == "master" ]]; then
+	cd $PHPU_SRC
+	git fetch upstream
+	git merge upstream/master
+  fi
+}
+
 # se action
 if [ -n "$1" ]; then
   ACTION=$1
@@ -202,6 +210,9 @@ case $ACTION in
   use)
     phpu_use $@
     ;;
+  update)
+	phpu_update $@
+	;;
   install)
 	sudo -l > /dev/null
 	phpu_new $@
