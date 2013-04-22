@@ -155,20 +155,27 @@ function phpu_new {
 
 function phpu_use {
   if [ -n "$1" ]; then
-	_phpu_process_params $@
-	if [ -d "$PHPU_BUILD_NAME" ]; then
-	  cd "$PHPU_BUILD_NAME"
-	  sudo -l > /dev/null
+	sudo -l > /dev/null
+	if [[ "$1" == "master" ]]; then
+	  cd $PHPU_SRC
 	  _phpu_init_install_vars
-	  if [ ! -d $PHPU_ETC ]; then
-		sudo mkdir -p $PHPU_ETC
-	  fi
-	  sudo cp $PHPU_INIDIR/php.ini $PHPU_ETC
-	  make && sudo make install
-	  sudo $PHPU_HTTPD_RESTART
 	else
-	  echo "The $PHPU_NAME has not been created yet"
+	  _phpu_process_params $@
+	  if [ -d "$PHPU_BUILD_NAME" ]; then
+		cd "$PHPU_BUILD_NAME"
+		_phpu_init_install_vars
+		if [ ! -d $PHPU_ETC ]; then
+		  sudo mkdir -p $PHPU_ETC
+		fi
+		sudo cp $PHPU_INIDIR/php.ini $PHPU_ETC
+
+	  else
+		echo "The $PHPU_NAME has not been created yet"
+		exit
+	  fi
 	fi
+	sudo cp $PHPU_INIDIR/php.ini $PHPU_ETC
+	make && sudo make install && sudo $PHPU_HTTPD_RESTART
   fi
 }
 
