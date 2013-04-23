@@ -30,13 +30,19 @@ else
   PHPU_ROOT="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )"/.. && pwd )"
 fi
 
-
-PHPU_CONF=$PHPU_ROOT/conf
-PHPU_CONF_FILE=$PHPU_CONF/options.conf
-PHPU_SRC=$PHPU_ROOT/src
-PHPU_CLI=$PHPU_SRC/sapi/cli/php
-PHPU_BUILD=$PHPU_ROOT/build
+# php.ini final location
 PHPU_ETC=/usr/local/etc
+# configuration files
+PHPU_CONF="$PHPU_ROOT/conf"
+PHPU_CONF_OPT="$PHPU_CONF/options.conf"
+PHPU_CONF_EXT="$PHPU_CONF/ext.conf"
+# master build branch location
+PHPU_SRC="$PHPU_ROOT/src"
+# directory for other builds
+PHPU_BUILD="$PHPU_ROOT/build"
+# cli file source
+PHPU_CLI="$PHPU_SRC/sapi/cli/php"
+
 
 # show error
 function error {
@@ -97,6 +103,16 @@ function _phpu_init_install_vars {
   PHPU_INIDIR="$PHPU_CONF/$PHPU_CURRENT_BRANCH"
 }
 
+# configure extension statically
+function _phpu_ext_static {
+  echo "STATIC: $PHPU_EXT_NAME $PHPU_EXT_OPT"
+}
+
+# configure extension dynamically
+function _phpu_ext_dynamic {
+  echo "DYNAMIC: $PHPU_EXT_NAME $PHPU_EXT_OPT"
+}
+
 # configure php
 function phpu_conf {
   _phpu_init_install_vars
@@ -111,12 +127,20 @@ function phpu_conf {
   if [[ $PHPU_CURRENT_DIR == "src" ]]; then
 	PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-debug --enable-maintainer-zts"
   fi
-  # use old autoconf for PHP-5.3 and lower
+  # set extensions
+  while read PHPU_EXT_NAME PHPU_EXT_TYPE PHPU_EXT_OPT ; do
+	if [[ $PHPU_EXT_TYPE == 'static' ]]; then
+	  _phpu_ext_static
+	else
+	  _phpu_ext_dynamic
+	fi
+  done < "$PHPU_CONF_EXT"
+   # use old autoconf for PHP-5.3 and lower
   if [[ "${PHPU_CURRENT_BRANCH:4:1}" == "4" ]] || [[ "${PHPU_CURRENT_BRANCH:6:1}" =~ (3|2|1|0) ]]; then
 	export PHP_AUTOCONF=$PHPU_AUTOCONF_213
   fi
   ./buildconf --force
-  ./configure $PHPU_EXTRA_OPTS `cat $PHPU_CONF_FILE`
+  ./configure $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_OPT"`
 }
 
 
