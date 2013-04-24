@@ -38,6 +38,9 @@ PHPU_CONF_OPT="$PHPU_CONF/options.conf"
 PHPU_CONF_EXT="$PHPU_CONF/ext.conf"
 # master build branch location
 PHPU_SRC="$PHPU_ROOT/src"
+PHPU_SRC_EXT="$PHPU_SRC/ext"
+# extension dir
+PHPU_EXT="$PHPU_ROOT/ext"
 # directory for other builds
 PHPU_BUILD="$PHPU_ROOT/build"
 # cli file source
@@ -100,7 +103,8 @@ function _phpu_process_params {
 
 function _phpu_init_install_vars {
   PHPU_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
-  PHPU_INIDIR="$PHPU_CONF/$PHPU_CURRENT_BRANCH"
+  PHPU_INI_DIR="$PHPU_CONF/$PHPU_CURRENT_BRANCH"
+  PHPU_INI_FILE="$PHPU_INI_DIR/php.ini"
 }
 
 # configure extension statically
@@ -110,6 +114,17 @@ function _phpu_ext_static {
 
 # configure extension dynamically
 function _phpu_ext_dynamic {
+  if ! grep -q $PHPU_EXT_LIB "$PHPU_INI_FILE" ; then
+	PHPU_INI_FILE_TMP="${PHPU_INI_FILE}.tmp"
+	awk 'BEGIN { search = 1; show = 0 } {
+if (search) {
+if (show == 2) { search = 0; printf("extension='$PHPU_EXT_LIB'\n"); }
+else if (show == 1) show++;
+else if (index($0, "Extension") > 0) show = 1;
+} print $0;
+}' "$PHPU_INI_FILE" > "$PHPU_INI_FILE_TMP"
+	mv "$PHPU_INI_FILE_TMP" "$PHPU_INI_FILE"
+  fi
   echo "DYNAMIC: $PHPU_EXT_NAME $PHPU_EXT_OPT"
 }
 
@@ -117,9 +132,9 @@ function _phpu_ext_dynamic {
 function phpu_conf {
   _phpu_init_install_vars
   # copy conf
-  if [ ! -d $PHPU_INIDIR ]; then
-	mkdir -p $PHPU_INIDIR
-	cp php.ini-development $PHPU_INIDIR/php.ini
+  if [ ! -d "$PHPU_INI_DIR" ]; then
+	mkdir -p "$PHPU_INI_DIR"
+	cp php.ini-development "$PHPU_INI_FILE"
   fi
   # extra options for configure
   PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_ETC $*"
@@ -129,12 +144,18 @@ function phpu_conf {
   fi
   # set extensions
   while read PHPU_EXT_NAME PHPU_EXT_TYPE PHPU_EXT_OPT ; do
-	if [[ $PHPU_EXT_TYPE == 'static' ]]; then
-	  _phpu_ext_static
-	else
-	  _phpu_ext_dynamic
+	PHPU_EXT_DIR="$PHPU_EXT/$PHPU_EXT_NAME"
+	if [ -d "$PHPU_EXT_DIR" ]; then
+	  PHPU_EXT_LIB="$PHPU_EXT_NAME.so"
+	  PHPU_SRC_EXT_DIR="$PHPU_SRC_EXT/$PHPU_EXT_NAME"
+	  if [[ $PHPU_EXT_TYPE == 'static' ]]; then
+		_phpu_ext_static
+	  else
+		_phpu_ext_dynamic
+	  fi
 	fi
   done < "$PHPU_CONF_EXT"
+  exit
    # use old autoconf for PHP-5.3 and lower
   if [[ "${PHPU_CURRENT_BRANCH:4:1}" == "4" ]] || [[ "${PHPU_CURRENT_BRANCH:6:1}" =~ (3|2|1|0) ]]; then
 	export PHP_AUTOCONF=$PHPU_AUTOCONF_213
@@ -148,7 +169,7 @@ function phpu_conf {
 function phpu_new {
   if [ -n "$1" ]; then
 	_phpu_process_params $@
-	cd $PHPU_SRC
+	cd "$PHPU_SRC"
 	if [ -d "$PHPU_BUILD/$PHPU_NAME" ]; then
 	  echo "Build $PHPU_NAME already exists"
 	  while true; do
@@ -168,7 +189,7 @@ function phpu_new {
 	  git branch -d $PHPU_BRANCH
 	fi
 	if git branch --track $PHPU_BRANCH upstream/$PHPU_BRANCH; then
-	  cd $PHPU_BUILD
+	  cd "$PHPU_BUILD"
 	  git clone ../src $PHPU_NAME
 	  cd $PHPU_NAME
 	  git checkout $PHPU_BRANCH
@@ -181,24 +202,23 @@ function phpu_use {
   if [ -n "$1" ]; then
 	sudo -l > /dev/null
 	if [[ "$1" == "master" ]]; then
-	  cd $PHPU_SRC
+	  cd "$PHPU_SRC"
 	  _phpu_init_install_vars
 	else
 	  _phpu_process_params $@
 	  if [ -d "$PHPU_BUILD_NAME" ]; then
 		cd "$PHPU_BUILD_NAME"
 		_phpu_init_install_vars
-		if [ ! -d $PHPU_ETC ]; then
-		  sudo mkdir -p $PHPU_ETC
+		if [ ! -d "$PHPU_ETC" ]; then
+		  sudo mkdir -p "$PHPU_ETC"
 		fi
-		sudo cp $PHPU_INIDIR/php.ini $PHPU_ETC
 
 	  else
 		echo "The $PHPU_NAME has not been created yet"
 		exit
 	  fi
 	fi
-	sudo cp $PHPU_INIDIR/php.ini $PHPU_ETC
+	sudo cp "$PHPU_INI_FILE" "$PHPU_ETC"
 	make && sudo make install && sudo $PHPU_HTTPD_RESTART
   fi
 }
