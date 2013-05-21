@@ -4,3 +4,5 @@ runtest/
 src/
 test/
 conf/*/
+doc/
+phd/
