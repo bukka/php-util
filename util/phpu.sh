@@ -45,7 +45,10 @@ PHPU_EXT="$PHPU_ROOT/ext"
 PHPU_BUILD="$PHPU_ROOT/build"
 # cli file source
 PHPU_CLI="$PHPU_SRC/sapi/cli/php"
-
+# documentation dir
+PHPU_DOC="$PHPU_ROOT/doc"
+PHPU_DOC_HTML="$PHPU_DOC/output/php-chunked-xhtml"
+PHPU_DOC_RESULT="$PHPU_DOC/result"
 
 # show error
 function error {
@@ -62,6 +65,7 @@ function phpu_help {
   echo "  new <branch> [debug] [zts]"
   echo "  use <branch> [debug] [zts]"
   echo "  sync [<branch> [debug] [zts]]"
+  echo "  doc <extension_name>"
 }
 
 # execute script
@@ -284,6 +288,21 @@ function phpu_update {
   fi
 }
 
+function phpu_doc {
+  if [ -n "$1" ]; then
+	PHPU_DOC_RESULT_EXT="$PHPU_DOC_RESULT/$1"
+	if [ ! -d "$PHPU_DOC_RESULT_EXT" ]; then
+	  mkdir -p "$PHPU_DOC_RESULT_EXT"
+	fi
+	for PHPU_DOC_FILE in `find $PHPU_DOC_HTML -name "*$1*"`; do
+	  cp "$PHPU_DOC_FILE" "$PHPU_DOC_RESULT_EXT/"`basename $PHPU_DOC_FILE`
+	done
+  else
+	echo "Extension name missing"
+  fi
+	
+}
+
 # se action
 if [ -n "$1" ]; then
   ACTION=$1
@@ -325,6 +344,9 @@ case $ACTION in
   sync)
     phpu_sync $@
     ;;
+  doc)
+	phpu_doc $@
+	;;
   *)
     error "Unknown action $ACTION"
     phpu_help
