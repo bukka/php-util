@@ -1,0 +1,7 @@
+O:8:"DateTime":3:{s:4:"date";s:19:"1985-03-26 00:30:23";s:13:"timezone_type";i:3;s:8:"timezone";s:13:"Europe/London";}
+DateTime Object
+(
+    [date] => 1985-03-26 00:30:23
+    [timezone_type] => 3
+    [timezone] => Europe/London
+)
