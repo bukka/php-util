@@ -7,11 +7,15 @@
 
 ===== Introduction =====
 
-This RFC proposes API for internal generating of serialization.
+This RFC proposes a new API for internal object serialization and unserialization.
 
 ===== Proposal =====
 
-The idea is that extension writers will be able to use class serialize callback for object serialization
+The purpose of the proposed API is simplified custom object serialization and unserialization for extension writers.
+
+==== Serialization ====
+
+The first part of the proposal is API for generating serialized object.
 
 === Serialize hook changes ===
 
@@ -23,14 +27,14 @@ Currently ''zend_class_entry'' serializer callback ''serialize'' is used if call
 #define PHP_SERIALIZE_OBJECT  (SUCCESS + 1)
 </code>
 
-If the return value is ''PHP_SERIALIZE_FAILURE'' or ''PHP_SERIALIZE_CUSTOM'', the behavior will be the same as it is now for FAILURE or SUCCESS. It's BC though. 
+If the return value is ''PHP_SERIALIZE_FAILURE'' or ''PHP_SERIALIZE_CUSTOM'', the behavior will be the same as it is now for FAILURE or SUCCESS. It means that the changes are backward compatible. 
 
 If the return value is ''PHP_SERIALIZE_OBJECT'', the custom class prefix generation in ''php_var_serialize_intern'' (C:class_name...) will be omitted and only the string returned from the callback will be used.
 
 
 === Serialization state structure ===
 
-The new structure ''php_serialize_state'' for internal state of the generated serialization will be defined. The structure is important for pointing to the allocated data and checking correct order of API function calling.
+The new structure ''php_serialize_state'' for internal state of the generated serialization will be defined. The structure is important for pointing to the allocated data and checking correct order of API function calling. In other words the ''php_serialize_state'' is sort of a wrapper for smart_str with additional flags for checking correctness of actions. 
 
 === Functions ===
 
@@ -110,6 +114,7 @@ int date_object_serialize(zval *object, unsigned char **buffer, zend_uint *buf_l
     return PHP_SERIALIZE_OBJECT;
 }
 </code>
+
 ===== Patches and Tests =====
 
 Will be after agreeing on API spec...
