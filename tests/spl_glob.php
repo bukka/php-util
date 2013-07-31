@@ -1,17 +1,19 @@
 <?php
-error_reporting(-1);
-ini_set('display_errors', 1);
-ini_set('open_basedir', __DIR__);
+ini_set('open_basedir', __DIR__); 
 
-class Globber
-{
-	public function __destruct()
-	{
-		var_dump(__DIR__);
-		var_dump(glob(__DIR__ . '/*.php'));
-		var_dump(iterator_to_array(new \GlobIterator(__DIR__ 
-.'/*.php')));
+$path = (dirname(__DIR__) . '/../*');
+
+$std_glob = glob($path);
+$spl_glob = array();
+try {
+	$spl_glob_it = new \GlobIterator($path);
+	foreach ($spl_glob_it as $file_info) {
+		$spl_glob[] = $file_info->getPathname();
 	}
+} catch (Exception $e) {
+	var_dump($e->getMessage());
 }
 
-$globber = new Globber;
+print_r($std_glob);
+print_r($spl_glob);
+
