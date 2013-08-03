@@ -1,1 +1,3 @@
+# date interval
 /home/jakub/prog/php/src/ext/date/tests/DateInterval_add_basic.phpt
+/home/jakub/prog/php/tests/date_interval_add.php
