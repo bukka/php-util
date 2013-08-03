@@ -198,6 +198,10 @@ function phpu_new {
   if [ -n "$1" ]; then
     _phpu_process_params $@
     cd "$PHPU_SRC"
+    # creat build dir if not exists
+    if [ ! -d "$PHPU_BUILD" ]; then
+      mkdir -p "$PHPU_BUILD"
+    fi
     # check if build dir alreay exists
     if [ -d "$PHPU_BUILD/$PHPU_NAME" ]; then
       echo "Build $PHPU_NAME already exists"
@@ -258,7 +262,7 @@ function phpu_use {
     fi
     # copy ini from conf/ to the live config dir
     sudo cp $PHPU_INI_FILE "$PHPU_ETC"
-    if make && sudo make install ; then
+    if make -j4 && sudo make install ; then
       # compile dynamic extension
       while read PHPU_EXT_NAME PHPU_EXT_TYPE PHPU_EXT_OPT ; do
         if [[ $PHPU_EXT_TYPE == 'dynamic' ]]; then
