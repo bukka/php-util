@@ -49,6 +49,7 @@ PHPU_CLI="$PHPU_SRC/sapi/cli/php"
 PHPU_DOC="$PHPU_ROOT/doc"
 PHPU_DOC_HTML="$PHPU_DOC/output/php-chunked-xhtml"
 PHPU_DOC_RESULT="$PHPU_DOC/result"
+PHPU_DOC_REFERENCE="$PHPU_DOC/en/reference"
 
 # show error
 function error {
@@ -66,7 +67,7 @@ function phpu_help {
   echo "  new <branch> [debug] [zts]"
   echo "  use <branch> [debug] [zts]"
   echo "  sync [<branch> [debug] [zts]]"
-  echo "  doc <extension_name>"
+  echo "  doc (move|rmts) <extension_name>"
 }
 
 # execute script
@@ -294,18 +295,27 @@ function phpu_update {
 }
 
 function phpu_doc {
-  if [ -n "$1" ]; then
-    PHPU_DOC_RESULT_EXT="$PHPU_DOC_RESULT/$1"
-    if [ ! -d "$PHPU_DOC_RESULT_EXT" ]; then
+  if [ -n "$1" ] && [ -n "$2" ]; then
+    if [[ "$1" == "move" ]]; then
+      # move documentation generated files to the standalone directory
+      PHPU_DOC_RESULT_EXT="$PHPU_DOC_RESULT/$2"
+      if [ -d "$PHPU_DOC_RESULT_EXT" ]; then
+        rm -rf "$PHPU_DOC_RESULT_EXT"
+      fi
       mkdir -p "$PHPU_DOC_RESULT_EXT"
+      for PHPU_DOC_FILE in `find $PHPU_DOC_HTML -name "*$2*"`; do
+        cp "$PHPU_DOC_FILE" "$PHPU_DOC_RESULT_EXT/"`basename $PHPU_DOC_FILE`
+      done
+    elif [[ "$1" == "rmts" ]]; then
+      # remove trailing space in all source files
+      PHPU_DOC_REFERENCE_EXT="$PHPU_DOC_REFERENCE/$2"
+      for PHPU_DOC_FILE in `find "$PHPU_DOC_REFERENCE_EXT" -name '*.xml'`; do
+        sed -i 's/[ \t]*$//' $PHPU_DOC_FILE
+      done
     fi
-    for PHPU_DOC_FILE in `find $PHPU_DOC_HTML -name "*$1*"`; do
-      cp "$PHPU_DOC_FILE" "$PHPU_DOC_RESULT_EXT/"`basename $PHPU_DOC_FILE`
-    done
   else
     echo "Extension name missing"
   fi
-    
 }
 
 # se action
