@@ -30,3 +30,8 @@ class Custom implements Serializable {
 }
 $c = new Custom;
 var_dump(serialize($c));
+
+echo "REFERENCE\n";
+$o = 23;
+$ro = &$o;
+var_dump(serialize($ro));
