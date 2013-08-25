@@ -318,15 +318,31 @@ function phpu_doc {
   fi
 }
 
+# setting of pkg config directory
+function phpu_pkg_config {
+  if [ -n "$1" ]; then
+    PHPU_PKG="$1"
+    shift
+    case $PHPU_PKG in
+      ssl)
+        PKG_CONFIG_PATH="/usr/local/ssl/lib/pkgconfig/" $@
+        ;;
+      *)
+        echo "Unknown PKG_CONFIG_PATH for $PHPU_PKG"
+        ;;
+    esac
+  fi
+}
+
 # se action
 if [ -n "$1" ]; then
-  ACTION=$1
+  PHPU_ACTION=$1
   shift
 else
-  ACTION=help
+  PHPU_ACTION=help
 fi  
   
-case $ACTION in
+case $PHPU_ACTION in
   help)
     phpu_help $@
     ;;
@@ -362,7 +378,10 @@ case $ACTION in
   doc)
     phpu_doc $@
     ;;
+  pkg)
+    phpu_pkg_config $@
+    ;;
   *)
-    error "Unknown action $ACTION"
+    error "Unknown action $PHPU_ACTION"
     phpu_help
 esac
