@@ -1,3 +1,9 @@
 # date interval
 /home/jakub/prog/php/src/ext/date/tests/DateInterval_add_basic.phpt
 /home/jakub/prog/php/tests/date_interval_add.php
+
+# serialize
+/home/jakub/prog/php/ext/extest/bench/serialize.php
+
+# crypto
+/home/jakub/prog/php/ext/crypto/tests/Cipher___clone_basic.phpt
