@@ -1,4 +1,5 @@
 <?php
+echo "------ SERIALIZE ------\n\n";
 echo "NULL\n";
 var_dump(serialize(null));
 echo "INT\n";
@@ -35,3 +36,13 @@ echo "REFERENCE\n";
 $o = 23;
 $ro = &$o;
 var_dump(serialize($ro));
+
+echo "\n------ UNSERIALIZE ------\n\n";
+echo "Array with object:\n";
+class TestObj {
+	public $a = 23;
+	public $b = "xxx";
+}
+$serial = serialize(array("test" => new TestObj));
+$data = unserialize($serial);
+var_dump($data);
