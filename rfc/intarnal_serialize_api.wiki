@@ -1,6 +1,5 @@
-
 ====== PHP RFC: Internal Serialize API ======
-  * Version: 0.2
+  * Version: 1.0
   * Date: 2013-07-27
   * Author: Jakub Zelenka, bukka@php.net
   * Status: Under Discussion
@@ -9,25 +8,27 @@
 
 This RFC proposes a new API for internal object serialization and unserialization.
 
-The current methods of serializing/unserializing object in extensions are following:
+The current methods of serializing/unserializing of objects in extensions are following:
   * Internal class has to to define object properties or use get_properties handler. The properties are then used for serialization. The object state can be restored using ''__wakeup'' user method.
   * Using Serializable interface or serialize / unserialize ''zend_class_entry'' callbacks and then generate / parse custom serialized string
 
-First method has a side effect that after unserializing of object, the properties are saved. This requires more memory and can lead to inconsistency in object state (public properties can be created after unserializing which leads to different state before and after unserializing). In addition the serialization is quite slow because HashTable must be created and populated with zvals (see banchmarks).
+The first method has one side effect. After unserializing of object, the properties are saved to the object properties HashTable. This requires more allocated memory for the object than it's usualy necassary. The usual purpose of unserializing the internal object is to get the object to the state when it was before serialization. These data are mostly saved in the object bucket and there is no point to save them to properties table as well. There also is an performance issue with serialization. In addition the serialization is quite slow because HashTable must be created and populated with zvals. This is much slower than simply transforming the state of the object to the string (see benchmarks).
 
-The second method requires generating and parsing serialized string which can require quite a lot of coding in C. Also the resulted string is never compatible with the string generate by the first method. It means that existing classes that uses first method cannot be changed to custom serialization without breaking BC.
+The second method requires generating and parsing serialized string which can require quite a lot of coding in C. Also the resulted string is never compatible with the string generate by the first method. It means that existing classes cannot be changed from the first method to the custom serialization without breaking BC.
 
-The proposed API resolves all mentioned problems.
+The proposed API resolves all mentioned problems and also simplify the way how internal objects are serialized/unserialized.
 
   
 ===== Proposal =====
 
 The purpose of the proposed API is simplified custom object serialization and unserialization for extension writers and also improve performance.
 
+The proposed changes does not have any influence on user space serialization/unserialization. The purpose is only to extend internal API for extensions.
+
 
 ==== Serialization ====
 
-The first part of the proposal is API for generating serialized data for extension object.
+The first part of the proposal is API for generating serialized data for internal classes.
 
 === Serialize hook changes ===
 
@@ -104,15 +105,15 @@ static int test_object_serialize(zval *object, unsigned char **buffer, zend_uint
 
 ==== Unserialization ====
 
-The second part of the proposal is API for parsing serialized string for extension object.
+The second part of the proposal is API for parsing serialized string for internal classes.
 
 === Unserialize hook changes ===
 
-Currently ''zend_class_entry'' unserializer callback ''unserialize'' is used for custom classes (when serialized string prefix is C:). The expected return value is ''SUCCESS'' on success, otherwise false.
+Currently ''zend_class_entry'' unserializer callback ''unserialize'' is used for custom classes (when serialized string prefix is C:). The expected return value is ''SUCCESS'' on success, otherwise ''FAILED''.
 
 The RFC proposes calling unserialize callback for custom classes as well as for normal internal classes (prefixed O:) that have ''unserialize'' not null. For the normal internal classes the meaning of return value is following:
 
-The return value is number of characters left in the buffer after processing serialized string. In case of error, the return value should be negative number (usualy -1). This behaviour is backward compatible.
+The return value is number of characters left in the buffer after processing serialized string. In case of error, the return value should be negative number (usually -1). This behavior is backward compatible.
 
 === Functions ===
 
@@ -137,34 +138,34 @@ static int test_object_unserialize(zval **object, zend_class_entry *ce, const un
 {
     zval key, value;
 
-	if (!php_var_unserialize_property(&key, &value, &buf, &buf_len, data TSRMLS_CC)) {
+    if (!php_var_unserialize_property(&key, &value, &buf, &buf_len, data TSRMLS_CC)) {
         return -1;
-	}
-	/* process first key and value... */
+    }
+    /* process first key and value... */
 
-	if (!php_var_unserialize_property(&key, &value, &buf, &buf_len, data TSRMLS_CC)) {
+    if (!php_var_unserialize_property(&key, &value, &buf, &buf_len, data TSRMLS_CC)) {
         return -1;
-	}
-	/* process second key and value... */
+    }
+    /* process second key and value... */
 
-	if (!php_var_unserialize_property(&key, &value, &buf, &buf_len, data TSRMLS_CC)) {
+    if (!php_var_unserialize_property(&key, &value, &buf, &buf_len, data TSRMLS_CC)) {
         return -1;
-	}
-	/* process third key and value... */
+    }
+    /* process third key and value... */
 
-	if (!php_var_unserialize_property(&key, &value, &buf, &buf_len, data TSRMLS_CC)) {
+    if (!php_var_unserialize_property(&key, &value, &buf, &buf_len, data TSRMLS_CC)) {
         return -1;
-	}
-	/* process fourth key and value... */
+    }
+    /* process fourth key and value... */
 
-	return (int) buf_len;
+    return (int) buf_len;
 }
 </code>
 
 ===== Benchmark and more examples =====
 
-The extension for testing and benchmarking the new API has been created
+The extension with tests and benchmarks is available at https://github.com/bukka/php-extest/blob/master/doc/serialize.md
 
 ===== Patches and Tests =====
 
-Pull requst
+Pull request is at https://github.com/php/php-src/pull/453
