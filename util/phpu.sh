@@ -63,6 +63,7 @@ function phpu_help {
   echo "  conf [<branch> [debug] [zts]] "
   echo "  exe [<phpcli_args>]"
   echo "  test [<path>]"
+  echo "  testloc [<path>]"
   echo "  gentest [gentest-params]"
   echo "  new <branch> [debug] [zts]"
   echo "  use <branch> [debug] [zts]"
@@ -75,11 +76,18 @@ function phpu_exe {
   $PHPU_CLI $@
 }
 
-# run test(s)
-function phpu_test {
+# run local test(s)
+function phpu_test_local {
   export TEST_PHP_EXECUTABLE=$PHPU_CLI
   $TEST_PHP_EXECUTABLE $PHPU_SRC/run-tests.php $*
 }
+
+# run live test(s) - use installed php
+function phpu_test_live {
+  export TEST_PHP_EXECUTABLE=/usr/local/bin/php
+  $TEST_PHP_EXECUTABLE $PHPU_SRC/run-tests.php $*
+}
+
 
 # generate phpt file
 function phpu_gentest {
@@ -350,7 +358,10 @@ case $PHPU_ACTION in
     phpu_exe $@
     ;;
   test)
-    phpu_test $@
+    phpu_test_live $@
+    ;;
+  testloc)
+    phpu_test_local $@
     ;;
   gentest)
     phpu_gentest $@
