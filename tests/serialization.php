@@ -13,7 +13,7 @@ var_dump(serialize("test"));
 echo "ARRAY\n";
 var_dump(serialize(array(1, 2, 3)));
 var_dump(serialize(array("first" => "bum", "second" => "bam")));
-var_dump(serialize(array("first" => "bum", "nested" => array("bara", "kuba"))));
+var_dump(serialize(array("first" => "bum", "nested" => array("bara", "kuba"), "x")));
 
 echo "OBJECT: StdClass\n";
 $o = new StdClass;
