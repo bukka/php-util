@@ -1,0 +1,10 @@
+SERIALIZATION
+C:3:"GMP":15:{s:2:"42";a:0:{}}
+time for 100000 iterations: 0.319425
+
+UNSERIALIZATION
+object(GMP)#2 (1) {
+  ["num"]=>
+  string(2) "42"
+}
+time for 100000 iterations: 0.354855
