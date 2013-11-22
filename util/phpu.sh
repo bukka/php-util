@@ -35,6 +35,7 @@ PHPU_ETC=/usr/local/etc
 # configuration files
 PHPU_CONF="$PHPU_ROOT/conf"
 PHPU_CONF_OPT="$PHPU_CONF/options.conf"
+PHPU_CONF_OPT64="$PHPU_CONF/options64.conf"
 PHPU_CONF_EXT="$PHPU_CONF/ext.conf"
 # master build branch location
 PHPU_SRC="$PHPU_ROOT/src"
@@ -159,6 +160,15 @@ function _phpu_ext_dynamic_clean {
 # configure php
 function phpu_conf {
   _phpu_init_install_vars
+  # exception for 64 bit branches
+  if [[ $PHPU_CURRENT_BRANCH == str_size_and_int64* ]]; then
+    if [ -f Makefile ]; then
+      make distclean
+    fi
+    ./buildconf --force
+    ./configure `cat "$PHPU_CONF_OPT64"`
+    exit
+  fi
   # copy conf
   if [ ! -d "$PHPU_INI_DIR" ]; then
     mkdir -p "$PHPU_INI_DIR"
