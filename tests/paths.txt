@@ -9,5 +9,11 @@
 /home/jakub/prog/php/ext/extest/bench/serialize.php
 /home/jakub/prog/php/ext/extest/bench/unserialize.php
 
+# gmp
+/home/jakub/prog/php/src/ext/gmp/tests/serialize.phpt
+
+# fann
+
+
 # crypto
 /home/jakub/prog/php/ext/crypto/tests/Cipher___clone_basic.phpt
