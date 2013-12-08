@@ -13,7 +13,7 @@
 /home/jakub/prog/php/src/ext/gmp/tests/serialize.phpt
 
 # fann
-
+/home/jakub/prog/php/tests/fann/train_on_file_mem_leaks.php
 
 # crypto
 /home/jakub/prog/php/ext/crypto/tests/Cipher___clone_basic.phpt
