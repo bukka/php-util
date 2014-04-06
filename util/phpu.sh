@@ -108,7 +108,7 @@ function _phpu_process_params {
       PHPU_NAME=$PHPU_NAME"_debug"
     fi
     if [[ "$PARAM" == "zts" ]] && [ -z "$PHPU_HAS_ZTS" ]; then
-      PHPU_HAS_DEBUG=1
+      PHPU_HAS_ZTS=1
       PHPU_CONF_OPTS="$PHPU_CONF_OPTS --enable-maintainer-zts"
       PHPU_NAME=$PHPU_NAME"_zts"
     fi
