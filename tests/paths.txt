@@ -17,3 +17,7 @@
 
 # crypto
 /home/jakub/prog/php/ext/crypto/tests/Cipher___clone_basic.phpt
+
+# phpunit
+/var/www/phpunit37/phpunit.php
+CWD: /var/www/zf2/module/BukkaAccounts/tests
