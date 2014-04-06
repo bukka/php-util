@@ -1,4 +1,5 @@
 build/
+cpp/
 ext/
 runtest/
 src/
@@ -7,3 +8,4 @@ conf/*/
 doc/
 phd/
 valgrind/
+xdebug/
