@@ -2,7 +2,7 @@
 
 class A extends ArrayObject {
 	public function offsetGet($offset) {
-		return isset($this[$offset]) ? parent::offsetGet($offset) : null;
+		isset($this[$offset]);
 	}
 }
 
