@@ -10,3 +10,4 @@ phd/
 valgrind/
 xdebug/
 output/
+bench/
