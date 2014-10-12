@@ -35,9 +35,13 @@ PHPU_ETC=/usr/local/etc
 # configuration files
 PHPU_CONF="$PHPU_ROOT/conf"
 PHPU_CONF_OPT="$PHPU_CONF/options.conf"
-PHPU_CONF_OPT64="$PHPU_CONF/options64.conf"
+PHPU_CONF_OPT_MASTER="$PHPU_CONF/options-master.conf"
 PHPU_CONF_EXT="$PHPU_CONF/ext.conf"
+PHPU_CONF_EXT_MASTER="$PHPU_CONF/ext-master.conf"
 # master build branch location
+PHPU_MASTER="$PHPU_ROOT/master"
+PHPU_MASTER_EXT="$PHPU_MASTER/master"
+# PHP 5 build branch location
 PHPU_SRC="$PHPU_ROOT/src"
 PHPU_SRC_EXT="$PHPU_SRC/ext"
 # extension dir
@@ -160,15 +164,6 @@ function _phpu_ext_dynamic_clean {
 # configure php
 function phpu_conf {
   _phpu_init_install_vars
-  # exception for 64 bit branches
-  if [[ $PHPU_CURRENT_BRANCH == str_size_and_int64* ]]; then
-    if [ -f Makefile ]; then
-      make distclean
-    fi
-    ./buildconf --force
-    ./configure `cat "$PHPU_CONF_OPT64"`
-    exit
-  fi
   # copy conf
   if [ ! -d "$PHPU_INI_DIR" ]; then
     mkdir -p "$PHPU_INI_DIR"
@@ -177,8 +172,16 @@ function phpu_conf {
   # extra options for configure
   PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_ETC $*"
   PHPU_CURRENT_DIR=$( basename `pwd` )
-  if [[ $PHPU_CURRENT_DIR == "src" ]]; then
+  if [[ $PHPU_CURRENT_DIR == "src" ]] || [[ $PHPU_CURRENT_DIR == "master" ]]; then
+    # TODO: process params and check for no-debug and no-zts
     PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-debug --enable-maintainer-zts"
+  fi
+  if [[ $PHPU_CURRENT_DIR == "master" ]]; then
+    PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
+    PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_MASTER"
+  else
+    PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT"
+    PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT"
   fi
   # set extensions
   while read PHPU_EXT_NAME PHPU_EXT_TYPE PHPU_EXT_OPT ; do
@@ -199,7 +202,7 @@ function phpu_conf {
         _phpu_ext_dynamic_clean
       fi
     fi
-  done < "$PHPU_CONF_EXT"
+  done < "$PHPU_CONF_ACTIVE_EXT"
   # use old autoconf for PHP-5.3 and lower
   if [[ "${PHPU_CURRENT_BRANCH:4:1}" == "4" ]] || [[ "${PHPU_CURRENT_BRANCH:6:1}" =~ (3|2|1|0) ]]; then
     export PHP_AUTOCONF=$PHPU_AUTOCONF_213
@@ -208,7 +211,7 @@ function phpu_conf {
     make distclean
   fi
   ./buildconf --force
-  ./configure $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_OPT"`
+  ./configure $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_ACTIVE_OPT"`
 }
 
 
@@ -260,8 +263,12 @@ function phpu_use {
   if [ -n "$1" ]; then
     sudo -l > /dev/null
     # check if it's master
-    if [[ "$1" == "master" ]]; then
+    PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT"
+    if [[ "$1" == "src" ]]; then
       cd "$PHPU_SRC"
+    elif [[ "$1" == "master" ]]; then
+      cd "$PHPU_MASTER"
+      PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
     else
       # otherwis check if the build exists
       _phpu_process_params $@
@@ -296,9 +303,11 @@ function phpu_use {
             make && sudo make install
           fi
         fi
-      done < "$PHPU_CONF_EXT"
+      done < "$PHPU_CONF_ACTIVE_EXT"
       # restart httpd server
-      sudo $PHPU_HTTPD_RESTART
+      if [[ "$1" != "master" ]]; then
+        sudo $PHPU_HTTPD_RESTART
+      fi
     fi
   fi
 }
