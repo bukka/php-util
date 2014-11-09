@@ -122,7 +122,12 @@ function _phpu_process_params {
 
 function _phpu_init_install_vars {
   PHPU_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
-  PHPU_INI_DIR="$PHPU_CONF/$PHPU_CURRENT_BRANCH"
+  if [ -n "$1" ]; then
+    PHPU_CONF_INI_DIR="$1"
+  else
+    PHPU_CONF_INI_DIR="$PHPU_CURRENT_BRANCH"
+  fi
+  PHPU_INI_DIR="$PHPU_CONF/$PHPU_CONF_INI_DIR"
   PHPU_INI_FILE="$PHPU_INI_DIR/php.ini"
   PHPU_INI_FILE_TMP="${PHPU_INI_FILE}.tmp"
 }
@@ -266,9 +271,11 @@ function phpu_use {
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT"
     if [[ "$1" == "src" ]]; then
       cd "$PHPU_SRC"
+      _phpu_init_install_vars src
     elif [[ "$1" == "master" ]]; then
       cd "$PHPU_MASTER"
       PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
+      _phpu_init_install_vars master
     else
       # otherwis check if the build exists
       _phpu_process_params $@
@@ -279,9 +286,8 @@ function phpu_use {
         echo "The $PHPU_NAME has not been created yet"
         exit
       fi
+      _phpu_init_install_vars
     fi
-    # set ini variables
-    _phpu_init_install_vars
     # create live config dir if if it does not exist
     if [ ! -d "$PHPU_ETC" ]; then
       sudo mkdir -p "$PHPU_ETC"
