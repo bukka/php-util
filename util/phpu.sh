@@ -40,7 +40,10 @@ PHPU_CONF_EXT="$PHPU_CONF/ext.conf"
 PHPU_CONF_EXT_MASTER="$PHPU_CONF/ext-master.conf"
 # master build branch location
 PHPU_MASTER="$PHPU_ROOT/master"
-PHPU_MASTER_EXT="$PHPU_MASTER/master"
+PHPU_MASTER_EXT="$PHPU_MASTER/ext"
+# PHP 7 build branch location
+PHPU_7="$PHPU_ROOT/7"
+PHPU_7_EXT="$PHPU_7/ext"
 # PHP 5 build branch location
 PHPU_SRC="$PHPU_ROOT/src"
 PHPU_SRC_EXT="$PHPU_SRC/ext"
@@ -177,11 +180,11 @@ function phpu_conf {
   # extra options for configure
   PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_ETC $*"
   PHPU_CURRENT_DIR=$( basename `pwd` )
-  if [[ $PHPU_CURRENT_DIR == "src" ]] || [[ $PHPU_CURRENT_DIR == "master" ]]; then
+  if [[ $PHPU_CURRENT_DIR == "src" ]] || [[ $PHPU_CURRENT_DIR == "master" ]] || [[ $PHPU_CURRENT_DIR == "7" ]]; then
     # TODO: process params and check for no-debug and no-zts
     PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-debug --enable-maintainer-zts"
   fi
-  if [[ $PHPU_CURRENT_DIR == "master" ]]; then
+  if [[ $PHPU_CURRENT_DIR == "master" ]] || [[ $PHPU_CURRENT_DIR == "7" ]]; then
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
     PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_MASTER"
   else
@@ -272,8 +275,12 @@ function phpu_use {
     if [[ "$1" == "src" ]]; then
       cd "$PHPU_SRC"
       _phpu_init_install_vars src
-    elif [[ "$1" == "master" ]]; then
-      cd "$PHPU_MASTER"
+    elif [[ "$1" == "master" ]] || [[ "$1" == "7" ]]; then
+      if [[ "$1" == "7" ]]; then
+        cd "$PHPU_7"
+      else
+        cd "$PHPU_MASTER"
+      fi
       PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
       _phpu_init_install_vars master
     else
@@ -311,7 +318,7 @@ function phpu_use {
         fi
       done < "$PHPU_CONF_ACTIVE_EXT"
       # restart httpd server
-      if [[ "$1" != "master" ]]; then
+      if [[ "$1" != "master" ]] && [[ "$1" != "7" ]]; then
         sudo $PHPU_HTTPD_RESTART
       fi
     fi
@@ -319,12 +326,30 @@ function phpu_use {
 }
 
 function phpu_update {
-  if [ -z "$1" ] || [[ "$1" == "master" ]]; then
-    # update master
-    cd $PHPU_SRC
-    git fetch upstream
-    git merge upstream/master
+  if [ -n "$1" ]; then
+    PHPU_UPDATE_BRANCH=src
+  else
+    PHPU_UPDATE_BRANCH="$1"
   fi
+  
+  case $PHPU_UPDATE_BRANCH in
+    src)
+      cd "$PHPU_SRC"
+      ;;
+    master)
+      cd "$PHPU_MASTER"
+      ;;
+    7)
+      cd "$PHPU_7"
+      ;;
+    *)
+      echo "Unknown branch to update"
+      exit
+      ;;
+  esac
+  
+  git fetch upstream
+  git merge upstream/master
 }
 
 function phpu_doc {
