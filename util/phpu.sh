@@ -326,20 +326,21 @@ function phpu_use {
 }
 
 function phpu_update {
-  if [ -n "$1" ]; then
-    PHPU_UPDATE_BRANCH=src
+  if [ -z "$1" ]; then
+    PHPU_UPDATE_TYPE=src
+    PHPU_UPDATE_BRANCH=PHP-5.6
   else
-    PHPU_UPDATE_BRANCH="$1"
+    PHPU_UPDATE_TYPE="$1"
+    PHPU_UPDATE_BRANCH=master
   fi
-  
-  case $PHPU_UPDATE_BRANCH in
+  case $PHPU_UPDATE_TYPE in
     src)
       cd "$PHPU_SRC"
       ;;
     master)
       cd "$PHPU_MASTER"
       ;;
-    7)
+    "7")
       cd "$PHPU_7"
       ;;
     *)
@@ -349,7 +350,7 @@ function phpu_update {
   esac
   
   git fetch upstream
-  git merge upstream/master
+  git merge upstream/$PHPU_UPDATE_BRANCH
 }
 
 function phpu_doc {
