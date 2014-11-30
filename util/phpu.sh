@@ -41,18 +41,19 @@ PHPU_CONF_EXT_MASTER="$PHPU_CONF/ext-master.conf"
 # master build branch location
 PHPU_MASTER="$PHPU_ROOT/master"
 PHPU_MASTER_EXT="$PHPU_MASTER/ext"
+PHPU_MASTER_CLI="$PHPU_MASTER/sapi/cli/php"
 # PHP 7 build branch location
 PHPU_7="$PHPU_ROOT/7"
 PHPU_7_EXT="$PHPU_7/ext"
+PHPU_7_CLI="$PHPU_7/sapi/cli/php"
 # PHP 5 build branch location
 PHPU_SRC="$PHPU_ROOT/src"
 PHPU_SRC_EXT="$PHPU_SRC/ext"
+PHPU_SRC_CLI="$PHPU_SRC/sapi/cli/php"
 # extension dir
 PHPU_EXT="$PHPU_ROOT/ext"
 # directory for other builds
 PHPU_BUILD="$PHPU_ROOT/build"
-# cli file source
-PHPU_CLI="$PHPU_SRC/sapi/cli/php"
 # documentation dir
 PHPU_DOC="$PHPU_ROOT/doc"
 PHPU_DOC_HTML="$PHPU_DOC/output/php-chunked-xhtml"
@@ -81,12 +82,24 @@ function phpu_help {
 
 # execute script
 function phpu_exe {
-  $PHPU_CLI $@
+  $PHPU_SRC_CLI $@
 }
 
-# run local test(s)
-function phpu_test_local {
-  export TEST_PHP_EXECUTABLE=$PHPU_CLI
+# run php 7 test(s)
+function phpu_test_7 {
+  export TEST_PHP_EXECUTABLE=$PHPU_7_CLI
+  $TEST_PHP_EXECUTABLE $PHPU_7/run-tests.php $*
+}
+
+# run master test(s)
+function phpu_test_master {
+  export TEST_PHP_EXECUTABLE=$PHPU_MASTER_CLI
+  $TEST_PHP_EXECUTABLE $PHPU_MASTER/run-tests.php $*
+}
+
+# run src test(s)
+function phpu_test_src {
+  export TEST_PHP_EXECUTABLE=$PHPU_SRC_CLI
   $TEST_PHP_EXECUTABLE $PHPU_SRC/run-tests.php $*
 }
 
@@ -99,7 +112,7 @@ function phpu_test_live {
 
 # generate phpt file
 function phpu_gentest {
-  $PHPU_CLI $PHPU_SRC/scripts/dev/generate-phpt.phar $*
+  $PHPU_SRC_CLI $PHPU_SRC/scripts/dev/generate-phpt.phar $*
 }
 
 # process params for phpu_new
@@ -123,6 +136,7 @@ function _phpu_process_params {
   PHPU_BUILD_NAME="$PHPU_BUILD/$PHPU_NAME"
 }
 
+# init installation variables
 function _phpu_init_install_vars {
   PHPU_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
   if [ -n "$1" ]; then
@@ -141,8 +155,6 @@ function _phpu_ext_static_conf {
   PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS $PHPU_EXT_OPT"
   _phpu_ext_dynamic_clean
 }
-
-
 
 # configure extension dynamically
 function _phpu_ext_dynamic_conf {
@@ -411,8 +423,14 @@ case $PHPU_ACTION in
   test)
     phpu_test_live $@
     ;;
-  testloc)
-    phpu_test_local $@
+  test_src)
+    phpu_test_src $@
+    ;;
+  test_7)
+    phpu_test_7 $@
+    ;;
+  test_master)
+    phpu_test_master $@
     ;;
   gentest)
     phpu_gentest $@
