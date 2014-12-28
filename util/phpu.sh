@@ -190,12 +190,19 @@ function phpu_conf {
     cp php.ini-development "$PHPU_INI_FILE"
   fi
   # extra options for configure
-  PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_ETC $*"
+  PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_ETC"
   PHPU_CURRENT_DIR=$( basename `pwd` )
   if [[ $PHPU_CURRENT_DIR == "src" ]] || [[ $PHPU_CURRENT_DIR == "master" ]] || [[ $PHPU_CURRENT_DIR == "7" ]]; then
-    # TODO: process params and check for no-debug and no-zts
-    PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-debug --enable-maintainer-zts"
+    if [[ ! "$*" =~ "no-debug" ]]; then
+      PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-debug"
+    fi
+    if [[ ! "$*" =~ "no-zts" ]]; then
+      PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-maintainer-zts"
+    fi
+  elif [ -n "$PHPU_CONF_OPTS" ]; then
+    PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS $PHPU_CONF_OPTS"
   fi
+  # set conf active ext and options path
   if [[ $PHPU_CURRENT_DIR == "master" ]] || [[ $PHPU_CURRENT_DIR == "7" ]]; then
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
     PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_MASTER"
@@ -231,6 +238,7 @@ function phpu_conf {
     make distclean
   fi
   ./buildconf --force
+  echo "OPTIONS: " $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_ACTIVE_OPT"`
   ./configure $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_ACTIVE_OPT"`
 }
 
@@ -273,7 +281,7 @@ function phpu_new {
       # set the branch
       git checkout $PHPU_BRANCH
       # run configuration
-      phpu_conf $PHPU_CONF_OPTS
+      phpu_conf
     fi
   fi
 }
