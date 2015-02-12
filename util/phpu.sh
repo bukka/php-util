@@ -199,6 +199,9 @@ function phpu_conf {
     if [[ ! "$*" =~ "no-zts" ]]; then
       PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-maintainer-zts"
     fi
+    if [[ $PHPU_CURRENT_DIR != "src" ]]; then
+      PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --without-pear"
+    fi
   elif [ -n "$PHPU_CONF_OPTS" ]; then
     PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS $PHPU_CONF_OPTS"
   fi
