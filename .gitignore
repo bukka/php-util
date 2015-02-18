@@ -3,6 +3,11 @@ cpp/
 ext/
 runtest/
 src/
+std/
+sec/
+7/
+master/
+phpc/
 test/
 conf/*/
 doc/
