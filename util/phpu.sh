@@ -46,10 +46,18 @@ PHPU_MASTER_CLI="$PHPU_MASTER/sapi/cli/php"
 PHPU_7="$PHPU_ROOT/7"
 PHPU_7_EXT="$PHPU_7/ext"
 PHPU_7_CLI="$PHPU_7/sapi/cli/php"
-# PHP 5 build branch location
+# PHP 5.6 build branch location
 PHPU_SRC="$PHPU_ROOT/src"
 PHPU_SRC_EXT="$PHPU_SRC/ext"
 PHPU_SRC_CLI="$PHPU_SRC/sapi/cli/php"
+# PHP 5.5 build branch location
+PHPU_STD="$PHPU_ROOT/std"
+PHPU_STD_EXT="$PHPU_STD/ext"
+PHPU_STD_CLI="$PHPU_STD/sapi/cli/php"
+# PHP 5.4 build branch location
+PHPU_SEC="$PHPU_ROOT/sec"
+PHPU_SEC_EXT="$PHPU_SEC/ext"
+PHPU_SEC_CLI="$PHPU_SEC/sapi/cli/php"
 # extension dir
 PHPU_EXT="$PHPU_ROOT/ext"
 # directory for other builds
@@ -103,12 +111,23 @@ function phpu_test_src {
   $TEST_PHP_EXECUTABLE $PHPU_SRC/run-tests.php $*
 }
 
+# run std test(s)
+function phpu_test_std {
+  export TEST_PHP_EXECUTABLE=$PHPU_STD_CLI
+  $TEST_PHP_EXECUTABLE $PHPU_STD/run-tests.php $*
+}
+
+# run sec test(s)
+function phpu_test_sec {
+  export TEST_PHP_EXECUTABLE=$PHPU_SEC_CLI
+  $TEST_PHP_EXECUTABLE $PHPU_SEC/run-tests.php $*
+}
+
 # run live test(s) - use installed php
 function phpu_test_live {
   export TEST_PHP_EXECUTABLE=/usr/local/bin/php
   $TEST_PHP_EXECUTABLE $PHPU_SRC/run-tests.php $*
 }
-
 
 # generate phpt file
 function phpu_gentest {
@@ -149,7 +168,7 @@ function _phpu_init_install_vars {
   PHPU_INI_FILE_TMP="${PHPU_INI_FILE}.tmp"
 }
 
-# configure extension statically
+# configure extension statically (not working)
 function _phpu_ext_static_conf {
   cp -r "$PHPU_EXT_DIR" "$PHPU_SRC_EXT_DIR"
   PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS $PHPU_EXT_OPT"
@@ -192,14 +211,14 @@ function phpu_conf {
   # extra options for configure
   PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_ETC"
   PHPU_CURRENT_DIR=$( basename `pwd` )
-  if [[ $PHPU_CURRENT_DIR == "src" ]] || [[ $PHPU_CURRENT_DIR == "master" ]] || [[ $PHPU_CURRENT_DIR == "7" ]]; then
+  if [[ $PHPU_CURRENT_DIR == "src" ]] || [[ $PHPU_CURRENT_DIR == "std" ]] || [[ $PHPU_CURRENT_DIR == "sec" ]] || [[ $PHPU_CURRENT_DIR == "master" ]] || [[ $PHPU_CURRENT_DIR == "7" ]]; then
     if [[ ! "$*" =~ "no-debug" ]]; then
       PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-debug"
     fi
     if [[ ! "$*" =~ "no-zts" ]]; then
       PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-maintainer-zts"
     fi
-    if [[ $PHPU_CURRENT_DIR != "src" ]]; then
+    if [[ $PHPU_CURRENT_DIR == "master" ]] || [[ $PHPU_CURRENT_DIR == "7" ]]; then
       PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --without-pear"
     fi
   elif [ -n "$PHPU_CONF_OPTS" ]; then
@@ -298,6 +317,12 @@ function phpu_use {
     if [[ "$1" == "src" ]]; then
       cd "$PHPU_SRC"
       _phpu_init_install_vars src
+    elif [[ "$1" == "std" ]]; then
+      cd "$PHPU_STD"
+      _phpu_init_install_vars std
+    elif [[ "$1" == "sec" ]]; then
+       cd "$PHPU_SEC"
+      _phpu_init_install_vars sec
     elif [[ "$1" == "master" ]] || [[ "$1" == "7" ]]; then
       if [[ "$1" == "7" ]]; then
         cd "$PHPU_7"
@@ -436,6 +461,12 @@ case $PHPU_ACTION in
     ;;
   test_src)
     phpu_test_src $@
+    ;;
+  test_std)
+    phpu_test_std $@
+    ;;
+  test_sec)
+    phpu_test_sec $@
     ;;
   test_7)
     phpu_test_7 $@
