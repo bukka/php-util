@@ -1,7 +1,7 @@
 ====== PHP RFC: JSON numeric as string ======
   * Version: 0.1
   * Date: 2015-04-09
-  * Author: Jakub Zelenka, bukka@php.net
+  * Author: Jakub Zelenka <bukka@php.net>, Pasindu De Silva <pasindu@php.net>
   * Status: Draft
   * First Published at: http://wiki.php.net/rfc/json_numeric_as_string
 
@@ -33,8 +33,72 @@ array(2) {
 }
 </code>
 
+=== Encoding ===
+The idea is to convert all float values to string during encoding.
+
+== Example ==
+<code php>
+ini_set('precision', 12);
+echo json_encode(arrray("a" => 1.23343224234, JSON_FLOAT_AS_STRING);
+</code>
+
+will output
+
+<code>
+{"a":"1.23343224234"}
+</code>
+
+
 ==== Integer to string conversion ====
 The second option called ''JSON_INT_AS_STRING'' will convert all int values to string.
+
+=== Decoding ===
+The idea is to convert all int values to string during decoding. That will prevent loosing precision.
+
+== Example ==
+<code php>
+$data = json_decode('[23343224234, 34]', true, 512, JSON_INT_AS_STRING);
+var_dump($data);
+</code>
+
+will output:
+<code>
+array(2) {
+  [0] =>
+  string(11) "23343224234"
+  [1] =>
+  string(2) "34"
+}
+</code>
+
+=== Encoding ===
+The idea is to convert all int values to string during encoding.
+
+== Example ==
+<code php>
+echo json_encode(array( "a"=>123343224234), JSON_INT_AS_STRING);
+</code>
+
+will output
+
+<code>
+{"a":"123343224234"}
+</code>
+
+===== Currently =====
+
+<code php>
+var_dump(json_decode('{"test":1234567890.12345678}',true));
+</code>
+
+Data has lost precision. One way to mitigate this is by doing some string manipulation, else would be to make the json field test a string but would be sometimes out of the developers control.
+
+<code>
+array(1) {
+  ["test"]=>
+  float(1234567890.1235)
+}
+</code>
 
 ===== Backward Incompatible Changes =====
 The code that defines ''JSON_FLOAT_AS_STRING'' and/or ''JSON_INT_AS_STRING'' will be broken. However the constants have ''JSON_'' prefix so their usage is not recommended and it should be relatively safe addition.
