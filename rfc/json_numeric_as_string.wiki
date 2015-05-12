@@ -6,7 +6,7 @@
   * First Published at: http://wiki.php.net/rfc/json_numeric_as_string
 
 ===== Introduction =====
-JSON is a data format that is often used for data exchange between different platforms. These platforms can have different number representation which might lead to problems like type inconsistency or worse in loosing information (e.g. issue with double precision)
+JSON is a data format that is often used for data exchange between different platforms. These platforms can have different number representation which might lead to problems like type inconsistency or (worse) loosing information (e.g. issue with double precision)
 
 ===== Proposal =====
 The proposal is to introduce new options for dealing with this problem by converting the data to string.
@@ -15,7 +15,7 @@ The proposal is to introduce new options for dealing with this problem by conver
 The first option called ''JSON_FLOAT_AS_STRING'' will convert all float values to string.
 
 === Decoding ===
-The idea is to convert all float values to string during decoding. That will prevent loosing precision.
+The idea is to convert all float values to string when decoding JSON string. That will prevent loosing precision.
 
 == Example ==
 <code php>
@@ -33,6 +33,10 @@ array(2) {
 }
 </code>
 
+== Use case ==
+
+The main use case is not loosing number precision. Currently the float precision will be always lost due to C double conversion from string. This is even bigger problem if the user operates with very large numbers.
+
 === Encoding ===
 The idea is to convert all float values to string during encoding.
 
@@ -48,12 +52,15 @@ will output
 {"a":"1.23343224234"}
 </code>
 
+== Use case ==
+
+This might be useful when data are exported and will be parsed by the parser that might loose precision. For example when exporting to platforms using C float type.
 
 ==== Integer to string conversion ====
 The second option called ''JSON_INT_AS_STRING'' will convert all int values to string.
 
 === Decoding ===
-The idea is to convert all int values to string during decoding. That will prevent loosing precision.
+The idea is to convert all int values to string during decoding.
 
 == Example ==
 <code php>
@@ -71,6 +78,10 @@ array(2) {
 }
 </code>
 
+== Use case ==
+
+This decoding option might be useful when type consistency is required. The problem with precision is already resolved by ''JSON_BIGINT_AS_STRING''. However when the numbers are on the edge of ''INT_MAX'', then the result might be combination of strings and integers.
+
 === Encoding ===
 The idea is to convert all int values to string during encoding.
 
@@ -85,20 +96,9 @@ will output
 {"a":"123343224234"}
 </code>
 
-===== Currently =====
+== Use case ==
 
-<code php>
-var_dump(json_decode('{"test":1234567890.12345678}',true));
-</code>
-
-Data has lost precision. One way to mitigate this is by doing some string manipulation, else would be to make the json field test a string but would be sometimes out of the developers control.
-
-<code>
-array(1) {
-  ["test"]=>
-  float(1234567890.1235)
-}
-</code>
+This encoding options might be useful when exporting integers greater than ''1 << 31'' from 64bit platforms to 32bit platforms and the target JSON parser cannot handle such integers.
 
 ===== Backward Incompatible Changes =====
 The code that defines ''JSON_FLOAT_AS_STRING'' and/or ''JSON_INT_AS_STRING'' will be broken. However the constants have ''JSON_'' prefix so their usage is not recommended and it should be relatively safe addition.
@@ -108,7 +108,7 @@ The proposed versions will be one of the voting options as some might consider i
 
 There will be choice of 3 PHP version. The reason for that is that some might not consider the feature as self-contained addition.
   - 5.6.next : this option will consider the feature/bug as a self-contained small addition. The precedence for this is adding ''JSON_PRESERVE_ZERO_FRACTION''.
-  - 7.0: this option will consider the feature/bug as a self-contained and but does not consider feature important for 5.6
+  - 7.0: this option will consider the feature/bug as a self-contained and but does not consider feature important for 5.6. It will be up to Release Manager to decide whether to merge it to 7.0.0 or 7.0.1.
   - 7.1: this option will consider the feature/bug as a non self-contained addition
 
 ===== New Constants =====
@@ -123,9 +123,6 @@ There will be choice of 3 PHP version. The reason for that is that some might no
     * When decoding numbers that that are on the edge of max integer, the JSON_BIGINT_AS_STRING can produce int type for some number and string types for others. This can be often inconvenient if the type consistency is required (e.g. further serialization/encoding for other platforms) 
   * json_encode - all int values will be encoded as string
     * Re-using the constant for encoder makes sense if PHP creates JSON for platform that support lower int type (e.g. from 64bit to 32bit platform) and decoder on remote platform can't handle bigger integers
-
-===== Open Issues =====
-Better names?
 
 ===== Unaffected PHP Functionality =====
 This RFC is related only to JSON extension.
