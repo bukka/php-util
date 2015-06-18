@@ -261,7 +261,7 @@ function phpu_conf {
   fi
   ./buildconf --force
   echo "OPTIONS: " $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_ACTIVE_OPT"`
-  ./configure $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_ACTIVE_OPT"`
+  phpu_pkg_config ssl ./configure $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_ACTIVE_OPT"`
 }
 
 
@@ -360,7 +360,7 @@ function phpu_use {
               make distclean
             fi
             phpize
-            ./configure $PHPU_EXT_OPT
+            phpu_pkg_config ssl ./configure $PHPU_EXT_OPT
             make && sudo make install
           fi
         fi
