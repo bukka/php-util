@@ -158,7 +158,7 @@ function _phpu_process_params {
 # init installation variables
 function _phpu_init_install_vars {
   PHPU_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
-  if [ -n "$1" ]; then
+  if [ -n "$1" ] && [ -d "$PHPU_CONF/$1" ]; then
     PHPU_CONF_INI_DIR="$1"
   else
     PHPU_CONF_INI_DIR="$PHPU_CURRENT_BRANCH"
