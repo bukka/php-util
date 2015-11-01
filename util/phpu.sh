@@ -292,16 +292,30 @@ function phpu_new {
     fi
     # remove branch if exists (easy way how to get up to date code)
     if git branch --list | grep -q $PHPU_BRANCH; then
-      git branch -d $PHPU_BRANCH
+      git branch -D $PHPU_BRANCH
     fi
-    # create branch that tracks upstream branch (php-src github)
-    if git branch --track $PHPU_BRANCH upstream/$PHPU_BRANCH; then
+
+    # check if the branch is branch or just a tag
+    if git branch --list --all | grep -q $PHPU_BRANCH; then
+      PHPU_BRANCH_TRACK="--track"
+      PHPU_BRANCH_COMMIT="upstream/$PHPU_BRANCH"
+      PHPU_BRANCH_CHECKOUT=""
+    elif git tag --list | grep -q $PHPU_BRANCH; then
+      PHPU_BRANCH_TRACK=""
+      PHPU_BRANCH_COMMIT="$PHPU_BRANCH"
+      PHPU_BRANCH_CHECKOUT="-b"
+    else
+      error "No such branch or tag called $PHPU_BRANCH"
+      exit
+    fi
+    # create branch that either tracks upstream branch or is from tag
+    if git branch $PHPU_BRANCH_TRACK $PHPU_BRANCH $PHPU_BRANCH_COMMIT; then
       cd "$PHPU_BUILD"
       # copy
       git clone ../src $PHPU_NAME
       cd $PHPU_NAME
       # set the branch
-      git checkout $PHPU_BRANCH
+      git checkout $PHPU_BRANCH_CHECKOUT $PHPU_BRANCH
       # run configuration
       phpu_conf
     fi
