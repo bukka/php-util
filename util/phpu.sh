@@ -36,8 +36,12 @@ PHPU_ETC=/usr/local/etc
 PHPU_CONF="$PHPU_ROOT/conf"
 PHPU_CONF_OPT="$PHPU_CONF/options.conf"
 PHPU_CONF_OPT_MASTER="$PHPU_CONF/options-master.conf"
+PHPU_CONF_OPT_5_3="$PHPU_CONF/options-5-3.conf"
+PHPU_CONF_OPT_5_2="$PHPU_CONF/options-5-2.conf"
 PHPU_CONF_EXT="$PHPU_CONF/ext.conf"
 PHPU_CONF_EXT_MASTER="$PHPU_CONF/ext-master.conf"
+PHPU_CONF_EXT_5_3="$PHPU_CONF/ext-5-3.conf"
+PHPU_CONF_EXT_5_2="$PHPU_CONF/ext-5-2.conf"
 # master build branch location
 PHPU_MASTER="$PHPU_ROOT/master"
 PHPU_MASTER_EXT="$PHPU_MASTER/ext"
@@ -228,6 +232,12 @@ function phpu_conf {
   if [[ $PHPU_CURRENT_DIR == "master" ]] || [[ $PHPU_CURRENT_DIR == "7" ]]; then
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
     PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_MASTER"
+  elif [[ "${PHPU_CURRENT_BRANCH:6:1}" == "3" ]]; then
+    PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_5_3"
+    PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_5_3"
+  elif [[ "${PHPU_CURRENT_BRANCH:6:1}" =~ (2|1|0) ]]; then
+    PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_5_2"
+    PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_5_2"
   else
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT"
     PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT"
