@@ -161,7 +161,7 @@ function _phpu_process_params {
 
 # init installation variables
 function _phpu_init_install_vars {
-  PHPU_CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+  PHPU_CURRENT_BRANCH=`git branch | sed -n 's/^\* //p'`
   if [ -n "$1" ] && [ -d "$PHPU_CONF/$1" ]; then
     PHPU_CONF_INI_DIR="$1"
   else
@@ -269,6 +269,12 @@ function phpu_conf {
   if [ -f Makefile ]; then
     make distclean
   fi
+  if [ -f ./configure ]; then
+    rm configure
+  fi
+  if [ -f ./config.cache ]; then
+    rm config.cache
+  fi
   ./buildconf --force
   echo "OPTIONS: " $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_ACTIVE_OPT"`
   phpu_pkg_config ssl ./configure $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_ACTIVE_OPT"`
@@ -306,26 +312,29 @@ function phpu_new {
     fi
 
     # check if the branch is branch or just a tag
-    if git branch --list --all | grep -q $PHPU_BRANCH; then
-      PHPU_BRANCH_TRACK="--track"
-      PHPU_BRANCH_COMMIT="upstream/$PHPU_BRANCH"
-      PHPU_BRANCH_CHECKOUT=""
+    if git branch --list --all | grep -q upstream/$PHPU_BRANCH; then
+      PHPU_NEW_BRANCH_FLAGS="--track"
+      PHPU_NEW_BRANCH_COMMIT="upstream/$PHPU_BRANCH"
+      PHPU_NEW_CHECKOUT_FLAGS=""
+      PHPU_NEW_CHECKOUT_COMMIT=""
     elif git tag --list | grep -q $PHPU_BRANCH; then
-      PHPU_BRANCH_TRACK=""
-      PHPU_BRANCH_COMMIT="$PHPU_BRANCH"
-      PHPU_BRANCH_CHECKOUT="-b"
+      PHPU_NEW_BRANCH_FLAGS=""
+      PHPU_NEW_BRANCH_COMMIT="$PHPU_BRANCH"
+      PHPU_NEW_CHECKOUT_FLAGS="-b"
+      PHPU_NEW_CHECKOUT_COMMIT="origin/$PHPU_BRANCH"
     else
       error "No such branch or tag called $PHPU_BRANCH"
       exit
     fi
+
     # create branch that either tracks upstream branch or is from tag
-    if git branch $PHPU_BRANCH_TRACK $PHPU_BRANCH $PHPU_BRANCH_COMMIT; then
+    if git branch $PHPU_NEW_BRANCH_FLAGS $PHPU_BRANCH $PHPU_NEW_BRANCH_COMMIT; then
       cd "$PHPU_BUILD"
       # copy
       git clone ../src $PHPU_NAME
       cd $PHPU_NAME
       # set the branch
-      git checkout $PHPU_BRANCH_CHECKOUT $PHPU_BRANCH
+      git checkout $PHPU_NEW_CHECKOUT_FLAGS $PHPU_BRANCH $PHPU_NEW_CHECKOUT_COMMIT
       # run configuration
       phpu_conf
     fi
