@@ -263,7 +263,7 @@ function phpu_conf {
     fi
   done < "$PHPU_CONF_ACTIVE_EXT"
   # use old autoconf for PHP-5.3 and lower
-  if [[ "${PHPU_CURRENT_BRANCH:4:1}" == "4" ]] || [[ "${PHPU_CURRENT_BRANCH:6:1}" =~ (3|2|1|0) ]]; then
+  if [[ "${PHPU_CURRENT_BRANCH:4:1}" == "4" ]] || [[ "${PHPU_CURRENT_BRANCH:6:1}" =~ (3|2) ]]; then
     export PHP_AUTOCONF=$PHPU_AUTOCONF_213
   fi
   if [ -f Makefile ]; then
