@@ -210,7 +210,16 @@ function phpu_conf {
   # copy conf
   if [ ! -d "$PHPU_INI_DIR" ]; then
     mkdir -p "$PHPU_INI_DIR"
-    cp php.ini-development "$PHPU_INI_FILE"
+    if [ -f php.ini-development ]; then
+      PHPU_INI_FILE_SRC=php.ini-development
+    elif [ -f php.ini-recommended ]; then
+      PHPU_INI_FILE_SRC=php.ini-recommended
+    else
+      rm -rf "$PHPU_INI_DIR"
+      error "No source ini file found"
+      exit
+    fi
+    cp "$PHPU_INI_FILE_SRC" "$PHPU_INI_FILE"
   fi
   # extra options for configure
   PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_ETC"
