@@ -383,6 +383,12 @@ function phpu_use {
         echo "The $PHPU_NAME has not been created yet"
         exit
       fi
+      # check if active ext for 5.2 or 5.3 should be used
+      if [[ "${PHPU_BRANCH:6:1}" == "3" ]]; then
+        PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_5_3"
+      elif [[ "${PHPU_BRANCH:6:1}" =~ (2|1|0) ]]; then
+        PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_5_2"
+      fi
       _phpu_init_install_vars
     fi
     # create live config dir if if it does not exist
