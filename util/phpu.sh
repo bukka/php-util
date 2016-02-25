@@ -97,6 +97,23 @@ function phpu_exe {
   $PHPU_SRC_CLI $@
 }
 
+# test custom build test(s)
+function phpu_test_build {
+  if [ -z "$1" ]; then
+    error "Please specify build name as the first parameter"
+    exit
+  fi
+  PHPU_BUILD_DIR="$PHPU_BUILD/$1"
+  if [ ! -d "$PHPU_BUILD_DIR" ]; then
+    error "No such build directory $PHPU_BUILD_DIR"
+    exit
+  fi
+  PHPU_BUILD_CLI="$PHPU_BUILD_DIR/sapi/cli/php"
+  shift
+  export TEST_PHP_EXECUTABLE=$PHPU_BUILD_CLI
+  $TEST_PHP_EXECUTABLE $PHPU_BUILD_DIR/run-tests.php $*
+}
+
 # run php 7 test(s)
 function phpu_test_7 {
   export TEST_PHP_EXECUTABLE=$PHPU_7_CLI
@@ -132,6 +149,7 @@ function phpu_test_live {
   export TEST_PHP_EXECUTABLE=/usr/local/bin/php
   $TEST_PHP_EXECUTABLE $PHPU_SRC/run-tests.php $*
 }
+
 
 # generate phpt file
 function phpu_gentest {
@@ -521,6 +539,9 @@ case $PHPU_ACTION in
     ;;
   test_master)
     phpu_test_master $@
+    ;;
+  test_build)
+    phpu_test_build $@
     ;;
   gentest)
     phpu_gentest $@
