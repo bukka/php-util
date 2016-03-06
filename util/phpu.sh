@@ -222,6 +222,15 @@ function _phpu_ext_dynamic_clean {
   fi
 }
 
+# run configure script
+function _phpu_configure {
+  if [ -n "$PKG_CONFIG_PATH" ]; then
+    ./configure $@
+  else
+    phpu_pkg_config ssl ./configure $@
+  fi
+}
+
 # configure php
 function phpu_conf {
   _phpu_init_install_vars
@@ -304,7 +313,7 @@ function phpu_conf {
   fi
   ./buildconf --force
   echo "OPTIONS: " $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_ACTIVE_OPT"`
-  phpu_pkg_config ssl ./configure $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_ACTIVE_OPT"`
+  _phpu_configure $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_ACTIVE_OPT"`
 }
 
 
@@ -426,7 +435,7 @@ function phpu_use {
               make distclean
             fi
             phpize
-            phpu_pkg_config ssl ./configure $PHPU_EXT_OPT
+            _phpu_configure $PHPU_EXT_OPT
             make && sudo make install
           fi
         fi
