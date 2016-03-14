@@ -27,6 +27,10 @@ while (($enc_error_new = openssl_error_string()) !== false) {
 	++$error_queue_size;
 }
 var_dump($error_queue_size);
+
+// other possible cuases that are difficult to catch:
+// 1. ASN1_STRING_to_UTF8 fails in add_assoc_name_entry
+// 2. invalid php_x509_request field (NULL) would cause error with CONF_get_string
 ?>
 --EXPECTF--
 string(89) "error:0607A082:digital envelope routines:EVP_CIPHER_CTX_set_key_length:invalid key length"
