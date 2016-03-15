@@ -28,9 +28,16 @@ while (($enc_error_new = openssl_error_string()) !== false) {
 }
 var_dump($error_queue_size);
 
+// openssl_x509_export_to_file
+// - file for x509 (file:///) fails when opennig (BIO_new_file)
+// - file or str cert is not correct PEM - failing PEM_read_bio_X509 or PEM_ASN1_read_bio
+// - file to export cannot be written
+
+
 // other possible cuases that are difficult to catch:
-// 1. ASN1_STRING_to_UTF8 fails in add_assoc_name_entry
-// 2. invalid php_x509_request field (NULL) would cause error with CONF_get_string
+// - ASN1_STRING_to_UTF8 fails in add_assoc_name_entry
+// - invalid php_x509_request field (NULL) would cause error with CONF_get_string
+
 ?>
 --EXPECTF--
 string(89) "error:0607A082:digital envelope routines:EVP_CIPHER_CTX_set_key_length:invalid key length"
