@@ -1,0 +1,16 @@
+XP SSL changes
+- SSL_CTX_set_ecdh_auto has been removed
+  - looks like it is done automatically
+- SSL_CTX_set_tmp_rsa_callback has been removed
+  - it was used just for EXPORT related stuff
+
+Changed tests:
+- Bug #41033: enable signing with DSA keys
+  - OPENSSL_ALGO_DSS1 changed to OPENSSL_ALGO_SHA1 as DSS1 has been removed
+- Bug #66501: EC private key support in openssl_sign [ext/openssl/tests/bug66501.phpt]
+  - ecdsa-with-SHA1 replaced with SHA1 as there are no message digest for public key (e.g. ecdsa-with-SHA1, dsa*, DSA*)
+
+Currently failing tests
+- Bug #65538: SSL context "cafile" disallows URL stream wrappers [ext/openssl/tests/bug65538_002.phpt]
+- Bug #65729: CN_match gives false positive when wildcard is used [ext/openssl/tests/bug65729.phpt]
+- sni_server [ext/openssl/tests/sni_server.phpt]
