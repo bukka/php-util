@@ -22,7 +22,7 @@ $crt_file = "file://" . __DIR__ . "/cert.crt";
 // csr file
 $csr_file = "file://" . __DIR__ . "/cert.csr";
 // private key file
-$private_key_file = "file://" .__DIR__ . "/cert.crt";
+$private_key_file = "file://" .__DIR__ . "/private_rsa_1024.key";
 
 // ENCRYPTION
 $data = "test";
@@ -47,6 +47,18 @@ while (($enc_error_new = openssl_error_string()) !== false) {
 	++$error_queue_size;
 }
 var_dump($error_queue_size);
+
+// PKEY
+echo "PKEY errors\n";
+// file for pkey (file:///) fails when opennig (BIO_new_file)
+openssl_pkey_export_to_file("file://" . $invalid_file_for_read, $output_file);
+dump_openssl_errors();
+// file or private pkey is not correct PEM - failing PEM_read_bio_PrivateKey
+openssl_pkey_export_to_file($csr_file, $output_file);
+dump_openssl_errors();
+// file to export cannot be written
+openssl_pkey_export_to_file($private_key_file, $invalid_file_for_write);
+dump_openssl_errors();
 
 // X509
 echo "X509 errors\n";
@@ -76,6 +88,23 @@ if (is_file($output_file)) {
 string(89) "error:0607A082:digital envelope routines:EVP_CIPHER_CTX_set_key_length:invalid key length"
 bool(false)
 int(15)
+PKEY errors
+
+Warning: openssl_pkey_export_to_file(): cannot get key from parameter 1 in %s on line %d
+string(61) "error:02001002:system library:fopen:No such file or directory"
+string(53) "error:2006D080:BIO routines:BIO_new_file:no such file"
+
+Warning: openssl_pkey_export_to_file(): cannot get key from parameter 1 in %s on line %d
+string(54) "error:0906D06C:PEM routines:PEM_read_bio:no start line"
+string(68) "error:0E06D06C:configuration file routines:NCONF_get_string:no value"
+string(68) "error:0E06D06C:configuration file routines:NCONF_get_string:no value"
+string(68) "error:0E06D06C:configuration file routines:NCONF_get_string:no value"
+string(68) "error:0E06D06C:configuration file routines:NCONF_get_string:no value"
+string(68) "error:0E06D06C:configuration file routines:NCONF_get_string:no value"
+string(68) "error:0E06D06C:configuration file routines:NCONF_get_string:no value"
+string(50) "error:02001015:system library:fopen:Is a directory"
+string(51) "error:2006D002:BIO routines:BIO_new_file:system lib"
+X509 errors
 
 Warning: openssl_x509_export_to_file(): cannot get cert from parameter 1 in %s on line %d
 string(61) "error:02001002:system library:fopen:No such file or directory"
