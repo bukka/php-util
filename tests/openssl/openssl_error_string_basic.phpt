@@ -23,6 +23,8 @@ $crt_file = "file://" . __DIR__ . "/cert.crt";
 $csr_file = "file://" . __DIR__ . "/cert.csr";
 // private key file
 $private_key_file = "file://" .__DIR__ . "/private_rsa_1024.key";
+// private key file with password (password is 'php')
+$private_key_file_with_pass = "file://" .__DIR__ . "/private_rsa_2048_pass_php.key";
 
 // ENCRYPTION
 $data = "test";
@@ -58,6 +60,9 @@ openssl_pkey_export_to_file($csr_file, $output_file);
 dump_openssl_errors();
 // file to export cannot be written
 openssl_pkey_export_to_file($private_key_file, $invalid_file_for_write);
+dump_openssl_errors();
+// succesful export
+openssl_pkey_export($private_key_file_with_pass, $out, 'wrong pwd');
 dump_openssl_errors();
 
 // X509
@@ -104,6 +109,10 @@ string(68) "error:0E06D06C:configuration file routines:NCONF_get_string:no value
 string(68) "error:0E06D06C:configuration file routines:NCONF_get_string:no value"
 string(50) "error:02001015:system library:fopen:Is a directory"
 string(51) "error:2006D002:BIO routines:BIO_new_file:system lib"
+
+Warning: openssl_pkey_export(): cannot get key from parameter 1 in %s on line %d
+string(72) "error:06065064:digital envelope routines:EVP_DecryptFinal_ex:bad decrypt"
+string(53) "error:0906A065:PEM routines:PEM_do_header:bad decrypt"
 X509 errors
 
 Warning: openssl_x509_export_to_file(): cannot get cert from parameter 1 in %s on line %d
