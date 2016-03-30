@@ -64,6 +64,9 @@ dump_openssl_errors();
 // succesful export
 openssl_pkey_export($private_key_file_with_pass, $out, 'wrong pwd');
 dump_openssl_errors();
+// invalid x509 for getting public key
+openssl_pkey_get_public($private_key_file);
+dump_openssl_errors();
 
 // X509
 echo "X509 errors\n";
@@ -113,6 +116,8 @@ string(51) "error:2006D002:BIO routines:BIO_new_file:system lib"
 Warning: openssl_pkey_export(): cannot get key from parameter 1 in %s on line %d
 string(72) "error:06065064:digital envelope routines:EVP_DecryptFinal_ex:bad decrypt"
 string(53) "error:0906A065:PEM routines:PEM_do_header:bad decrypt"
+string(54) "error:0906D06C:PEM routines:PEM_read_bio:no start line"
+string(54) "error:0906D06C:PEM routines:PEM_read_bio:no start line"
 X509 errors
 
 Warning: openssl_x509_export_to_file(): cannot get cert from parameter 1 in %s on line %d
