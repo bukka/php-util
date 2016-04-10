@@ -67,6 +67,12 @@ dump_openssl_errors();
 // invalid x509 for getting public key
 openssl_pkey_get_public($private_key_file);
 dump_openssl_errors();
+// private encrypt with unknown padding
+openssl_private_encrypt("data", $encrypted, $private_key_file, 1000);
+dump_openssl_errors();
+// private decrypt with failed padding check
+openssl_private_decrypt("data", $decrypted, $private_key_file);
+dump_openssl_errors();
 
 // X509
 echo "X509 errors\n";
@@ -112,12 +118,16 @@ string(68) "error:0E06D06C:configuration file routines:NCONF_get_string:no value
 string(68) "error:0E06D06C:configuration file routines:NCONF_get_string:no value"
 string(50) "error:02001015:system library:fopen:Is a directory"
 string(51) "error:2006D002:BIO routines:BIO_new_file:system lib"
+string(49) "error:09072007:PEM routines:PEM_write_bio:BUF lib"
 
 Warning: openssl_pkey_export(): cannot get key from parameter 1 in %s on line %d
 string(72) "error:06065064:digital envelope routines:EVP_DecryptFinal_ex:bad decrypt"
 string(53) "error:0906A065:PEM routines:PEM_do_header:bad decrypt"
 string(54) "error:0906D06C:PEM routines:PEM_read_bio:no start line"
 string(54) "error:0906D06C:PEM routines:PEM_read_bio:no start line"
+string(72) "error:04066076:rsa routines:RSA_EAY_PRIVATE_ENCRYPT:unknown padding type"
+string(78) "error:0407109F:rsa routines:RSA_padding_check_PKCS1_type_2:pkcs decoding error"
+string(72) "error:04065072:rsa routines:RSA_EAY_PRIVATE_DECRYPT:padding check failed"
 X509 errors
 
 Warning: openssl_x509_export_to_file(): cannot get cert from parameter 1 in %s on line %d
