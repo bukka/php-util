@@ -21,6 +21,8 @@ $invalid_file_for_write = __DIR__;
 $crt_file = "file://" . __DIR__ . "/cert.crt";
 // csr file
 $csr_file = "file://" . __DIR__ . "/cert.csr";
+// public key file
+$public_key_file = "file://" .__DIR__ . "/public.key";
 // private key file
 $private_key_file = "file://" .__DIR__ . "/private_rsa_1024.key";
 // private key file with password (password is 'php')
@@ -68,10 +70,14 @@ dump_openssl_errors();
 openssl_pkey_get_public($private_key_file);
 dump_openssl_errors();
 // private encrypt with unknown padding
-openssl_private_encrypt("data", $encrypted, $private_key_file, 1000);
+openssl_private_encrypt("data", $crypted, $private_key_file, 1000);
 dump_openssl_errors();
 // private decrypt with failed padding check
-openssl_private_decrypt("data", $decrypted, $private_key_file);
+openssl_private_decrypt("data", $crypted, $private_key_file);
+dump_openssl_errors();
+// public encrypt and decrypt with failed padding check and padding
+openssl_public_encrypt("data", $crypted, $public_key_file, 1000);
+openssl_public_decrypt("data", $crypted, $public_key_file);
 dump_openssl_errors();
 
 // X509
@@ -128,6 +134,11 @@ string(54) "error:0906D06C:PEM routines:PEM_read_bio:no start line"
 string(72) "error:04066076:rsa routines:RSA_EAY_PRIVATE_ENCRYPT:unknown padding type"
 string(78) "error:0407109F:rsa routines:RSA_padding_check_PKCS1_type_2:pkcs decoding error"
 string(72) "error:04065072:rsa routines:RSA_EAY_PRIVATE_DECRYPT:padding check failed"
+string(54) "error:0906D06C:PEM routines:PEM_read_bio:no start line"
+string(71) "error:04068076:rsa routines:RSA_EAY_PUBLIC_ENCRYPT:unknown padding type"
+string(54) "error:0906D06C:PEM routines:PEM_read_bio:no start line"
+string(79) "error:0407006A:rsa routines:RSA_padding_check_PKCS1_type_1:block type is not 01"
+string(71) "error:04067072:rsa routines:RSA_EAY_PUBLIC_DECRYPT:padding check failed"
 X509 errors
 
 Warning: openssl_x509_export_to_file(): cannot get cert from parameter 1 in %s on line %d
