@@ -91,6 +91,8 @@ dump_openssl_errors();
 // file to export cannot be written
 openssl_x509_export_to_file($crt_file, $invalid_file_for_write);
 dump_openssl_errors();
+openssl_x509_checkpurpose($crt_file, 1000);
+dump_openssl_errors();
 
 // other possible cuases that are difficult to catch:
 // - ASN1_STRING_to_UTF8 fails in add_assoc_name_entry
@@ -151,3 +153,4 @@ string(54) "error:0906D06C:PEM routines:PEM_read_bio:no start line"
 Warning: openssl_x509_export_to_file(): error opening file %s in %s on line %d
 string(50) "error:02001015:system library:fopen:Is a directory"
 string(51) "error:2006D002:BIO routines:BIO_new_file:system lib"
+string(90) "error:0B086079:x509 certificate routines:X509_STORE_CTX_purpose_inherit:unknown purpose id"
