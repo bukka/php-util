@@ -98,6 +98,15 @@ dump_openssl_errors();
 openssl_x509_checkpurpose($crt_file, X509_PURPOSE_SSL_CLIENT, array( __DIR__ . "/cert.csr"));
 dump_openssl_errors();
 
+// CSR
+echo "CSR errors\n";
+// file for csr (file:///) fails when opennig (BIO_new_file)
+openssl_csr_get_subject("file://" . $invalid_file_for_read);
+dump_openssl_errors();
+// file or str csr is not correct PEM - failing PEM_read_bio_X509_REQ
+openssl_csr_get_subject($crt_file);
+dump_openssl_errors();
+
 // other possible cuases that are difficult to catch:
 // - ASN1_STRING_to_UTF8 fails in add_assoc_name_entry
 // - invalid php_x509_request field (NULL) would cause error with CONF_get_string
@@ -160,3 +169,9 @@ string(51) "error:2006D002:BIO routines:BIO_new_file:system lib"
 string(90) "error:0B086079:x509 certificate routines:X509_STORE_CTX_purpose_inherit:unknown purpose id"
 
 Warning: openssl_x509_checkpurpose(): error loading file %s in %s on line %d
+CSR errors
+string(61) "error:02001002:system library:fopen:No such file or directory"
+string(53) "error:2006D080:BIO routines:BIO_new_file:no such file"
+string(55) "error:20068079:BIO routines:BIO_gets:unsupported method"
+string(54) "error:0906D06C:PEM routines:PEM_read_bio:no start line"
+string(54) "error:0906D06C:PEM routines:PEM_read_bio:no start line"
