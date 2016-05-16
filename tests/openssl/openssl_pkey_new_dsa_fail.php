@@ -22,22 +22,20 @@ $g = '00b320300a0bc55b8f0ec6edc218e2' .
 '6901c93e0ca56f6d76d495c332edc5' .
 'b81747c4c447a941f3';
 
+function output_dsa($dsa) {
+	if (!$dsa) {
+		echo "Creating DSA failed\n";
+		return;
+	}
 
-$dsa = openssl_pkey_new(array('dsa' => array('p' => $p, 'q' => $q, 'g' => $g)));
-var_dump($dsa);
-$details = openssl_pkey_get_details($dsa);
-var_dump($details);
+	$details = openssl_pkey_get_details($dsa);
+	$dsa_details = $details['dsa'];
+	var_dump(bin2hex($dsa_details['p']));
+	var_dump(bin2hex($dsa_details['q']));
+	var_dump(bin2hex($dsa_details['g']));
+	var_dump(strlen($dsa_details['priv_key']));
+	var_dump(strlen($dsa_details['pub_key']));
+}
 
-var_dump(openssl_pkey_get_private($dsa));
-var_dump(openssl_pkey_get_public($dsa));
-var_dump(openssl_sign('msg', $signature, $dsa));
-var_dump(openssl_verify('msg', $signature, $dsa));
-
-$dsa = openssl_pkey_new(array('dsa'=> array('p' => hex2bin($p), 'q' => hex2bin($q), 'g' => hex2bin($g))));
-$details = openssl_pkey_get_details($dsa);
-var_dump($details);
-
-var_dump(openssl_pkey_get_private($dsa));
-var_dump(openssl_pkey_get_public($dsa));
-var_dump(openssl_sign('msg', $signature, $dsa));
-var_dump(openssl_verify('msg', $signature, $dsa));
+output_dsa(openssl_pkey_new(array('dsa' => array('p' => $p, 'q' => $q, 'g' => $g))));
+output_dsa(openssl_pkey_new(array('dsa' => array('p' => hex2bin($p), 'q' => hex2bin($q), 'g' => hex2bin($g)))));
