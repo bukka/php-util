@@ -45,6 +45,19 @@ function output_dsa($dsa) {
 
 output_dsa(openssl_pkey_new(array('dsa' => array('p' => $p, 'q' => $q, 'g' => $g))));
 output_dsa(openssl_pkey_new(array('dsa' => array('p' => hex2bin($p), 'q' => hex2bin($q), 'g' => hex2bin($g)))));
+
+/* actual:
+bool(false)
+bool(false)
+bool(false)
+int(42)
+int(0)
+bool(true)
+bool(true)
+bool(true)
+int(20)
+int(128)
+*/
 ?>
 --EXPECTF--
 Creating DSA failed
