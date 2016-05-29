@@ -251,7 +251,7 @@ function phpu_conf {
   # extra options for configure
   PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_ETC"
   PHPU_CURRENT_DIR=$( basename `pwd` )
-  if [[ $PHPU_CURRENT_DIR == "src" ]] || [[ $PHPU_CURRENT_DIR == "std" ]] || [[ $PHPU_CURRENT_DIR == "sec" ]] || [[ $PHPU_CURRENT_DIR == "master" ]] || [[ $PHPU_CURRENT_DIR == "7" ]]; then
+  if [[ $PHPU_CURRENT_DIR =~ ^(src|std|sec|master|7)$ ]]; then
     if [[ ! "$*" =~ "no-debug" ]]; then
       PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-debug"
     fi
