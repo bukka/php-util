@@ -92,6 +92,12 @@ function phpu_help {
   echo "  doc (move|rmts) <extension_name>"
 }
 
+# print and run the arguments
+function phpu_print_and_run {
+  echo $@
+  $@
+}
+
 # execute script
 function phpu_exe {
   $PHPU_SRC_CLI $@
@@ -279,6 +285,8 @@ function phpu_conf {
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT"
     PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT"
   fi
+  # modify ld path
+  phpu_ld_path
   # set extensions
   while read PHPU_EXT_NAME PHPU_EXT_TYPE PHPU_EXT_OPT1 PHPU_EXT_OPT2 PHPU_EXT_OPT3; do
     PHPU_EXT_DIR="$PHPU_EXT/$PHPU_EXT_NAME"
@@ -422,6 +430,8 @@ function phpu_use {
     if [ ! -d "$PHPU_ETC" ]; then
       sudo mkdir -p "$PHPU_ETC"
     fi
+    # modify ld path
+    phpu_ld_path
     # copy ini from conf/ to the live config dir
     sudo cp $PHPU_INI_FILE "$PHPU_ETC"
     if make -j4 && sudo make install ; then
@@ -516,6 +526,11 @@ function phpu_pkg_config {
   fi
 }
 
+# modify LD_LIBRARY_PATH to prefer /usr/local/lib
+function phpu_ld_path {
+  phpu_print_and_run export LD_LIBRARY_PATH=/usr/local/lib:/lib64:/lib
+}
+
 # se action
 if [ -n "$1" ]; then
   PHPU_ACTION=$1
@@ -580,6 +595,9 @@ case $PHPU_ACTION in
     ;;
   pkg)
     phpu_pkg_config $@
+    ;;
+  ldp)
+    phpu_ld_path $@
     ;;
   *)
     error "Unknown action $PHPU_ACTION"
