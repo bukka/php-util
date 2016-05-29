@@ -193,7 +193,7 @@ function _phpu_init_install_vars {
 # configure extension statically (not working)
 function _phpu_ext_static_conf {
   cp -r "$PHPU_EXT_DIR" "$PHPU_SRC_EXT_DIR"
-  PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS $PHPU_EXT_OPT"
+  PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS $PHPU_EXT_OPT1 $PHPU_EXT_OPT2 $PHPU_EXT_OPT3"
   _phpu_ext_dynamic_clean
 }
 
@@ -224,6 +224,7 @@ function _phpu_ext_dynamic_clean {
 
 # run configure script
 function _phpu_configure {
+  echo "OPTIONS: $@"
   if [ -n "$PKG_CONFIG_PATH" ]; then
     ./configure $@
   else
@@ -279,7 +280,7 @@ function phpu_conf {
     PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT"
   fi
   # set extensions
-  while read PHPU_EXT_NAME PHPU_EXT_TYPE PHPU_EXT_OPT ; do
+  while read PHPU_EXT_NAME PHPU_EXT_TYPE PHPU_EXT_OPT1 PHPU_EXT_OPT2 PHPU_EXT_OPT3; do
     PHPU_EXT_DIR="$PHPU_EXT/$PHPU_EXT_NAME"
     if [ -d "$PHPU_EXT_DIR" ]; then
       PHPU_EXT_LIB="$PHPU_EXT_NAME.so"
@@ -312,7 +313,6 @@ function phpu_conf {
     rm config.cache
   fi
   ./buildconf --force
-  echo "OPTIONS: " $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_ACTIVE_OPT"`
   _phpu_configure $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_ACTIVE_OPT"`
 }
 
@@ -426,7 +426,7 @@ function phpu_use {
     sudo cp $PHPU_INI_FILE "$PHPU_ETC"
     if make -j4 && sudo make install ; then
       # compile dynamic extension
-      while read PHPU_EXT_NAME PHPU_EXT_TYPE PHPU_EXT_OPT ; do
+      while read PHPU_EXT_NAME PHPU_EXT_TYPE PHPU_EXT_OPT1 PHPU_EXT_OPT2 PHPU_EXT_OPT3; do
         if [[ $PHPU_EXT_TYPE == 'dynamic' ]]; then
           PHPU_EXT_DIR="$PHPU_EXT/$PHPU_EXT_NAME"
           if [ -d "$PHPU_EXT_DIR" ]; then
@@ -435,7 +435,7 @@ function phpu_use {
               make distclean
             fi
             phpize
-            _phpu_configure $PHPU_EXT_OPT
+            _phpu_configure $PHPU_EXT_OPT1 $PHPU_EXT_OPT2 $PHPU_EXT_OPT3
             make && sudo make install
           fi
         fi
