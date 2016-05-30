@@ -4,8 +4,11 @@ openssl_pkey_new() basic usage tests
 <?php if (!extension_loaded("openssl")) print "skip"; ?>
 --FILE--
 <?php
-// RSA
+function openssl_pkey_test_cmp($expected, $bin_key) {
+	var_dump(strcasecmp(ltrim($expected, '0'), bin2hex($bin_key)));
+}
 
+// RSA
 $nhex = "BBF82F090682CE9C2338AC2B9DA871F7368D07EED41043A440D6B6F07454F51F" .
 		"B8DFBAAF035C02AB61EA48CEEB6FCD4876ED520D60E1EC4619719D8A5B8B807F" .
 		"AFB8E0A3DFC737723EE6B4B7D93A2584EE6A649D060953748834B2454598394E" .
@@ -34,11 +37,11 @@ $rsa= openssl_pkey_new(array(
 ));
 $details = openssl_pkey_get_details($rsa);
 $rsa_details = $details['rsa'];
-var_dump($nhex === bin2hex($rsa_details['n']));
-var_dump($ehex === bin2hex($rsa_details['e']));
-var_dump($dhex === bin2hex($rsa_details['d']));
-var_dump($phex === bin2hex($rsa_details['p']));
-var_dump($qhex === bin2hex($rsa_details['q']));
+openssl_pkey_test_cmp($nhex, $rsa_details['n']);
+openssl_pkey_test_cmp($ehex, $rsa_details['e']);
+openssl_pkey_test_cmp($dhex, $rsa_details['d']);
+openssl_pkey_test_cmp($phex, $rsa_details['p']);
+openssl_pkey_test_cmp($qhex, $rsa_details['q']);
 
 // DSA
 $phex = '00f8000ae45b2dacb47dd977d58b719d097bdf07cb2c17660ad898518c08' .
@@ -55,13 +58,17 @@ $ghex = '00b320300a0bc55b8f0ec6edc218e2185250f38fbb8291db8a89227f6e41' .
 		'4e882221f0dd9604820dc34e2725dd6901c93e0ca56f6d76d495c332edc5' .
 		'b81747c4c447a941f3';
 $dsa = openssl_pkey_new(array(
-	'dsa' => array('p' => hex2bin($phex), 'q' => hex2bin($qhex), 'g' => hex2bin($ghex))
+	'dsa' => array(
+		'p' => hex2bin($phex),
+		'q' => hex2bin($qhex),
+		'g' => hex2bin($ghex)
+	)
 ));
 $details = openssl_pkey_get_details($dsa);
 $dsa_details = $details['dsa'];
-var_dump(ltrim($phex, '0') === bin2hex($dsa_details['p']));
-var_dump(ltrim($qhex, '0') === bin2hex($dsa_details['q']));
-var_dump(ltrim($ghex, '0') === bin2hex($dsa_details['g']));
+openssl_pkey_test_cmp($phex, $dsa_details['p']);
+openssl_pkey_test_cmp($qhex, $dsa_details['q']);
+openssl_pkey_test_cmp($ghex, $dsa_details['g']);
 var_dump(strlen($dsa_details['priv_key']));
 var_dump(strlen($dsa_details['pub_key']));
 
@@ -71,13 +78,29 @@ $phex = 'dcf93a0b883972ec0e19989ac5a2ce310e1d37717e8d9571bb7623731866e61e' .
 		'7d45c2e7e52dc81c7a171876e5cea74b1448bfdfaf18828efd2519f14e45e382' .
 		'6634af1949e5b535cc829a483b8a76223e5d490a257f05bdff16f2fb22c583ab';
 
-$dh_details = array( 'p' => $phex, 'g' => '2' );
-$dh = openssl_pkey_new(array( 'dh'=> array( 'p' => hex2bin($phex), 'g' => '2' )));
+$dh_details = array('p' => $phex, 'g' => '2');
+$dh = openssl_pkey_new(array(
+	'dh'=> array('p' => hex2bin($phex), 'g' => '2'))
+);
 $details = openssl_pkey_get_details($dh);
-var_dump($phex === $details['dh']['p']);
-var_dump($details['dh']['g']);
-var_dump(strlen($details['dh']['pub_key']));
-var_dump(strlen($details['dh']['priv_key']));
+$dh_details = $details['dh'];
+openssl_pkey_test_cmp($phex, $dh_details['p']);
+var_dump($dh_details['g']);
+var_dump(strlen($dh_details['pub_key']));
+var_dump(strlen($dh_details['priv_key']));
 ?>
---EXPECTF--
-
+--EXPECT--
+int(0)
+int(0)
+int(0)
+int(0)
+int(0)
+int(0)
+int(0)
+int(0)
+int(20)
+int(128)
+int(0)
+string(1) "2"
+int(128)
+int(128)
