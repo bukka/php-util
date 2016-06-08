@@ -9,9 +9,9 @@
 
 This RFC is based on the discussion about displaying float values in json_encode and proposes more precise float value handling overall.
 
-JSON is used to exchange data between systems. Although [[https://tools.ietf.org/html/rfc7159|JSON RFC "6 Numbers"]]  does not require specific implementation for float/int type, float value should be handled as precise as possible by default. 
+JSON is used to exchange data between systems. Although [[https://tools.ietf.org/html/rfc7159|JSON RFC "6 Numbers"]] does not require specific implementation for float/int type, a float value should be handled as precise as possible by default.
 
-Currently, json_encode() uses EG(precision) which is set to 14. That means that 14 digits max are used for displaying (printing) the number. IEEE 754 double supports higher precision and serialize()/var_export() uses PG(serialize_precision)=17 to be more precise. Since json_encode() uses EG(precision), json_encode() removes lower digits of fraction parts and destroys original value even if PHP's float could hold more precise float value.
+Currently json_encode() uses EG(precision) which is set to 14. That means that 14 digits at most are used for displaying (printing) the number. IEEE 754 double supports higher precision and serialize()/var_export() uses PG(serialize_precision) which set to 17 be default to be more precise. Since json_encode() uses EG(precision), json_encode() removes lower digits of fraction parts and destroys original value even if PHP's float could hold more precise float value.
 
 <code php>
 <?php
@@ -61,7 +61,7 @@ That is caused by used mode for double to string conversion.
 
 ===== Proposal =====
 
-This RFC proposes to introduce EG(precision)=-1 and PG(serialize_precision)=-1 that uses zend_dtoa()'s mode 0 which uses better algorigthm for rounding float numbers (-1 is used to indicate 0 mode).
+This RFC proposes to introduce a new setting EG(precision)=-1 and PG(serialize_precision)=-1 that uses zend_dtoa()'s mode 0 which uses better algorigthm for rounding float numbers (-1 is used to indicate 0 mode).
 
 The RFC also proposes changing ini for JSON precision to PG(serialize_precision).
 
