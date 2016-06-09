@@ -312,6 +312,7 @@ function phpu_conf {
     export PHP_AUTOCONF=$PHPU_AUTOCONF_213
   fi
   if [ -f Makefile ]; then
+    make clean
     make distclean
   fi
   if [ -f ./configure ]; then
@@ -442,6 +443,7 @@ function phpu_use {
           if [ -d "$PHPU_EXT_DIR" ]; then
             cd "$PHPU_EXT_DIR"
             if [ -f Makefile ]; then
+              make clean
               make distclean
             fi
             phpize
