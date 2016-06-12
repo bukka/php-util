@@ -2,7 +2,7 @@
   * Version: 1.1
   * Date: 2015-07-30
   * Author: Yasuo Ohgaki <yohgaki@ohgaki.net>, Jakub Zelenka <bukka@php.net>
-  * Status: Under Discussion
+  * Status: Voting
   * First Published at: http://wiki.php.net/rfc/precise_float_value
 
 ===== Introduction =====
@@ -177,14 +177,23 @@ XML_RPC
   * xmlrpc_encode() - Use PG(serialize_precision) and 0 mode. It uses EG(precision) currently.
 
 
-===== Proposed Voting Choices =====
+===== Voting =====
 
-Requires a 2/3 majority
+Requires a 2/3 majority for the first vote (mode 0 to become default for serialize precision) and 50%+1 majority for the second vote (changing default for json).
 
-There will be two votings
+The both votes are straight Yes/No votes.
 
-  * whether to introduce mode 0 and use it as default for serialize_precision
-  * should PG(serialize_precision) be used instead of EG(precision) in json_encode.
+<doodle title="Should mode 0 be introduced and set as default for PG(serialize_precision)" auth="bukka" voteType="single" closed="false">
+   * Yes
+   * No
+</doodle>
+
+<doodle title="Should PG(serialize_precision) be used instead of EG(precision) in json_encode" auth="bukka" voteType="single" closed="false">
+   * Yes
+   * No
+</doodle>
+
+The votes started on 2016-06-12 at 19:00 UTC and ends on 2016-06-19 at 19:00 UTC.
 
 ===== Patches and Tests =====
 
@@ -192,7 +201,7 @@ The initial PR can be found here:
 
   * https://github.com/php/php-src/pull/1455
 
-Note that the PR is currently outdate but it will be updated if the RFC is accepted.
+Note that the PR is currently outdated but it will be updated if the RFC is accepted.
 
 ===== Implementation =====
 After the project is implemented, this section should contain 
@@ -207,4 +216,5 @@ After the project is implemented, this section should contain
   * http://blog.reverberate.org/2016/02/06/floating-point-demystified-part2.html
 
 ===== Rejected Features =====
-Keep this updated with features that were discussed on the mail lists.
+
+None
