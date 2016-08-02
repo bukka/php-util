@@ -420,7 +420,7 @@ function phpu_use {
         cd "$PHPU_MASTER"
       fi
       PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
-      _phpu_init_install_vars master
+      _phpu_init_install_vars
     else
       # otherwis check if the build exists
       _phpu_process_params $@
