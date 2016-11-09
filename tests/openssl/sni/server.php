@@ -12,5 +12,5 @@ $ctx = stream_context_create(['ssl' => [
 $server = stream_socket_server('tls://127.0.0.1:64321', $errno, $errstr, $flags, $ctx);
 
 for ($i=0; $i < 3; $i++) {
-   stream_socket_accept($server, 3000);
+   stream_socket_accept($server, 300000);
 }
