@@ -11,6 +11,9 @@ runtest/
 phpc/
 test/
 doc/
+web/
+pickle/
+libs/
 phd/
 valgrind/
 xdebug/
