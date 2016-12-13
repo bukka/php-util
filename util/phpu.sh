@@ -456,6 +456,10 @@ function phpu_use {
     # copy ini from conf/ to the live config dir
     sudo cp $PHPU_INI_FILE "$PHPU_ETC"
     if make -j4 && sudo make install ; then
+      # check if OpenSSL 1.1 is used and if so set version variable
+      if php -i | grep -q 'OpenSSL 1.1.0'; then
+        PHPU_OPENSSL_VERSION=11
+      fi
       # compile dynamic extension
       while read PHPU_EXT_NAME PHPU_EXT_TYPE PHPU_EXT_OPT1 PHPU_EXT_OPT2 PHPU_EXT_OPT3; do
         if [[ $PHPU_EXT_TYPE == 'dynamic' ]]; then
