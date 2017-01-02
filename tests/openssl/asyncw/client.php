@@ -1,19 +1,22 @@
 <?php
 
-$context = stream_context_create();
-$fp = stream_socket_client("tls://www.google.com:443", $errornum, $errorstr, 300, STREAM_CLIENT_CONNECT, $context);
-
-var_dump($fp);
-var_dump($errornum);
-var_dump($errorstr);
-
+$context = stream_context_create(['ssl' => ['verify_peer' => false, 'peer_name' => 'bug54992.local']]);
+$fp = stream_socket_client("ssl://127.0.0.1:10011", $errornum, $errorstr, 3000, STREAM_CLIENT_CONNECT, $context);
 stream_set_blocking($fp, 0);
 
-$str = "GET / HTTP/1.1\r\n";
-$str .= str_repeat("a", 1048576);
+$str = str_repeat("a", 2500000);
+$total = 0;
 
-$result = fwrite($fp, $str);
-var_dump($result);
+$read = $except = null;
+$write = [$fp];
+while (stream_select($read, $write, $except, 10)) {
+	// we could write the same string again
+	$result = fwrite($fp, $str);
+	if ($result) {
+		$total += $result;
+		var_dump($result . ' : ' . $total);
+	}
+}
 
-$result = fwrite($fp, $str);
-var_dump($result);
+// this is going to fail
+fwrite($fp, 'aa');
