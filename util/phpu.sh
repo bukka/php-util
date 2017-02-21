@@ -21,7 +21,16 @@
 PHPU_AUTOCONF_213=autoconf-2.13
 
 # apache httpd restart command
-PHPU_HTTPD_RESTART="systemctl restart httpd.service"
+if systemctl --version > /dev/null 2>&1 ; then
+  # if systemd is used
+  PHPU_HTTPD_RESTART="systemctl restart httpd.service"
+else
+  # otherwise we try OpenRC
+  PHPU_HTTPD_RESTART="/etc/init.d/apache2 restart"
+fi
+
+PHPU_NUM_CORES=`cat /proc/cpuinfo | grep processor | wc -l`
+PHPU_MAKE_J="make -j$PHPU_NUM_CORES"
 
 # set base directory
 if readlink ${BASH_SOURCE[0]} > /dev/null; then
@@ -455,7 +464,7 @@ function phpu_use {
     phpu_ld_path
     # copy ini from conf/ to the live config dir
     sudo cp $PHPU_INI_FILE "$PHPU_ETC"
-    if make -j4 && sudo make install ; then
+    if $PHPU_MAKE_J && sudo make install ; then
       # check if OpenSSL 1.1 is used and if so set version variable
       if php -i | grep -q 'OpenSSL 1.1.0'; then
         PHPU_OPENSSL_VERSION=11
@@ -472,7 +481,9 @@ function phpu_use {
             fi
             phpize
             _phpu_configure $PHPU_EXT_OPT1 $PHPU_EXT_OPT2 $PHPU_EXT_OPT3
-            make && sudo make install
+            $PHPU_MAKE_J && sudo make install
+          else
+            echo "No directory $PHPU_EXT_DIR"
           fi
         fi
       done < "$PHPU_CONF_ACTIVE_EXT"
