@@ -8,7 +8,7 @@ $conn = stream_socket_accept($fp);
 
 $total = 0;
 while (true) {
-	$data = fread($conn, 10000);
+	$data = fread($conn, 100000);
 	$total += strlen($data);
 	echo "\r$total";
 	usleep(200000);
