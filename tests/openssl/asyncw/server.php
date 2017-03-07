@@ -7,9 +7,11 @@ $fp = stream_socket_server("ssl://127.0.0.1:10011", $errornum, $errorstr, $flags
 $conn = stream_socket_accept($fp);
 
 $total = 0;
+$all_data = '';
 while (true) {
 	$data = fread($conn, 100000);
 	$total += strlen($data);
-	echo "\r$total";
+	$all_data .= $data;
+	echo "\r$total : " . sha1($all_data);
 	usleep(200000);
 }
