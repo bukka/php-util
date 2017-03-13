@@ -185,6 +185,45 @@ function phpu_gentest {
   $PHPU_SRC_CLI $PHPU_SRC/scripts/dev/generate-phpt.phar $*
 }
 
+# check whether branch version is for PHP 5
+function _phpu_branch_version_is_5 {
+  PHPU_CURRENT_BRANCH_PREFIX=${PHPU_CURRENT_BRANCH:0:5}
+  PHPU_CURRENT_BRANCH_PREFIX_UPPER=${PHPU_CURRENT_BRANCH_PREFIX^^}
+
+  if [[ $PHPU_CURRENT_BRANCH_PREFIX_UPPER == "PHP-5" ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+# check whether version is equal to 5.3
+function _phpu_branch_version_eq_5_3 {
+  if _phpu_branch_version_is_5 && [[ ${PHPU_CURRENT_BRANCH:6:1} == 3 ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+# check whether version is equal or lower than 5.3
+function _phpu_branch_version_le_5_3 {
+  if _phpu_branch_version_is_5 && [[ ${PHPU_CURRENT_BRANCH:6:1} =~ (1|2|3) ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+# check whether version is equal or lower than 5.2
+function _phpu_branch_version_le_5_2 {
+  if _phpu_branch_version_is_5 && [[ ${PHPU_CURRENT_BRANCH:6:1} =~ (1|2) ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
 # process params for phpu_new
 function _phpu_process_params {
   PHPU_BRANCH=$1
