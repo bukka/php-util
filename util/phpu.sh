@@ -347,10 +347,10 @@ function phpu_conf {
   if [[ $PHPU_CURRENT_DIR =~ ^(master|7|71)$ ]]; then
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
     PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_MASTER"
-  elif [[ "${PHPU_CURRENT_BRANCH:6:1}" == "3" ]]; then
+  elif _phpu_branch_version_eq_5_3; then
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_5_3"
     PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_5_3"
-  elif [[ "${PHPU_CURRENT_BRANCH:6:1}" =~ (2|1|0) ]]; then
+  elif _phpu_branch_version_le_5_2; then
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_5_2"
     PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_5_2"
   else
@@ -380,7 +380,7 @@ function phpu_conf {
     fi
   done < "$PHPU_CONF_ACTIVE_EXT"
   # use old autoconf for PHP-5.3 and lower
-  if [[ "${PHPU_CURRENT_BRANCH:4:1}" == "4" ]] || [[ "${PHPU_CURRENT_BRANCH:6:1}" =~ (3|2) ]]; then
+  if _phpu_branch_version_le_5_3; then
     export PHP_AUTOCONF=$PHPU_AUTOCONF_213
   fi
   if [ -f Makefile ]; then
