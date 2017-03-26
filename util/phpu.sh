@@ -84,10 +84,10 @@ PHPU_DOC="$PHPU_ROOT/doc"
 PHPU_DOC_HTML="$PHPU_DOC/output/php-chunked-xhtml"
 PHPU_DOC_RESULT="$PHPU_DOC/result"
 PHPU_DOC_REFERENCE="$PHPU_DOC/en/reference"
-# pkg config path for OpenSSL
-PHPU_OPENSSL_PKGCONFIG_PATH_10="/usr/local/ssl/lib/pkgconfig/"
-PHPU_OPENSSL_PKGCONFIG_PATH_11="/usr/local/lib64/pkgconfig/"
-PHPU_OPENSSL_VERSION=10
+# OpenSSL base dir
+PHPU_OPENSSL_BASE_DIR="/usr/local/ssl"
+# The directory prefix for version 1.0.x is empty
+PHPU_OPENSSL_VERSION_DIR=""
 
 # show error
 function error {
@@ -324,8 +324,8 @@ function phpu_conf {
     cp "$PHPU_INI_FILE_SRC" "$PHPU_INI_FILE"
   fi
   # check if pkg config path for OpenSSL 1.1 should be used
-  if [[ "$*" =~ "openssl11" ]]; then
-    PHPU_OPENSSL_VERSION=11
+  if [[ "$*" =~ "openssl110" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=110
   fi
   # extra options for configure
   PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_ETC"
@@ -394,7 +394,7 @@ function phpu_conf {
     rm config.cache
   fi
   ./buildconf --force
-  _phpu_configure $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_ACTIVE_OPT"`
+ _phpu_configure $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_ACTIVE_OPT"`
 }
 
 
@@ -512,7 +512,7 @@ function phpu_use {
     if $PHPU_MAKE_J && sudo make install ; then
       # check if OpenSSL 1.1 is used and if so set version variable
       if php -i | grep -q 'OpenSSL 1.1.0'; then
-        PHPU_OPENSSL_VERSION=11
+        PHPU_OPENSSL_VERSION_DIR=110
       fi
       # compile dynamic extension
       while read PHPU_EXT_NAME PHPU_EXT_TYPE PHPU_EXT_OPT1 PHPU_EXT_OPT2 PHPU_EXT_OPT3; do
@@ -602,11 +602,7 @@ function phpu_pkg_config {
     shift
     case $PHPU_PKG in
       ssl)
-        if [[ $PHPU_OPENSSL_VERSION == "11" ]]; then
-          PKG_CONFIG_PATH="$PHPU_OPENSSL_PKGCONFIG_PATH_11" $@
-        else
-          PKG_CONFIG_PATH="$PHPU_OPENSSL_PKGCONFIG_PATH_10" $@
-        fi
+        PKG_CONFIG_PATH="$PHPU_OPENSSL_BASE_DIR$PHPU_OPENSSL_VERSION_DIR/lib/pkgconfig" $@
         ;;
       *)
         echo "Unknown PKG_CONFIG_PATH for $PHPU_PKG"
