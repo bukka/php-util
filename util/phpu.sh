@@ -509,11 +509,12 @@ function phpu_use {
     phpu_ld_path
     # copy ini from conf/ to the live config dir
     sudo cp $PHPU_INI_FILE "$PHPU_ETC"
-    # check if OpenSSL 1.1 is used and if so set version variable
-    if php -i | awk '{ if (found) print $0; else if ($0 == "openssl") found = 1; }' | grep -q 'OpenSSL 1.1.0'; then
-      PHPU_OPENSSL_VERSION_DIR=110
-    fi
+    # compile and install php-src
     if $PHPU_MAKE_J && sudo make install ; then
+      # check if OpenSSL 1.1 is used and if so set version variable
+      if php -i | awk '{ if (found) print $0; else if ($0 == "openssl") found = 1; }' | grep -q 'OpenSSL 1.1.0'; then
+        PHPU_OPENSSL_VERSION_DIR=110
+      fi
       # compile dynamic extension
       while read PHPU_EXT_NAME PHPU_EXT_TYPE PHPU_EXT_OPT1 PHPU_EXT_OPT2 PHPU_EXT_OPT3; do
         if [[ $PHPU_EXT_TYPE == 'dynamic' ]]; then
