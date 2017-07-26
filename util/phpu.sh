@@ -55,6 +55,10 @@ PHPU_CONF_EXT_5_2="$PHPU_CONF/ext-5-2.conf"
 PHPU_MASTER="$PHPU_ROOT/master"
 PHPU_MASTER_EXT="$PHPU_MASTER/ext"
 PHPU_MASTER_CLI="$PHPU_MASTER/sapi/cli/php"
+# PHP 7.2 build branch location
+PHPU_72="$PHPU_ROOT/72"
+PHPU_72_EXT="$PHPU_72/ext"
+PHPU_72_CLI="$PHPU_72/sapi/cli/php"
 # PHP 7.1 build branch location
 PHPU_71="$PHPU_ROOT/71"
 PHPU_71_EXT="$PHPU_71/ext"
@@ -135,6 +139,12 @@ function phpu_test_build {
   shift
   export TEST_PHP_EXECUTABLE=$PHPU_BUILD_CLI
   $TEST_PHP_EXECUTABLE $PHPU_BUILD_DIR/run-tests.php $*
+}
+
+# run php 7.2 test(s)
+function phpu_test_72 {
+  export TEST_PHP_EXECUTABLE=$PHPU_72_CLI
+  $TEST_PHP_EXECUTABLE $PHPU_72/run-tests.php $*
 }
 
 # run php 7.1 test(s)
@@ -330,21 +340,21 @@ function phpu_conf {
   # extra options for configure
   PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_ETC"
   PHPU_CURRENT_DIR=$( basename `pwd` )
-  if [[ $PHPU_CURRENT_DIR =~ ^(src|std|sec|master|7|71)$ ]]; then
+  if [[ $PHPU_CURRENT_DIR =~ ^(src|std|sec|master|7|71|72)$ ]]; then
     if [[ ! "$*" =~ "no-debug" ]]; then
       PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-debug"
     fi
     if [[ ! "$*" =~ "no-zts" ]]; then
       PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-maintainer-zts"
     fi
-    if [[ $PHPU_CURRENT_DIR =~ ^(master|7|71)$ ]]; then
+    if [[ $PHPU_CURRENT_DIR =~ ^(master|7|71|72)$ ]]; then
       PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --without-pear"
     fi
   elif [ -n "$PHPU_CONF_OPTS" ]; then
     PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS $PHPU_CONF_OPTS"
   fi
   # set conf active ext and options path
-  if [[ $PHPU_CURRENT_DIR =~ ^(master|7|71)$ ]]; then
+  if [[ $PHPU_CURRENT_DIR =~ ^(master|7|71|72)$ ]]; then
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
     PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_MASTER"
   elif _phpu_branch_version_eq_5_3; then
@@ -473,11 +483,13 @@ function phpu_use {
     elif [[ "$1" == "sec" ]]; then
        cd "$PHPU_SEC"
       _phpu_init_install_vars sec
-    elif [[ "$1" =~ ^(master|7|71)$ ]]; then
+    elif [[ "$1" =~ ^(master|7|71|72)$ ]]; then
       if [[ "$1" == "7" ]]; then
         cd "$PHPU_7"
       elif [[ "$1" == "71" ]]; then
         cd "$PHPU_71"
+      elif [[ "$1" == "72" ]]; then
+        cd "$PHPU_72"
       else
         cd "$PHPU_MASTER"
       fi
@@ -561,6 +573,9 @@ function phpu_update {
       ;;
     "71")
       cd "$PHPU_71"
+      ;;
+    "72")
+      cd "$PHPU_72"
       ;;
     *)
       echo "Unknown branch to update"
@@ -649,6 +664,9 @@ case $PHPU_ACTION in
     ;;
   test_71)
     phpu_test_71 $@
+    ;;
+  test_72)
+    phpu_test_72 $@
     ;;
   test_master)
     phpu_test_master $@
