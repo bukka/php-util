@@ -45,6 +45,8 @@ PHPU_ETC=/usr/local/etc
 PHPU_CONF="$PHPU_ROOT/conf"
 PHPU_CONF_OPT="$PHPU_CONF/options.conf"
 PHPU_CONF_OPT_MASTER="$PHPU_CONF/options-master.conf"
+PHPU_CONF_OPT_7="$PHPU_CONF/options-7.conf"
+PHPU_CONF_OPT_5="$PHPU_CONF/options-5.conf"
 PHPU_CONF_OPT_5_3="$PHPU_CONF/options-5-3.conf"
 PHPU_CONF_OPT_5_2="$PHPU_CONF/options-5-2.conf"
 PHPU_CONF_EXT="$PHPU_CONF/ext.conf"
@@ -354,9 +356,12 @@ function phpu_conf {
     PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS $PHPU_CONF_OPTS"
   fi
   # set conf active ext and options path
-  if [[ $PHPU_CURRENT_DIR =~ ^(master|7|71|72)$ ]]; then
+  if [[ $PHPU_CURRENT_DIR == master ]]; then
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
     PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_MASTER"
+  elif [[ $PHPU_CURRENT_DIR =~ ^(7|71|72)$ ]]; then
+    PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
+    PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_7"
   elif _phpu_branch_version_eq_5_3; then
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_5_3"
     PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_5_3"
@@ -365,7 +370,7 @@ function phpu_conf {
     PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_5_2"
   else
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT"
-    PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT"
+    PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_5"
   fi
   # modify ld path
   phpu_ld_path
