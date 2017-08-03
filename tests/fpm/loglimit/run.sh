@@ -1,1 +1,1 @@
-php-fpm -F -y fpm.conf
+exec php-fpm -F -y fpm.conf

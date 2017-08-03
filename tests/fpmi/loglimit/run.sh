@@ -1,1 +1,1 @@
-php-fpmi -F -y fpmi.conf
+exec php-fpmi -F -y fpmi.conf
