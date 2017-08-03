@@ -1,5 +1,6 @@
 apps/
 build/
+composer/
 cpp/
 ext/
 runtest/
