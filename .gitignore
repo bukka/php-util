@@ -16,9 +16,11 @@ test/
 doc/
 web/
 pickle/
+phalcon/
 libs/
 phd/
 valgrind/
 xdebug/
 output/
 bench/
+zephir/
