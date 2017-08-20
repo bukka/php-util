@@ -1,0 +1,9 @@
+PHP Warning:  fsockopen(): unable to connect to 127.0.0.1:9012 (Connection refused) in /home/jakub/prog/php/tests/fpm/fcgi.php on line 255
+PHP Fatal error:  Uncaught Exception: Unable to connect to FastCGI application: Connection refused in /home/jakub/prog/php/tests/fpm/fcgi.php:259
+Stack trace:
+#0 /home/jakub/prog/php/tests/fpm/fcgi.php(455): Adoy\FastCGI\Client->connect()
+#1 /home/jakub/prog/php/tests/fpm/fcgi.php(434): Adoy\FastCGI\Client->async_request(Array, false)
+#2 /home/jakub/prog/php/tests/fpm/include.php(129): Adoy\FastCGI\Client->request(Array, false)
+#3 /home/jakub/prog/php/tests/fpm/client.php(11): run_request('127.0.0.1', 9012, '/home/jakub/lin...')
+#4 {main}
+  thrown in /home/jakub/prog/php/tests/fpm/fcgi.php on line 259
