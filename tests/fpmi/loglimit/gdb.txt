@@ -1,0 +1,1 @@
+gdb -i=mi --args /home/jakub/prog/php/master/sapi/fpmi/php-fpmi -F -y /home/jakub/prog/php/tests/fpmi/loglimit/fpmi.conf
