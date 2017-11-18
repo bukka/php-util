@@ -192,7 +192,7 @@ function phpu_test_live {
   if [ -f "$PHPU_GIT_TOP_LEVEL/run-tests.php" ]; then
     PHPU_RUN_TEST_LIVE_PATH=$PHPU_GIT_TOP_LEVEL/run-tests.php
   else
-    PHPU_RUN_TEST_LIVE_PATH=$PHPU_SRC/run-tests.php
+    PHPU_RUN_TEST_LIVE_PATH=$PHPU_MASTER/run-tests.php
   fi
   $TEST_PHP_EXECUTABLE $PHPU_RUN_TEST_LIVE_PATH $*
 }
