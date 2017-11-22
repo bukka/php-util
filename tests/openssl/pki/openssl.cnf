@@ -3,7 +3,7 @@ default_ca = CA_default
 
 [ CA_default ]
 # Directory and file locations.
-dir               = ./
+dir               = .
 certs             = $dir/certs
 new_certs_dir     = $dir/newcerts
 database          = $dir/index.txt
@@ -11,7 +11,7 @@ serial            = $dir/serial
 RANDFILE          = $dir/private/.rand
 
 # The root key and root certificate.
-private_key       = $dir/private/ca.key.pem
+private_key       = $dir/private/ca.key.rsa-4096.pem
 certificate       = $dir/certs/ca.cert.pem
 
 # SHA-1 is deprecated, so use SHA-2 instead.
