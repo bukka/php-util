@@ -6,5 +6,7 @@ else
   log_type=buffered
 fi
 
+cmd="php-fpmi -F -y fpmi-log-$log_type.conf"
 
-exec php-fpmi -F -y fpmi-log-$log_type.conf
+echo $cmd
+exec $cmd
