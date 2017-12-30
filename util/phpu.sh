@@ -551,7 +551,7 @@ function phpu_use {
         fi
       done < "$PHPU_CONF_ACTIVE_EXT"
       # restart httpd server
-      if [[ "$1" != "master" ]] && [[ "$1" != "7" ]]; then
+      if ! [[ "$1" =~ ^(master|7|71|72)$ ]]; then
         sudo $PHPU_HTTPD_RESTART
       fi
     fi
