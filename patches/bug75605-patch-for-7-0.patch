@@ -1,0 +1,85 @@
+From a25f0abd65e396f78b72425dd2589a424c0ff2cd Mon Sep 17 00:00:00 2001
+From: Jakub Zelenka <bukka@php.net>
+Date: Fri, 16 Mar 2018 20:23:24 +0000
+Subject: [PATCH] Do not set PR_SET_DUMPABLE by default
+
+---
+ sapi/fpm/fpm/fpm_conf.c | 3 +++
+ sapi/fpm/fpm/fpm_conf.h | 1 +
+ sapi/fpm/fpm/fpm_unix.c | 2 +-
+ sapi/fpm/www.conf.in    | 6 ++++++
+ 4 files changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/sapi/fpm/fpm/fpm_conf.c b/sapi/fpm/fpm/fpm_conf.c
+index 2e5effebc0..2db7fa0fdf 100644
+--- a/sapi/fpm/fpm/fpm_conf.c
++++ b/sapi/fpm/fpm/fpm_conf.c
+@@ -132,6 +132,7 @@ static struct ini_value_parser_s ini_fpm_pool_options[] = {
+ 	{ "listen.mode",               &fpm_conf_set_string,      WPO(listen_mode) },
+ 	{ "listen.allowed_clients",    &fpm_conf_set_string,      WPO(listen_allowed_clients) },
+ 	{ "process.priority",          &fpm_conf_set_integer,     WPO(process_priority) },
++	{ "process.dumpable",          &fpm_conf_set_boolean,     WPO(process_dumpable) },
+ 	{ "pm",                        &fpm_conf_set_pm,          WPO(pm) },
+ 	{ "pm.max_children",           &fpm_conf_set_integer,     WPO(pm_max_children) },
+ 	{ "pm.start_servers",          &fpm_conf_set_integer,     WPO(pm_start_servers) },
+@@ -613,6 +614,7 @@ static void *fpm_worker_pool_config_alloc() /* {{{ */
+ 	wp->config->listen_backlog = FPM_BACKLOG_DEFAULT;
+ 	wp->config->pm_process_idle_timeout = 10; /* 10s by default */
+ 	wp->config->process_priority = 64; /* 64 means unset */
++	wp->config->process_dumpable = 0;
+ 	wp->config->clear_env = 1;
+ 
+ 	if (!fpm_worker_all_pools) {
+@@ -1621,6 +1623,7 @@ static void fpm_conf_dump() /* {{{ */
+ 		} else {
+ 			zlog(ZLOG_NOTICE, "\tprocess.priority = %d", wp->config->process_priority);
+ 		}
++		zlog(ZLOG_NOTICE, "\tprocess.dumpable = %s",           BOOL2STR(wp->config->process_dumpable));
+ 		zlog(ZLOG_NOTICE, "\tpm = %s",                         PM2STR(wp->config->pm));
+ 		zlog(ZLOG_NOTICE, "\tpm.max_children = %d",            wp->config->pm_max_children);
+ 		zlog(ZLOG_NOTICE, "\tpm.start_servers = %d",           wp->config->pm_start_servers);
+diff --git a/sapi/fpm/fpm/fpm_conf.h b/sapi/fpm/fpm/fpm_conf.h
+index 540b22795d..4021cbc2e3 100644
+--- a/sapi/fpm/fpm/fpm_conf.h
++++ b/sapi/fpm/fpm/fpm_conf.h
+@@ -64,6 +64,7 @@ struct fpm_worker_pool_config_s {
+ 	char *listen_mode;
+ 	char *listen_allowed_clients;
+ 	int process_priority;
++	int process_dumpable;
+ 	int pm;
+ 	int pm_max_children;
+ 	int pm_start_servers;
+diff --git a/sapi/fpm/fpm/fpm_unix.c b/sapi/fpm/fpm/fpm_unix.c
+index 6089e3109e..44f8df3111 100644
+--- a/sapi/fpm/fpm/fpm_unix.c
++++ b/sapi/fpm/fpm/fpm_unix.c
+@@ -398,7 +398,7 @@ int fpm_unix_init_child(struct fpm_worker_pool_s *wp) /* {{{ */
+ 	}
+ 
+ #ifdef HAVE_PRCTL
+-	if (0 > prctl(PR_SET_DUMPABLE, 1, 0, 0, 0)) {
++	if (wp->config->process_dumpable && 0 > prctl(PR_SET_DUMPABLE, 1, 0, 0, 0)) {
+ 		zlog(ZLOG_SYSERROR, "[pool %s] failed to prctl(PR_SET_DUMPABLE)", wp->config->name);
+ 	}
+ #endif
+diff --git a/sapi/fpm/www.conf.in b/sapi/fpm/www.conf.in
+index 975d18cffe..df2c7c3dac 100644
+--- a/sapi/fpm/www.conf.in
++++ b/sapi/fpm/www.conf.in
+@@ -69,6 +69,12 @@ listen = 127.0.0.1:9000
+ ; Default Value: no set
+ ; process.priority = -19
+ 
++; Set the process dumpable flag (PR_SET_DUMPABLE prctl) even if the process user
++; or group is differrent than the master process user. It allows to create process
++; core dump and ptrace the process for the pool user.
++; Default Value: no
++; process.dumpable = yes
++
+ ; Choose how the process manager will control the number of child processes.
+ ; Possible Values:
+ ;   static  - a fixed number (pm.max_children) of child processes;
+-- 
+2.14.3
+
