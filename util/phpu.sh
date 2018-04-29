@@ -338,6 +338,8 @@ function phpu_conf {
   # check if pkg config path for OpenSSL 1.1 should be used
   if [[ "$*" =~ "openssl110" ]]; then
     PHPU_OPENSSL_VERSION_DIR=110
+  elif [[ "$*" =~ "openssl111" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=111
   fi
   # extra options for configure
   PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_ETC"
@@ -531,6 +533,8 @@ function phpu_use {
       # check if OpenSSL 1.1 is used and if so set version variable
       if php -i | awk '{ if (found) print $0; else if ($0 == "openssl") found = 1; }' | grep -q 'OpenSSL 1.1.0'; then
         PHPU_OPENSSL_VERSION_DIR=110
+      elif php -i | awk '{ if (found) print $0; else if ($0 == "openssl") found = 1; }' | grep -q 'OpenSSL 1.1.1'; then
+        PHPU_OPENSSL_VERSION_DIR=111
       fi
       # compile dynamic extension
       while read PHPU_EXT_NAME PHPU_EXT_TYPE PHPU_EXT_OPT1 PHPU_EXT_OPT2 PHPU_EXT_OPT3; do
