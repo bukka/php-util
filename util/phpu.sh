@@ -91,9 +91,9 @@ PHPU_DOC_HTML="$PHPU_DOC/output/php-chunked-xhtml"
 PHPU_DOC_RESULT="$PHPU_DOC/result"
 PHPU_DOC_REFERENCE="$PHPU_DOC/en/reference"
 # OpenSSL base dir
-PHPU_OPENSSL_BASE_DIR="/usr/local/ssl"
+PHPU_OPENSSL_BASE_DIR="/usr/local/"
 # The directory prefix for version 1.0.x is empty
-PHPU_OPENSSL_VERSION_DIR=""
+PHPU_OPENSSL_VERSION_DIR="ssl"
 
 # show error
 function error {
@@ -337,9 +337,15 @@ function phpu_conf {
   fi
   # check if pkg config path for OpenSSL 1.1 should be used
   if [[ "$*" =~ "openssl110" ]]; then
-    PHPU_OPENSSL_VERSION_DIR=110
+    PHPU_OPENSSL_VERSION_DIR=ssl110
   elif [[ "$*" =~ "openssl111" ]]; then
-    PHPU_OPENSSL_VERSION_DIR=111
+    PHPU_OPENSSL_VERSION_DIR=ssl111
+  elif [[ "$*" =~ "libressl25" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=libressl25
+  elif [[ "$*" =~ "libressl26" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=libressl26
+  elif [[ "$*" =~ "libressl27" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=libressl27
   fi
   # extra options for configure
   PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_ETC"
@@ -532,9 +538,9 @@ function phpu_use {
     if $PHPU_MAKE_J && sudo make install ; then
       # check if OpenSSL 1.1 is used and if so set version variable
       if php -i | awk '{ if (found) print $0; else if ($0 == "openssl") found = 1; }' | grep -q 'OpenSSL 1.1.0'; then
-        PHPU_OPENSSL_VERSION_DIR=110
+        PHPU_OPENSSL_VERSION_DIR=ssl110
       elif php -i | awk '{ if (found) print $0; else if ($0 == "openssl") found = 1; }' | grep -q 'OpenSSL 1.1.1'; then
-        PHPU_OPENSSL_VERSION_DIR=111
+        PHPU_OPENSSL_VERSION_DIR=ssl111
       fi
       # compile dynamic extension
       while read PHPU_EXT_NAME PHPU_EXT_TYPE PHPU_EXT_OPT1 PHPU_EXT_OPT2 PHPU_EXT_OPT3; do
