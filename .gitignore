@@ -4,6 +4,7 @@ composer/
 cpp/
 ext/
 runtest/
+/conf/pull-request
 /src/
 /std/
 /sec/
@@ -26,3 +27,4 @@ bench/
 zephir/
 fpmti/
 fpmb/
+
