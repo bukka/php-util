@@ -1,5 +1,6 @@
 <?php
 
+$pid = getmypid();
 exec("lsof -p $pid | grep pipe", $output);
 var_dump($output);
 $fd = preg_split('/\s+/', $output[count($output) - 1])[7];
