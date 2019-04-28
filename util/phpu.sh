@@ -580,6 +580,8 @@ function phpu_use {
               make clean
               make distclean
             fi
+            rm -f configure.in
+            rm -f aclocal.m4
             phpize
             _phpu_configure $PHPU_EXT_OPT1 $PHPU_EXT_OPT2 $PHPU_EXT_OPT3
             $PHPU_MAKE_J && sudo make install
