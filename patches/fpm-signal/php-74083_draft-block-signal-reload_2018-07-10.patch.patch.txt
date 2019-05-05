@@ -1,0 +1,131 @@
+diff -Naur php-7.2.7.orig/sapi/fpm/fpm/fpm_main.c php-7.2.7/sapi/fpm/fpm/fpm_main.c
+--- php-7.2.7.orig/sapi/fpm/fpm/fpm_main.c	2018-06-19 14:40:10.000000000 +0000
++++ php-7.2.7/sapi/fpm/fpm/fpm_main.c	2018-07-10 10:31:13.493646736 +0000
+@@ -109,6 +109,10 @@
+ #include "fpm_log.h"
+ #include "zlog.h"
+ 
++#if HAVE_SIGNAL_H
++# include "fpm_signals.h"
++#endif
++
+ #ifndef PHP_WIN32
+ /* XXX this will need to change later when threaded fastcgi is implemented.  shane */
+ struct sigaction act, old_term, old_quit, old_int;
+@@ -1604,6 +1608,15 @@
+ 								closes it.  in apache|apxs mode apache
+ 								does that for us!  thies@thieso.net
+ 								20000419 */
++
++	/* SIGHUP is debian-specific, see debian/patches/0034-php-fpm-do-reload-on-SIGHUP.patch */
++	/* Subset of signals from fpm_signals_init_main() to avoid unexpected death during early init
++		or during reload just after execvp() */
++	int init_signal_array[] = { SIGUSR1, SIGUSR2, SIGHUP, SIGCHLD };
++	if (0 > fpm_signals_init_mask(init_signal_array, sizeof(init_signal_array)/sizeof(init_signal_array[0])) ||
++	    0 > fpm_signals_block()) {
++		zlog(ZLOG_WARNING, "Could die in the case of too early reload signal");
++	}
+ #endif
+ #endif
+ 
+diff -Naur php-7.2.7.orig/sapi/fpm/fpm/fpm_process_ctl.c php-7.2.7/sapi/fpm/fpm/fpm_process_ctl.c
+--- php-7.2.7.orig/sapi/fpm/fpm/fpm_process_ctl.c	2018-06-19 14:40:10.000000000 +0000
++++ php-7.2.7/sapi/fpm/fpm/fpm_process_ctl.c	2018-07-10 10:31:13.493646736 +0000
+@@ -79,6 +79,9 @@
+ 
+ static void fpm_pctl_exec() /* {{{ */
+ {
++	if (0 > fpm_signals_block()) {
++		zlog(ZLOG_WARNING, "concurrent reloads may be unstable");
++	}
+ 
+ 	zlog(ZLOG_NOTICE, "reloading: execvp(\"%s\", {\"%s\""
+ 			"%s%s%s" "%s%s%s" "%s%s%s" "%s%s%s" "%s%s%s"
+diff -Naur php-7.2.7.orig/sapi/fpm/fpm/fpm_signals.c php-7.2.7/sapi/fpm/fpm/fpm_signals.c
+--- php-7.2.7.orig/sapi/fpm/fpm/fpm_signals.c	2018-06-19 14:40:10.000000000 +0000
++++ php-7.2.7/sapi/fpm/fpm/fpm_signals.c	2018-07-10 10:31:13.493646736 +0000
+@@ -21,6 +21,7 @@
+ #include "zlog.h"
+ 
+ static int sp[2];
++static sigset_t block_sigset;
+ 
+ const char *fpm_signal_names[NSIG + 1] = {
+ #ifdef SIGHUP
+@@ -212,6 +213,10 @@
+ 		zlog(ZLOG_SYSERROR, "failed to init signals: sigaction()");
+ 		return -1;
+ 	}
++
++	if (0 > fpm_signals_unblock()) {
++		return -1;
++	}
+ 	return 0;
+ }
+ /* }}} */
+@@ -253,3 +258,52 @@
+ }
+ /* }}} */
+ 
++int fpm_signals_init_mask(int *signum_array, size_t size) /* {{{ */
++{
++	size_t i = 0;
++	if (0 > sigemptyset(&block_sigset)) {
++		zlog(ZLOG_SYSERROR, "failed to prepare signal block mask: sigemptyset()");
++		return -1;
++	}
++	for (i = 0; i < size; ++i) {
++		int sig_i = signum_array[i];
++		if (0 > sigaddset(&block_sigset, sig_i)) {
++			if (sig_i <= NSIG && fpm_signal_names[sig_i] != NULL) {
++				zlog(ZLOG_SYSERROR, "failed to prepare signal block mask: sigaddset(%s)",
++						fpm_signal_names[sig_i]);
++			} else {
++				zlog(ZLOG_SYSERROR, "failed to prepare signal block mask: sigaddset(%d)", sig_i);
++			}
++			return -1;
++		}
++	}
++	return 0;
++}
++/* }}} */
++
++int fpm_signals_block() /* {{{ */
++{
++	zlog(ZLOG_DEBUG, "Blocking some signals");
++	if (0 > sigprocmask(SIG_BLOCK, &block_sigset, NULL)) {
++		zlog(ZLOG_SYSERROR, "failed to block signals");
++		return -1;
++	}
++	return 0;
++}
++/* }}} */
++
++int fpm_signals_unblock() /* {{{ */
++{
++	/* Ensure that during reload after upgrade all signals are unblocked.
++		block_sigset could have different value before execve() */
++	zlog(ZLOG_DEBUG, "Unblocking all signals");
++	sigset_t all_signals;
++	sigfillset(&all_signals);
++	if (0 > sigprocmask(SIG_UNBLOCK, &all_signals, NULL)) {
++		zlog(ZLOG_SYSERROR, "failed to unblock signals");
++		return -1;
++	}
++	return 0;
++}
++/* }}} */
++
+diff -Naur php-7.2.7.orig/sapi/fpm/fpm/fpm_signals.h php-7.2.7/sapi/fpm/fpm/fpm_signals.h
+--- php-7.2.7.orig/sapi/fpm/fpm/fpm_signals.h	2018-06-19 14:40:10.000000000 +0000
++++ php-7.2.7/sapi/fpm/fpm/fpm_signals.h	2018-07-10 10:31:13.493646736 +0000
+@@ -10,6 +10,9 @@
+ int fpm_signals_init_main();
+ int fpm_signals_init_child();
+ int fpm_signals_get_fd();
++int fpm_signals_init_mask(int *signum_array, size_t size);
++int fpm_signals_block();
++int fpm_signals_unblock();
+ 
+ extern const char *fpm_signal_names[NSIG + 1];
+ 

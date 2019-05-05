@@ -1,0 +1,131 @@
+Fix php-fpm failure after concurrent reload attempts. Bug #76601
+
+Postpone signal delivery while spawning children. Prevent the following case:
+* Reload (reexec) is in progress.
+* New master is forking to start enough children for pools where pm is not on-demand.
+* Another SIGUSR2 is received by master process.
+* Master process switches to reloading state.
+* Some child has not set its own signal handlers.
+* SIGQUIT and SIGTERM sent by master process a caught by signal handler
+  set by master process and so they are ignored.
+* A child is running, it has no reason to finish
+* Master process is waiting for completion of all its children.
+* SIGKILL is not scheduled after SIGTERM due to a bug around of reusing
+  the same timer in the event loop (see another patch).
+* Reload has stuck.
+* No incoming requests are processed besides ones handled by a few of survived children.
+* Event loop is running however, systemd is receiving alive notification.
+* New reload attempts do not change the state of master process.
+* Most of web sites are unavailable.
+
+Use sigprocmask() around fork() to avoid race of delivery signal to children
+and setting of own signal handlers.
+
+Index: php-7.2.11/sapi/fpm/fpm/fpm_children.c
+===================================================================
+--- php-7.2.11.orig/sapi/fpm/fpm/fpm_children.c
++++ php-7.2.11/sapi/fpm/fpm/fpm_children.c
+@@ -398,6 +398,11 @@ int fpm_children_make(struct fpm_worker_
+ 			return 2;
+ 		}
+ 
++		zlog(ZLOG_DEBUG, "blocking signals before child birth");
++		if (0 > fpm_signals_child_block()) {
++			zlog(ZLOG_WARNING, "child may miss signals");
++		}
++
+ 		pid = fork();
+ 
+ 		switch (pid) {
+@@ -409,12 +414,16 @@ int fpm_children_make(struct fpm_worker_
+ 				return 0;
+ 
+ 			case -1 :
++				zlog(ZLOG_DEBUG, "unblocking signals");
++				fpm_signals_unblock();
+ 				zlog(ZLOG_SYSERROR, "fork() failed");
+ 
+ 				fpm_resources_discard(child);
+ 				return 2;
+ 
+ 			default :
++				zlog(ZLOG_DEBUG, "unblocking signals, child born");
++				fpm_signals_unblock();
+ 				child->pid = pid;
+ 				fpm_clock_get(&child->started);
+ 				fpm_parent_resources_use(child);
+Index: php-7.2.11/sapi/fpm/fpm/fpm_signals.c
+===================================================================
+--- php-7.2.11.orig/sapi/fpm/fpm/fpm_signals.c
++++ php-7.2.11/sapi/fpm/fpm/fpm_signals.c
+@@ -22,6 +22,7 @@
+ 
+ static int sp[2];
+ static sigset_t block_sigset;
++static sigset_t child_block_sigset;
+ 
+ const char *fpm_signal_names[NSIG + 1] = {
+ #ifdef SIGHUP
+@@ -169,7 +170,8 @@ static void sig_handler(int signo) /* {{
+ 
+ 	if (fpm_globals.parent_pid != getpid()) {
+ 		/* prevent a signal race condition when child process
+-			have not set up it's own signal handler yet */
++			do not set up it's own sigprocmask for some reason,
++			leads to #76601 in such cases */
+ 		return;
+ 	}
+ 
+@@ -249,6 +251,10 @@ int fpm_signals_init_child() /* {{{ */
+ 	}
+ 
+ 	zend_signal_init();
++
++	if (0 > fpm_signals_unblock()) {
++		return -1;
++	}
+ 	return 0;
+ }
+ /* }}} */
+@@ -278,6 +284,12 @@ int fpm_signals_init_mask(int *signum_ar
+ 			return -1;
+ 		}
+ 	}
++	memcpy(&child_block_sigset, &block_sigset, sizeof(block_sigset));
++	if (0 > sigaddset(&child_block_sigset, SIGTERM) ||
++	    0 > sigaddset(&child_block_sigset, SIGQUIT)) {
++		zlog(ZLOG_SYSERROR, "failed to prepare child signal block mask: sigaddset()");
++		return -1;
++	}
+ 	return 0;
+ }
+ /* }}} */
+@@ -289,6 +301,16 @@ int fpm_signals_block() /* {{{ */
+ 		return -1;
+ 	}
+ 	return 0;
++}
++/* }}} */
++
++int fpm_signals_child_block() /* {{{ */
++{
++	if (0 > sigprocmask(SIG_BLOCK, &child_block_sigset, NULL)) {
++		zlog(ZLOG_SYSERROR, "failed to block child signals");
++		return -1;
++	}
++	return 0;
+ }
+ /* }}} */
+ 
+Index: php-7.2.11/sapi/fpm/fpm/fpm_signals.h
+===================================================================
+--- php-7.2.11.orig/sapi/fpm/fpm/fpm_signals.h
++++ php-7.2.11/sapi/fpm/fpm/fpm_signals.h
+@@ -12,6 +12,7 @@ int fpm_signals_init_child();
+ int fpm_signals_get_fd();
+ int fpm_signals_init_mask(int *signum_array, size_t size);
+ int fpm_signals_block();
++int fpm_signals_child_block();
+ int fpm_signals_unblock();
+ 
+ extern const char *fpm_signal_names[NSIG + 1];

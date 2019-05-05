@@ -1,0 +1,12 @@
+diff -Naur php-7.2.7.orig/sapi/fpm/fpm/fpm_process_ctl.c php-7.2.7/sapi/fpm/fpm/fpm_process_ctl.c
+--- php-7.2.7.orig/sapi/fpm/fpm/fpm_process_ctl.c	2018-06-19 14:40:10.000000000 +0000
++++ php-7.2.7/sapi/fpm/fpm/fpm_process_ctl.c	2018-07-11 07:44:30.653291045 +0000
+@@ -59,7 +59,7 @@
+ 
+ static int fpm_pctl_timeout_set(int sec) /* {{{ */
+ {
+-	fpm_event_set_timer(&pctl_event, 0, &fpm_pctl_action, NULL);
++	fpm_event_set_timer(&pctl_event, FPM_EV_PERSIST, &fpm_pctl_action, NULL);
+ 	fpm_event_add(&pctl_event, sec * 1000);
+ 	return 0;
+ }

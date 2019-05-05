@@ -1,0 +1,39 @@
+Fix php-fpm failure after concurrent reload attempts. Bug #76601
+
+Avoid discarding of the timer that should send SIGKILL to children after
+SIGTERM is sent. Prevent the following case:
+* Reload (reexec) is in progress.
+* New master is forking to start enough children for pools where pm is not on-demand.
+* Another SIGUSR2 is received by master process.
+* Master process switches to reloading state.
+* Some child has not set its own signal handlers.
+* SIGQUIT and SIGTERM sent by master process a caught by signal handler
+  set by master process and so they are ignored (see another patch).
+* A child is running, it has no reason to finish
+* Master process is waiting for completion of all its children.
+* SIGKILL is not scheduled after SIGTERM due to a bug around of reusing
+  the same event and handler in the event loop.
+* Reload has stuck.
+* No incoming requests are processed besides ones handled by a few of survived children.
+* Event loop is running however, systemd is receiving alive notification.
+* New reload attempts do not change the state of master process.
+* Most of web sites are unavailable.
+
+Use persistent timer since rescheduling is not possible
+in the current implementation of the event loop. It should
+be no harm to repeatedly send SIGKILL while some children
+are alive.
+
+Index: php-7.2.11/sapi/fpm/fpm/fpm_process_ctl.c
+===================================================================
+--- php-7.2.11.orig/sapi/fpm/fpm/fpm_process_ctl.c
++++ php-7.2.11/sapi/fpm/fpm/fpm_process_ctl.c
+@@ -59,7 +59,7 @@ static void fpm_pctl_action(struct fpm_e
+ 
+ static int fpm_pctl_timeout_set(int sec) /* {{{ */
+ {
+-	fpm_event_set_timer(&pctl_event, 0, &fpm_pctl_action, NULL);
++	fpm_event_set_timer(&pctl_event, FPM_EV_PERSIST, &fpm_pctl_action, NULL);
+ 	fpm_event_add(&pctl_event, sec * 1000);
+ 	return 0;
+ }
