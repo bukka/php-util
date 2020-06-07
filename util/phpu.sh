@@ -382,7 +382,11 @@ function phpu_conf {
       PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-debug"
     fi
     if [[ ! "$*" =~ "no-zts" ]]; then
-      PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-maintainer-zts"
+      if [[ $PHPU_CURRENT_DIR =~ ^(src|std|sec|7|71|72|73|74)$ ]]; then
+        PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-maintainer-zts"
+      else
+        PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-zts"
+      fi
     fi
     if [[ $PHPU_CURRENT_DIR =~ ^(master|7|71|72|73)$ ]]; then
       PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --without-pear"
