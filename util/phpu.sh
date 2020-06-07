@@ -357,7 +357,11 @@ function phpu_conf {
     cp "$PHPU_INI_FILE_SRC" "$PHPU_INI_FILE"
   fi
   # check if pkg config path for OpenSSL 1.1 should be used
-  if [[ "$*" =~ "openssl110" ]]; then
+  if [[ "$*" =~ "openssl101" ]]; then
+     PHPU_OPENSSL_VERSION_DIR=ssl101
+  elif [[ "$*" =~ "openssl102" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=ssl102
+  elif [[ "$*" =~ "openssl110" ]]; then
     PHPU_OPENSSL_VERSION_DIR=ssl110
   elif [[ "$*" =~ "openssl111" ]]; then
     PHPU_OPENSSL_VERSION_DIR=ssl111
@@ -367,6 +371,8 @@ function phpu_conf {
     PHPU_OPENSSL_VERSION_DIR=libressl26
   elif [[ "$*" =~ "libressl27" ]]; then
     PHPU_OPENSSL_VERSION_DIR=libressl27
+  else
+    PHPU_OPENSSL_VERSION_DIR=ssl111
   fi
   # extra options for configure
   PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_ETC"
