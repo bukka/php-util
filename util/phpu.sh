@@ -399,10 +399,10 @@ function phpu_conf {
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
     PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_MASTER"
   elif [[ $PHPU_CURRENT_DIR == 74 ]]; then
-    PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
+    PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT"
     PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_74"
   elif [[ $PHPU_CURRENT_DIR =~ ^(7|71|72|73)$ ]]; then
-    PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
+    PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT"
     PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_7"
   elif _phpu_branch_version_eq_5_3; then
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_5_3"
@@ -543,8 +543,8 @@ function phpu_use {
         cd "$PHPU_74"
       else
         cd "$PHPU_MASTER"
+        PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
       fi
-      PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
       _phpu_init_install_vars
     else
       # otherwis check if the build exists
