@@ -400,8 +400,8 @@ function phpu_conf {
         PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-zts"
       fi
     fi
-    if [[ $PHPU_CURRENT_DIR =~ ^(master|7|71|72|73)$ ]]; then
-      PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --without-pear"
+    if [[ $PHPU_CURRENT_DIR =~ ^(src|std|sec|7|71|72|73|74)$ ]]; then
+      PHPU_EXT_LIB_EXTENSION=".so"
     fi
   elif [ -n "$PHPU_CONF_OPTS" ]; then
     PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS $PHPU_CONF_OPTS"
@@ -435,7 +435,7 @@ function phpu_conf {
   while read PHPU_EXT_NAME PHPU_EXT_TYPE PHPU_EXT_OPT1 PHPU_EXT_OPT2 PHPU_EXT_OPT3; do
     PHPU_EXT_DIR="$PHPU_EXT/$PHPU_EXT_NAME"
     if [ -d "$PHPU_EXT_DIR" ]; then
-      PHPU_EXT_LIB="$PHPU_EXT_NAME.so"
+      PHPU_EXT_LIB="$PHPU_EXT_NAME$PHPU_EXT_LIB_EXTENSION"
       PHPU_SRC_EXT_DIR="$PHPU_SRC_EXT/$PHPU_EXT_NAME"
       # delete source ext dir
       if [ -d "$PHPU_SRC_EXT_DIR" ]; then
