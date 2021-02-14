@@ -113,7 +113,6 @@ PHPU_OPENSSL_VERSION_DIR="ssl"
 function error {
   echo "Error: $1" >&2
 }
-
 # show help
 function phpu_help {
   echo "Usage: phpu <command> [<command_arguments>]"
@@ -368,24 +367,6 @@ function phpu_conf {
     fi
     cp "$PHPU_INI_FILE_SRC" "$PHPU_INI_FILE"
   fi
-  # check if pkg config path for OpenSSL 1.1 should be used
-  if [[ "$*" =~ "openssl101" ]]; then
-     PHPU_OPENSSL_VERSION_DIR=ssl101
-  elif [[ "$*" =~ "openssl102" ]]; then
-    PHPU_OPENSSL_VERSION_DIR=ssl102
-  elif [[ "$*" =~ "openssl110" ]]; then
-    PHPU_OPENSSL_VERSION_DIR=ssl110
-  elif [[ "$*" =~ "openssl111" ]]; then
-    PHPU_OPENSSL_VERSION_DIR=ssl111
-  elif [[ "$*" =~ "libressl25" ]]; then
-    PHPU_OPENSSL_VERSION_DIR=libressl25
-  elif [[ "$*" =~ "libressl26" ]]; then
-    PHPU_OPENSSL_VERSION_DIR=libressl26
-  elif [[ "$*" =~ "libressl27" ]]; then
-    PHPU_OPENSSL_VERSION_DIR=libressl27
-  else
-    PHPU_OPENSSL_VERSION_DIR=ssl111
-  fi
   # extra options for configure
   PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_ETC"
   PHPU_CURRENT_DIR=$( basename `pwd` )
@@ -405,6 +386,28 @@ function phpu_conf {
     fi
   elif [ -n "$PHPU_CONF_OPTS" ]; then
     PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS $PHPU_CONF_OPTS"
+  fi
+  # check if pkg config path for OpenSSL 1.1 should be used
+  if [[ "$*" =~ "openssl101" ]]; then
+     PHPU_OPENSSL_VERSION_DIR=ssl101
+  elif [[ "$*" =~ "openssl102" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=ssl102
+  elif [[ "$*" =~ "openssl110" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=ssl110
+  elif [[ "$*" =~ "openssl111" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=ssl111
+  elif [[ "$*" =~ "libressl25" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=libressl25
+  elif [[ "$*" =~ "libressl26" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=libressl26
+  elif [[ "$*" =~ "libressl27" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=libressl27
+  else
+    if [[ $PHPU_CURRENT_DIR =~ ^(src|std|sec)$ ]]; then
+      PHPU_OPENSSL_VERSION_DIR=ssl102
+    else
+      PHPU_OPENSSL_VERSION_DIR=ssl111
+    fi
   fi
   # set conf active ext and options path
   if [[ $PHPU_CURRENT_DIR == master ]]; then
