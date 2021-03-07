@@ -611,6 +611,7 @@ function phpu_use {
               make clean
               make distclean
             fi
+            rm -f configure.ac
             rm -f configure.in
             rm -f aclocal.m4
             phpize
