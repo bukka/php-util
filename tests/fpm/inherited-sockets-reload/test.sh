@@ -12,8 +12,10 @@ for i in {1001..1128}; do
 done
 
 systemctl restart php7.4-fpm
-sleep 1
 rm -f "$pool_d/www_1001.conf"
+date
 systemctl reload php7.4-fpm
 systemctl reload php7.4-fpm
-
+sleep 5
+grep ERROR /var/log/php7.4-fpm.log
+rm -f $pool_d/www_*
