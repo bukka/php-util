@@ -396,6 +396,8 @@ function phpu_conf {
     PHPU_OPENSSL_VERSION_DIR=ssl110
   elif [[ "$*" =~ "openssl111" ]]; then
     PHPU_OPENSSL_VERSION_DIR=ssl111
+  elif [[ "$*" =~ "openssl30" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=ssl30
   elif [[ "$*" =~ "libressl25" ]]; then
     PHPU_OPENSSL_VERSION_DIR=libressl25
   elif [[ "$*" =~ "libressl26" ]]; then
@@ -704,7 +706,12 @@ function phpu_pkg_config {
     shift
     case $PHPU_PKG in
       ssl)
-        PKG_CONFIG_PATH="$PHPU_OPENSSL_BASE_DIR$PHPU_OPENSSL_VERSION_DIR/lib/pkgconfig" $@
+        if [ "$PHPU_OPENSSL_VERSION_DIR" == "ssl30" ]; then
+          PKG_CONFIG_LIB_DIR=lib64
+        else
+          PKG_CONFIG_LIB_DIR=lib
+        fi
+        PKG_CONFIG_PATH="$PHPU_OPENSSL_BASE_DIR$PHPU_OPENSSL_VERSION_DIR/$PKG_CONFIG_LIB_DIR/pkgconfig" $@
         ;;
       *)
         echo "Unknown PKG_CONFIG_PATH for $PHPU_PKG"
