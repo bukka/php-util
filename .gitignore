@@ -29,6 +29,7 @@ xdebug/
 output/
 bench/
 zephir/
+fpmt/
 fpmti/
 fpmb/
 
