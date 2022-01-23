@@ -354,9 +354,9 @@ function _phpu_ext_dynamic_clean {
 function _phpu_configure {
   echo "OPTIONS: $@"
   if [ -n "$PKG_CONFIG_PATH" ]; then
-    ./configure $@
+    ./configure -C $@
   else
-    phpu_pkg_config ssl ./configure $@
+    phpu_pkg_config ssl ./configure -C $@
   fi
 }
 
