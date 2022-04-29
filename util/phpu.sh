@@ -230,6 +230,7 @@ function phpu_test_sec {
 # run live test(s) - use installed php
 function phpu_test_live {
   export TEST_PHP_EXECUTABLE=/usr/local/bin/php
+  export FPM_RUN_RESOURCE_HEAVY_TESTS=1
   PHPU_GIT_TOP_LEVEL=`git rev-parse --show-toplevel`
   if [ -f "$PHPU_GIT_TOP_LEVEL/run-tests.php" ]; then
     PHPU_RUN_TEST_LIVE_PATH=$PHPU_GIT_TOP_LEVEL/run-tests.php
