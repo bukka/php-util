@@ -1,0 +1,3 @@
+<?php
+brokensyntax
+phpinfo();
