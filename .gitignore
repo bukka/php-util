@@ -3,6 +3,8 @@ build/
 composer/
 cpp/
 ext/
+foundation/
+internals/
 runtest/
 /conf/pull-request
 /src/
