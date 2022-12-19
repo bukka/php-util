@@ -116,6 +116,8 @@ PHPU_DOC_REFERENCE="$PHPU_DOC/en/reference"
 PHPU_OPENSSL_BASE_DIR="/usr/local/"
 # The directory prefix for version 1.0.x is empty
 PHPU_OPENSSL_VERSION_DIR="ssl"
+# Dockerfile
+PHPU_DOCKERFILE="$PHPU_ROOT/docker/Dockerfile"
 
 # show error
 function error {
@@ -134,7 +136,7 @@ function phpu_help {
   echo "  use <branch> [debug] [zts]"
   echo "  sync [<branch> [debug] [zts]]"
   echo "  doc (move|rmts) <extension_name>"
-  echo "  docker (build|exec) <branch>"
+  echo "  docker (build|run) <branch>"
 }
 
 # print and run the arguments
@@ -759,6 +761,31 @@ function phpu_ld_path {
   phpu_print_and_run export LD_LIBRARY_PATH=/usr/local/lib:/lib64:/lib
 }
 
+function phpu_docker {
+  if [ -z "$1" ]; then
+    error "Docker action not set"
+    phpu_help
+  elif [ -z "$2" ]; then
+    error "Docker PHP branch not set"
+    phpu_help
+  elif [ "$1" == "build" ]; then
+    cp $PHPU_DOCKERFILE $PHPU_ROOT/$2
+    cd $PHPU_ROOT/$2
+    make clean
+    docker build --build-arg PHP_PROJECT=$2 -t php_local_$2 .
+    rm $PHPU_ROOT/$2/Dockerfile
+    echo "build done"
+  elif [ "$1" == "run" ]; then
+    PHPU_DOCKER_IMAGE=php_local_$2
+    shift
+    shift
+    docker run $@ -ti $PHPU_DOCKER_IMAGE
+  else
+    error "Invalid docker action $1"
+    phpu_help
+  fi
+}
+
 # se action
 if [ -n "$1" ]; then
   PHPU_ACTION=$1
@@ -815,6 +842,9 @@ case $PHPU_ACTION in
     ;;
   test_build)
     phpu_test_build $@
+    ;;
+  docker)
+    phpu_docker $@
     ;;
   gentest)
     phpu_gentest $@
