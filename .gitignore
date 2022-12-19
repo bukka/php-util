@@ -17,6 +17,7 @@ runtest/
 /74/
 /80/
 /81/
+/82/
 /master/
 phpc/
 test/
@@ -35,3 +36,4 @@ fpmt/
 fpmti/
 fpmb/
 todo/
+issues/gh8517/
