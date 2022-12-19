@@ -1,0 +1,2075 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:sa_mo="http://xml.sandre.eaufrance.fr/wsdl/Monitoring/1.1" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://xml.sandre.eaufrance.fr/wsdl/Monitoring/1.1">
+    <wsdl:documentation>MonitoringService</wsdl:documentation>
+    <wsdl:types>
+        <xsd:schema xmlns:xlink="http://www.w3.org/1999/xlink" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://xml.sandre.eaufrance.fr/wsdl/Monitoring/1.1">
+            <xsd:import namespace="http://www.w3.org/1999/xlink" schemaLocation="MonitoringService?xsd=xsd0"/>
+            <xsd:complexType name="GetCapabilitiesResponse">
+                <xsd:sequence>
+                    <xsd:element name="Service">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="Name">
+                                    <xsd:simpleType>
+                                        <xsd:restriction base="xsd:string"/>
+                                    </xsd:simpleType>
+                                </xsd:element>
+                                <xsd:element name="Title">
+                                    <xsd:simpleType>
+                                        <xsd:restriction base="xsd:string"/>
+                                    </xsd:simpleType>
+                                </xsd:element>
+                                <xsd:element minOccurs="0" name="Abstract">
+                                    <xsd:simpleType>
+                                        <xsd:restriction base="xsd:string"/>
+                                    </xsd:simpleType>
+                                </xsd:element>
+                                <xsd:element minOccurs="0" name="KeywordList">
+                                    <xsd:complexType>
+                                        <xsd:sequence>
+                                            <xsd:element maxOccurs="unbounded" name="Keyword">
+                                                <xsd:complexType>
+                                                    <xsd:simpleContent>
+                                                        <xsd:extension base="xsd:string">
+                                                            <xsd:attribute name="vocabulary" type="xsd:string"/>
+                                                        </xsd:extension>
+                                                    </xsd:simpleContent>
+                                                </xsd:complexType>
+                                            </xsd:element>
+                                        </xsd:sequence>
+                                    </xsd:complexType>
+                                </xsd:element>
+                                <xsd:element name="OnlineResource">
+                                    <xsd:complexType>
+                                        <xsd:attribute ref="xlink:href" use="optional"/>
+                                    </xsd:complexType>
+                                </xsd:element>
+                                <xsd:element minOccurs="0" name="ContactInformation">
+                                    <xsd:complexType>
+                                        <xsd:sequence>
+                                            <xsd:element minOccurs="0" name="ContactPersonPrimary">
+                                                <xsd:complexType>
+                                                    <xsd:sequence>
+                                                        <xsd:element name="ContactPerson">
+                                                            <xsd:simpleType>
+                                                                <xsd:restriction base="xsd:string"/>
+                                                            </xsd:simpleType>
+                                                        </xsd:element>
+                                                        <xsd:element name="ContactOrganization">
+                                                            <xsd:simpleType>
+                                                                <xsd:restriction base="xsd:string"/>
+                                                            </xsd:simpleType>
+                                                        </xsd:element>
+                                                    </xsd:sequence>
+                                                </xsd:complexType>
+                                            </xsd:element>
+                                            <xsd:element minOccurs="0" name="ContactPosition">
+                                                <xsd:simpleType>
+                                                    <xsd:restriction base="xsd:string"/>
+                                                </xsd:simpleType>
+                                            </xsd:element>
+                                            <xsd:element minOccurs="0" name="ContactAddress">
+                                                <xsd:complexType>
+                                                    <xsd:sequence>
+                                                        <xsd:element name="AddressType">
+                                                            <xsd:simpleType>
+                                                                <xsd:restriction base="xsd:string"/>
+                                                            </xsd:simpleType>
+                                                        </xsd:element>
+                                                        <xsd:element name="Address">
+                                                            <xsd:simpleType>
+                                                                <xsd:restriction base="xsd:string"/>
+                                                            </xsd:simpleType>
+                                                        </xsd:element>
+                                                        <xsd:element name="City">
+                                                            <xsd:simpleType>
+                                                                <xsd:restriction base="xsd:string"/>
+                                                            </xsd:simpleType>
+                                                        </xsd:element>
+                                                        <xsd:element name="StateOrProvince">
+                                                            <xsd:simpleType>
+                                                                <xsd:restriction base="xsd:string"/>
+                                                            </xsd:simpleType>
+                                                        </xsd:element>
+                                                        <xsd:element name="PostCode">
+                                                            <xsd:simpleType>
+                                                                <xsd:restriction base="xsd:string"/>
+                                                            </xsd:simpleType>
+                                                        </xsd:element>
+                                                        <xsd:element name="Country">
+                                                            <xsd:simpleType>
+                                                                <xsd:restriction base="xsd:string"/>
+                                                            </xsd:simpleType>
+                                                        </xsd:element>
+                                                    </xsd:sequence>
+                                                </xsd:complexType>
+                                            </xsd:element>
+                                            <xsd:element minOccurs="0" name="ContactVoiceTelephone">
+                                                <xsd:simpleType>
+                                                    <xsd:restriction base="xsd:string"/>
+                                                </xsd:simpleType>
+                                            </xsd:element>
+                                            <xsd:element minOccurs="0" name="ContactFacsimileTelephone">
+                                                <xsd:simpleType>
+                                                    <xsd:restriction base="xsd:string"/>
+                                                </xsd:simpleType>
+                                            </xsd:element>
+                                            <xsd:element minOccurs="0" name="ContactElectronicMailAddress">
+                                                <xsd:simpleType>
+                                                    <xsd:restriction base="xsd:string"/>
+                                                </xsd:simpleType>
+                                            </xsd:element>
+                                        </xsd:sequence>
+                                    </xsd:complexType>
+                                </xsd:element>
+                                <xsd:element minOccurs="0" name="Fees">
+                                    <xsd:simpleType>
+                                        <xsd:restriction base="xsd:string"/>
+                                    </xsd:simpleType>
+                                </xsd:element>
+                                <xsd:element minOccurs="0" name="AccessConstraints">
+                                    <xsd:simpleType>
+                                        <xsd:restriction base="xsd:string"/>
+                                    </xsd:simpleType>
+                                </xsd:element>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="Capability">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="Request">
+                                    <xsd:complexType>
+                                        <xsd:sequence>
+                                            <xsd:element name="getCapabilities">
+                                                <xsd:complexType>
+                                                    <xsd:sequence>
+                                                        <xsd:element maxOccurs="unbounded" name="Format">
+                                                            <xsd:simpleType>
+                                                                <xsd:restriction base="xsd:string"/>
+                                                            </xsd:simpleType>
+                                                        </xsd:element>
+                                                        <xsd:element maxOccurs="unbounded" name="DCPType">
+                                                            <xsd:complexType>
+                                                                <xsd:sequence>
+                                                                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="HTTP">
+                                                                        <xsd:complexType>
+                                                                            <xsd:sequence>
+                                                                                <xsd:element name="Get">
+                                                                                    <xsd:complexType>
+                                                                                        <xsd:sequence>
+                                                                                            <xsd:element name="OnlineResource">
+                                                                                                <xsd:complexType>
+                                                                                                    <xsd:attribute ref="xlink:href" use="optional"/>
+                                                                                                </xsd:complexType>
+                                                                                            </xsd:element>
+                                                                                        </xsd:sequence>
+                                                                                    </xsd:complexType>
+                                                                                </xsd:element>
+                                                                                <xsd:element name="Post">
+                                                                                    <xsd:complexType>
+                                                                                        <xsd:sequence>
+                                                                                            <xsd:element name="OnlineResource">
+                                                                                                <xsd:complexType>
+                                                                                                    <xsd:attribute ref="xlink:href" use="optional"/>
+                                                                                                </xsd:complexType>
+                                                                                            </xsd:element>
+                                                                                        </xsd:sequence>
+                                                                                    </xsd:complexType>
+                                                                                </xsd:element>
+                                                                            </xsd:sequence>
+                                                                        </xsd:complexType>
+                                                                    </xsd:element>
+                                                                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="SOAP">
+                                                                        <xsd:complexType>
+                                                                            <xsd:sequence>
+                                                                                <xsd:element name="OnlineResource">
+                                                                                    <xsd:complexType>
+                                                                                        <xsd:attribute ref="xlink:href" use="optional"/>
+                                                                                    </xsd:complexType>
+                                                                                </xsd:element>
+                                                                            </xsd:sequence>
+                                                                        </xsd:complexType>
+                                                                    </xsd:element>
+                                                                </xsd:sequence>
+                                                            </xsd:complexType>
+                                                        </xsd:element>
+                                                    </xsd:sequence>
+                                                </xsd:complexType>
+                                            </xsd:element>
+                                            <xsd:element name="getSites">
+                                                <xsd:complexType>
+                                                    <xsd:sequence>
+                                                        <xsd:element maxOccurs="unbounded" name="Format">
+                                                            <xsd:simpleType>
+                                                                <xsd:restriction base="xsd:string"/>
+                                                            </xsd:simpleType>
+                                                        </xsd:element>
+                                                        <xsd:element maxOccurs="unbounded" name="DCPType">
+                                                            <xsd:complexType>
+                                                                <xsd:sequence>
+                                                                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="HTTP">
+                                                                        <xsd:complexType>
+                                                                            <xsd:sequence>
+                                                                                <xsd:element name="Get">
+                                                                                    <xsd:complexType>
+                                                                                        <xsd:sequence>
+                                                                                            <xsd:element name="OnlineResource">
+                                                                                                <xsd:complexType>
+                                                                                                    <xsd:attribute ref="xlink:href" use="optional"/>
+                                                                                                </xsd:complexType>
+                                                                                            </xsd:element>
+                                                                                        </xsd:sequence>
+                                                                                    </xsd:complexType>
+                                                                                </xsd:element>
+                                                                                <xsd:element name="Post">
+                                                                                    <xsd:complexType>
+                                                                                        <xsd:sequence>
+                                                                                            <xsd:element name="OnlineResource">
+                                                                                                <xsd:complexType>
+                                                                                                    <xsd:attribute ref="xlink:href" use="optional"/>
+                                                                                                </xsd:complexType>
+                                                                                            </xsd:element>
+                                                                                        </xsd:sequence>
+                                                                                    </xsd:complexType>
+                                                                                </xsd:element>
+                                                                            </xsd:sequence>
+                                                                        </xsd:complexType>
+                                                                    </xsd:element>
+                                                                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="SOAP">
+                                                                        <xsd:complexType>
+                                                                            <xsd:sequence>
+                                                                                <xsd:element name="OnlineResource">
+                                                                                    <xsd:complexType>
+                                                                                        <xsd:attribute ref="xlink:href" use="optional"/>
+                                                                                    </xsd:complexType>
+                                                                                </xsd:element>
+                                                                            </xsd:sequence>
+                                                                        </xsd:complexType>
+                                                                    </xsd:element>
+                                                                </xsd:sequence>
+                                                            </xsd:complexType>
+                                                        </xsd:element>
+                                                    </xsd:sequence>
+                                                </xsd:complexType>
+                                            </xsd:element>
+                                            <xsd:element name="getSiteDescription">
+                                                <xsd:complexType>
+                                                    <xsd:sequence>
+                                                        <xsd:element maxOccurs="unbounded" name="Format">
+                                                            <xsd:simpleType>
+                                                                <xsd:restriction base="xsd:string"/>
+                                                            </xsd:simpleType>
+                                                        </xsd:element>
+                                                        <xsd:element maxOccurs="unbounded" name="DCPType">
+                                                            <xsd:complexType>
+                                                                <xsd:sequence>
+                                                                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="HTTP">
+                                                                        <xsd:complexType>
+                                                                            <xsd:sequence>
+                                                                                <xsd:element name="Get">
+                                                                                    <xsd:complexType>
+                                                                                        <xsd:sequence>
+                                                                                            <xsd:element name="OnlineResource">
+                                                                                                <xsd:complexType>
+                                                                                                    <xsd:attribute ref="xlink:href" use="optional"/>
+                                                                                                </xsd:complexType>
+                                                                                            </xsd:element>
+                                                                                        </xsd:sequence>
+                                                                                    </xsd:complexType>
+                                                                                </xsd:element>
+                                                                                <xsd:element name="Post">
+                                                                                    <xsd:complexType>
+                                                                                        <xsd:sequence>
+                                                                                            <xsd:element name="OnlineResource">
+                                                                                                <xsd:complexType>
+                                                                                                    <xsd:attribute ref="xlink:href" use="optional"/>
+                                                                                                </xsd:complexType>
+                                                                                            </xsd:element>
+                                                                                        </xsd:sequence>
+                                                                                    </xsd:complexType>
+                                                                                </xsd:element>
+                                                                            </xsd:sequence>
+                                                                        </xsd:complexType>
+                                                                    </xsd:element>
+                                                                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="SOAP">
+                                                                        <xsd:complexType>
+                                                                            <xsd:sequence>
+                                                                                <xsd:element name="OnlineResource">
+                                                                                    <xsd:complexType>
+                                                                                        <xsd:attribute ref="xlink:href" use="optional"/>
+                                                                                    </xsd:complexType>
+                                                                                </xsd:element>
+                                                                            </xsd:sequence>
+                                                                        </xsd:complexType>
+                                                                    </xsd:element>
+                                                                </xsd:sequence>
+                                                            </xsd:complexType>
+                                                        </xsd:element>
+                                                    </xsd:sequence>
+                                                </xsd:complexType>
+                                            </xsd:element>
+                                            <xsd:element name="getDataAvailability">
+                                                <xsd:complexType>
+                                                    <xsd:sequence>
+                                                        <xsd:element maxOccurs="unbounded" name="Format">
+                                                            <xsd:simpleType>
+                                                                <xsd:restriction base="xsd:string"/>
+                                                            </xsd:simpleType>
+                                                        </xsd:element>
+                                                        <xsd:element maxOccurs="unbounded" name="DCPType">
+                                                            <xsd:complexType>
+                                                                <xsd:sequence>
+                                                                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="HTTP">
+                                                                        <xsd:complexType>
+                                                                            <xsd:sequence>
+                                                                                <xsd:element name="Get">
+                                                                                    <xsd:complexType>
+                                                                                        <xsd:sequence>
+                                                                                            <xsd:element name="OnlineResource">
+                                                                                                <xsd:complexType>
+                                                                                                    <xsd:attribute ref="xlink:href" use="optional"/>
+                                                                                                </xsd:complexType>
+                                                                                            </xsd:element>
+                                                                                        </xsd:sequence>
+                                                                                    </xsd:complexType>
+                                                                                </xsd:element>
+                                                                                <xsd:element name="Post">
+                                                                                    <xsd:complexType>
+                                                                                        <xsd:sequence>
+                                                                                            <xsd:element name="OnlineResource">
+                                                                                                <xsd:complexType>
+                                                                                                    <xsd:attribute ref="xlink:href" use="optional"/>
+                                                                                                </xsd:complexType>
+                                                                                            </xsd:element>
+                                                                                        </xsd:sequence>
+                                                                                    </xsd:complexType>
+                                                                                </xsd:element>
+                                                                            </xsd:sequence>
+                                                                        </xsd:complexType>
+                                                                    </xsd:element>
+                                                                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="SOAP">
+                                                                        <xsd:complexType>
+                                                                            <xsd:sequence>
+                                                                                <xsd:element name="OnlineResource">
+                                                                                    <xsd:complexType>
+                                                                                        <xsd:attribute ref="xlink:href" use="optional"/>
+                                                                                    </xsd:complexType>
+                                                                                </xsd:element>
+                                                                            </xsd:sequence>
+                                                                        </xsd:complexType>
+                                                                    </xsd:element>
+                                                                </xsd:sequence>
+                                                            </xsd:complexType>
+                                                        </xsd:element>
+                                                    </xsd:sequence>
+                                                </xsd:complexType>
+                                            </xsd:element>
+                                            <xsd:element name="getData">
+                                                <xsd:complexType>
+                                                    <xsd:sequence>
+                                                        <xsd:element maxOccurs="unbounded" name="Format">
+                                                            <xsd:simpleType>
+                                                                <xsd:restriction base="xsd:string"/>
+                                                            </xsd:simpleType>
+                                                        </xsd:element>
+                                                        <xsd:element maxOccurs="unbounded" name="DCPType">
+                                                            <xsd:complexType>
+                                                                <xsd:sequence>
+                                                                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="HTTP">
+                                                                        <xsd:complexType>
+                                                                            <xsd:sequence>
+                                                                                <xsd:element name="Get">
+                                                                                    <xsd:complexType>
+                                                                                        <xsd:sequence>
+                                                                                            <xsd:element name="OnlineResource">
+                                                                                                <xsd:complexType>
+                                                                                                    <xsd:attribute ref="xlink:href" use="optional"/>
+                                                                                                </xsd:complexType>
+                                                                                            </xsd:element>
+                                                                                        </xsd:sequence>
+                                                                                    </xsd:complexType>
+                                                                                </xsd:element>
+                                                                                <xsd:element name="Post">
+                                                                                    <xsd:complexType>
+                                                                                        <xsd:sequence>
+                                                                                            <xsd:element name="OnlineResource">
+                                                                                                <xsd:complexType>
+                                                                                                    <xsd:attribute ref="xlink:href" use="optional"/>
+                                                                                                </xsd:complexType>
+                                                                                            </xsd:element>
+                                                                                        </xsd:sequence>
+                                                                                    </xsd:complexType>
+                                                                                </xsd:element>
+                                                                            </xsd:sequence>
+                                                                        </xsd:complexType>
+                                                                    </xsd:element>
+                                                                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="SOAP">
+                                                                        <xsd:complexType>
+                                                                            <xsd:sequence>
+                                                                                <xsd:element name="OnlineResource">
+                                                                                    <xsd:complexType>
+                                                                                        <xsd:attribute ref="xlink:href" use="optional"/>
+                                                                                    </xsd:complexType>
+                                                                                </xsd:element>
+                                                                            </xsd:sequence>
+                                                                        </xsd:complexType>
+                                                                    </xsd:element>
+                                                                </xsd:sequence>
+                                                            </xsd:complexType>
+                                                        </xsd:element>
+                                                    </xsd:sequence>
+                                                </xsd:complexType>
+                                            </xsd:element>
+                                            <xsd:element name="getDataASync">
+                                                <xsd:complexType>
+                                                    <xsd:sequence>
+                                                        <xsd:element maxOccurs="unbounded" name="Format">
+                                                            <xsd:simpleType>
+                                                                <xsd:restriction base="xsd:string"/>
+                                                            </xsd:simpleType>
+                                                        </xsd:element>
+                                                        <xsd:element maxOccurs="unbounded" name="DCPType">
+                                                            <xsd:complexType>
+                                                                <xsd:sequence>
+                                                                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="SOAP">
+                                                                        <xsd:complexType>
+                                                                            <xsd:sequence>
+                                                                                <xsd:element name="OnlineResource">
+                                                                                    <xsd:complexType>
+                                                                                        <xsd:attribute ref="xlink:href" use="optional"/>
+                                                                                    </xsd:complexType>
+                                                                                </xsd:element>
+                                                                            </xsd:sequence>
+                                                                        </xsd:complexType>
+                                                                    </xsd:element>
+                                                                </xsd:sequence>
+                                                            </xsd:complexType>
+                                                        </xsd:element>
+                                                    </xsd:sequence>
+                                                </xsd:complexType>
+                                            </xsd:element>
+                                            <xsd:element name="getSitesASync">
+                                                <xsd:complexType>
+                                                    <xsd:sequence>
+                                                        <xsd:element maxOccurs="unbounded" name="Format">
+                                                            <xsd:simpleType>
+                                                                <xsd:restriction base="xsd:string"/>
+                                                            </xsd:simpleType>
+                                                        </xsd:element>
+                                                        <xsd:element maxOccurs="unbounded" name="DCPType">
+                                                            <xsd:complexType>
+                                                                <xsd:sequence>
+                                                                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="SOAP">
+                                                                        <xsd:complexType>
+                                                                            <xsd:sequence>
+                                                                                <xsd:element name="OnlineResource">
+                                                                                    <xsd:complexType>
+                                                                                        <xsd:attribute ref="xlink:href" use="optional"/>
+                                                                                    </xsd:complexType>
+                                                                                </xsd:element>
+                                                                            </xsd:sequence>
+                                                                        </xsd:complexType>
+                                                                    </xsd:element>
+                                                                </xsd:sequence>
+                                                            </xsd:complexType>
+                                                        </xsd:element>
+                                                    </xsd:sequence>
+                                                </xsd:complexType>
+                                            </xsd:element>
+                                        </xsd:sequence>
+                                    </xsd:complexType>
+                                </xsd:element>
+                                <xsd:element name="Exception">
+                                    <xsd:complexType>
+                                        <xsd:sequence>
+                                            <xsd:element maxOccurs="unbounded" name="Format">
+                                                <xsd:simpleType>
+                                                    <xsd:restriction base="xsd:string"/>
+                                                </xsd:simpleType>
+                                            </xsd:element>
+                                        </xsd:sequence>
+                                    </xsd:complexType>
+                                </xsd:element>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+                <xsd:attribute name="updateSequence" type="xsd:string"/>
+                <xsd:attribute name="version" type="xsd:string"/>
+            </xsd:complexType>
+            <xsd:complexType name="ResumeSites">
+                <xsd:sequence>
+                    <xsd:element name="NbDeSites">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:integer"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="DescriptifSite">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="CdSite">
+                                    <xsd:complexType>
+                                        <xsd:simpleContent>
+                                            <xsd:extension base="xsd:string">
+                                                <xsd:attribute name="schemeAgencyID" use="optional">
+                                                    <xsd:simpleType>
+                                                        <xsd:restriction base="xsd:normalizedString">
+                                                            <xsd:enumeration value="1"/>
+                                                            <xsd:enumeration value="3"/>
+                                                            <xsd:enumeration value="4"/>
+                                                            <xsd:enumeration value="10"/>
+                                                        </xsd:restriction>
+                                                    </xsd:simpleType>
+                                                </xsd:attribute>
+                                            </xsd:extension>
+                                        </xsd:simpleContent>
+                                    </xsd:complexType>
+                                </xsd:element>
+                                <xsd:element minOccurs="0" name="LbSite">
+                                    <xsd:simpleType>
+                                        <xsd:restriction base="xsd:string"/>
+                                    </xsd:simpleType>
+                                </xsd:element>
+                                <xsd:element minOccurs="0" name="LbUsuelSite">
+                                    <xsd:simpleType>
+                                        <xsd:restriction base="xsd:string"/>
+                                    </xsd:simpleType>
+                                </xsd:element>
+                                <xsd:element minOccurs="0" name="CoordXSite">
+                                    <xsd:simpleType>
+                                        <xsd:restriction base="xsd:float"/>
+                                    </xsd:simpleType>
+                                </xsd:element>
+                                <xsd:element minOccurs="0" name="CoordYSite">
+                                    <xsd:simpleType>
+                                        <xsd:restriction base="xsd:float"/>
+                                    </xsd:simpleType>
+                                </xsd:element>
+                                <xsd:element minOccurs="0" name="CRSSite">
+                                    <xsd:simpleType>
+                                        <xsd:restriction base="xsd:integer"/>
+                                    </xsd:simpleType>
+                                </xsd:element>
+                                <xsd:element minOccurs="0" name="DateDebutDonneesSite">
+                                    <xsd:simpleType>
+                                        <xsd:restriction base="xsd:string">
+                                            <xsd:pattern value="((-?[0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})(.[0-9]*)?(Z|[+\-][0-9]{4}|[+\-][0-9]{2}:[0-9]{2})?)?"/>
+                                        </xsd:restriction>
+                                    </xsd:simpleType>
+                                </xsd:element>
+                                <xsd:element minOccurs="0" name="DateFinDonneesSite">
+                                    <xsd:simpleType>
+                                        <xsd:restriction base="xsd:string">
+                                            <xsd:pattern value="((-?[0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})(.[0-9]*)?(Z|[+\-][0-9]{4}|[+\-][0-9]{2}:[0-9]{2})?)?"/>
+                                        </xsd:restriction>
+                                    </xsd:simpleType>
+                                </xsd:element>
+                                <xsd:element maxOccurs="unbounded" minOccurs="0" name="Commune">
+                                    <xsd:complexType>
+                                        <xsd:sequence>
+                                            <xsd:element name="CdCommune">
+                                                <xsd:simpleType>
+                                                    <xsd:restriction base="xsd:string"/>
+                                                </xsd:simpleType>
+                                            </xsd:element>
+                                            <xsd:element name="LbCommune">
+                                                <xsd:simpleType>
+                                                    <xsd:restriction base="xsd:string"/>
+                                                </xsd:simpleType>
+                                            </xsd:element>
+                                        </xsd:sequence>
+                                    </xsd:complexType>
+                                </xsd:element>
+                                <xsd:element maxOccurs="unbounded" minOccurs="0" name="Dispositif">
+                                    <xsd:complexType>
+                                        <xsd:sequence>
+                                            <xsd:element name="CdSandreRdd">
+                                                <xsd:simpleType>
+                                                    <xsd:restriction base="xsd:string"/>
+                                                </xsd:simpleType>
+                                            </xsd:element>
+                                            <xsd:element name="NomRdd">
+                                                <xsd:simpleType>
+                                                    <xsd:restriction base="xsd:string"/>
+                                                </xsd:simpleType>
+                                            </xsd:element>
+                                        </xsd:sequence>
+                                    </xsd:complexType>
+                                </xsd:element>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="SpatialFilter">
+                <xsd:sequence>
+                    <xsd:element minOccurs="0" name="CdCommune">
+                        <xsd:annotation>
+                            <xsd:documentation>Le numéro de la commune est le numéro INSEE de la commune basé sur 5 caractères. Pour les communes de métropoles, les deux premiers caractères correspondent au numéro du département auquel la commune appartient. Pour les DOM, les trois premiers caractères correspondent au code du département auquel la commune appartient. 
+
+              Il est à noter que ce numéro de la commune est au format caractère afin de gérer les communes de la Corse (2A et 2B).
+
+              Cette information relève de la responsabilité de l'INSEE.</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="CdDepartement">
+                        <xsd:annotation>
+                            <xsd:documentation>Le numéro du département est le code INSEE du département sur 3 positions. Il est de format caractère pour prendre en compte les départements de la Corse.
+
+              Nomenclature : Codes des départements / COM / 2002 - 1
+
+              ----------------------------------------------------------------------
+               Code	!  Mnémonique               !  Libellé
+              ----------------------------------------------------------------------
+                 01	!  AIN                      !  AIN
+                 02	!  AISNE                    !  AISNE
+                 2A	!  CORSE-DU-SUD             !  CORSE-DU-SUD
+                 2B	!  HAUTE-CORSE              !  HAUTE-CORSE
+                 03	!  ALLIER                   !  ALLIER
+                 04	!  ALPES-DE-HAUTE-PROVENCE  !  ALPES-DE-HAUTE-PROVENCE
+                 05	!  HAUTES-ALPES             !  HAUTES-ALPES
+                 06	!  ALPES-MARITIMES          !  ALPES-MARITIMES
+                 07	!  ARDECHE                  !  ARDECHE
+                 08	!  ARDENNES                 !  ARDENNES
+                 09	!  ARIEGE                   !  ARIEGE
+                 10	!  AUBE                     !  AUBE
+                 11	!  AUDE                     !  AUDE
+                 12	!  AVEYRON                  !  AVEYRON
+                 13	!  BOUCHES-DU-RHONE         !  BOUCHES-DU-RHONE
+                 14	!  CALVADOS                 !  CALVADOS
+                 15	!  CANTAL                   !  CANTAL
+                 16	!  CHARENTE                 !  CHARENTE
+                 17	!  CHARENTE-MARITIME        !  CHARENTE-MARITIME
+                 18	!  CHER                     !  CHER
+                 19	!  CORREZE                  !  CORREZE
+                 21	!  COTE-D'OR                !  COTE-D'OR
+                 22	!  COTES-D'ARMOR            !  COTES-D'ARMOR
+                 23	!  CREUSE                   !  CREUSE
+                 24	!  DORDOGNE                 !  DORDOGNE
+                 25	!  DOUBS                    !  DOUBS
+                 26	!  DROME                    !  DROME
+                 27	!  EURE                     !  EURE
+                 28	!  EURE-ET-LOIR             !  EURE-ET-LOIR
+                 29	!  FINISTERE                !  FINISTERE
+                 30	!  GARD                     !  GARD
+                 31	!  HAUTE-GARONNE            !  HAUTE-GARONNE
+                 32	!  GERS                     !  GERS
+                 33	!  GIRONDE                  !  GIRONDE
+                 34	!  HERAULT                  !  HERAULT
+                 35	!  ILLE-ET-VILAINE          !  ILLE-ET-VILAINE
+                 36	!  INDRE                    !  INDRE
+                 37	!  INDRE-ET-LOIRE           !  INDRE-ET-LOIRE
+                 38	!  ISERE                    !  ISERE
+                 39	!  JURA                     !  JURA
+                 40	!  LANDES                   !  LANDES
+                 41	!  LOIR-ET-CHER             !  LOIR-ET-CHER
+                 42	!  LOIRE                    !  LOIRE
+                 43	!  HAUTE-LOIRE              !  HAUTE-LOIRE
+                 44	!  LOIRE-ATLANTIQUE         !  LOIRE-ATLANTIQUE
+                 45	!  LOIRET                   !  LOIRET
+                 46	!  LOT                      !  LOT
+                 47	!  LOT-ET-GARONNE           !  LOT-ET-GARONNE
+                 48	!  LOZERE                   !  LOZERE
+                 49	!  MAINE-ET-LOIRE           !  MAINE-ET-LOIRE
+                 50	!  MANCHE                   !  MANCHE
+                 51	!  MARNE                    !  MARNE
+                 52	!  HAUTE-MARNE              !  HAUTE-MARNE
+                 53	!  MAYENNE                  !  MAYENNE
+                 54	!  MEURTHE-ET-MOSELLE       !  MEURTHE-ET-MOSELLE
+                 55	!  MEUSE                    !  MEUSE
+                 56	!  MORBIHAN                 !  MORBIHAN
+                 57	!  MOSELLE                  !  MOSELLE
+                 58	!  NIEVRE                   !  NIEVRE
+                 59	!  NORD                   !  NORD
+                 60	!  OISE                     !  OISE
+                 61	!  ORNE                     !  ORNE
+                 62	!  PAS-DE-CALAIS            !  PAS-DE-CALAIS
+                 63	!  PUY-DE-DOME              !  PUY-DE-DOME
+                 64	!  PYRENEES-ATLANTIQUES     !  PYRENEES-ATLANTIQUES
+                 65	!  HAUTES-PYRENEES          !  HAUTES-PYRENEES
+                 66	!  PYRENEES-ORIENTALES      !  PYRENEES-ORIENTALES
+                 67	!  BAS-RHIN                 !  BAS-RHIN
+                 68	!  HAUT-RHIN                !  HAUT-RHIN
+                 69	!  RHONE                    !  RHONE
+                 70	!  HAUTE-SAONE              !  HAUTE-SAONE
+                 71	!  SAONE-ET-LOIRE           !  SAONE-ET-LOIRE
+                 72	!  SARTHE                   !  SARTHE
+                 73	!  SAVOIE                   !  SAVOIE
+                 74	!  HAUTE-SAVOIE             !  HAUTE-SAVOIE
+                 75	!  PARIS                    !  PARIS
+                 76	!  SEINE-MARITIME           !  SEINE-MARITIME
+                 77	!  SEINE-ET-MARNE           !  SEINE-ET-MARNE
+                 78	!  YVELINES                 !  YVELINES
+                 79	!  DEUX-SEVRES              !  DEUX-SEVRES
+                 80	!  SOMME                    !  SOMME
+                 81	!  TARN                     !  TARN
+                 82	!  TARN-ET-GARONNE          !  TARN-ET-GARONNE
+                 83	!  VAR                      !  VAR
+                 84	!  VAUCLUSE                 !  VAUCLUSE
+                 85	!  VENDEE                   !  VENDEE
+                 86	!  VIENNE                   !  VIENNE
+                 87	!  HAUTE-VIENNE             !  HAUTE-VIENNE
+                 88	!  VOSGES                   !  VOSGES
+                 89	!  YONNE                    !  YONNE
+                 90	!  TERRITOIRE DE BELFORT    !  TERRITOIRE DE BELFORT
+                 91	!  ESSONNE                  !  ESSONNE
+                 92	!  HAUTS-DE-SEINE           !  HAUTS-DE-SEINE
+                 93	!  SEINE-SAINT-DENIS        !  SEINE-SAINT-DENIS
+                 94	!  VAL-DE-MARNE             !  VAL-DE-MARNE
+                 95	!  VAL-D'OISE               !  VAL-D'OISE
+                971	!  GUADELOUPE               !  GUADELOUPE
+                972	!  MARTINIQUE               !  MARTINIQUE
+                973	!  GUYANE                   !  GUYANE
+                974	!  LA REUNION               !  LA REUNION
+              ----------------------------------------------------------------------
+
+              Fin de la nomenclature</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:enumeration value="01"/>
+                                <xsd:enumeration value="02"/>
+                                <xsd:enumeration value="2A"/>
+                                <xsd:enumeration value="2B"/>
+                                <xsd:enumeration value="03"/>
+                                <xsd:enumeration value="04"/>
+                                <xsd:enumeration value="05"/>
+                                <xsd:enumeration value="06"/>
+                                <xsd:enumeration value="07"/>
+                                <xsd:enumeration value="08"/>
+                                <xsd:enumeration value="09"/>
+                                <xsd:enumeration value="10"/>
+                                <xsd:enumeration value="11"/>
+                                <xsd:enumeration value="12"/>
+                                <xsd:enumeration value="13"/>
+                                <xsd:enumeration value="14"/>
+                                <xsd:enumeration value="15"/>
+                                <xsd:enumeration value="16"/>
+                                <xsd:enumeration value="17"/>
+                                <xsd:enumeration value="18"/>
+                                <xsd:enumeration value="19"/>
+                                <xsd:enumeration value="21"/>
+                                <xsd:enumeration value="22"/>
+                                <xsd:enumeration value="23"/>
+                                <xsd:enumeration value="24"/>
+                                <xsd:enumeration value="25"/>
+                                <xsd:enumeration value="26"/>
+                                <xsd:enumeration value="27"/>
+                                <xsd:enumeration value="28"/>
+                                <xsd:enumeration value="29"/>
+                                <xsd:enumeration value="30"/>
+                                <xsd:enumeration value="31"/>
+                                <xsd:enumeration value="32"/>
+                                <xsd:enumeration value="33"/>
+                                <xsd:enumeration value="34"/>
+                                <xsd:enumeration value="35"/>
+                                <xsd:enumeration value="36"/>
+                                <xsd:enumeration value="37"/>
+                                <xsd:enumeration value="38"/>
+                                <xsd:enumeration value="39"/>
+                                <xsd:enumeration value="40"/>
+                                <xsd:enumeration value="41"/>
+                                <xsd:enumeration value="42"/>
+                                <xsd:enumeration value="43"/>
+                                <xsd:enumeration value="44"/>
+                                <xsd:enumeration value="45"/>
+                                <xsd:enumeration value="46"/>
+                                <xsd:enumeration value="47"/>
+                                <xsd:enumeration value="48"/>
+                                <xsd:enumeration value="49"/>
+                                <xsd:enumeration value="50"/>
+                                <xsd:enumeration value="51"/>
+                                <xsd:enumeration value="52"/>
+                                <xsd:enumeration value="53"/>
+                                <xsd:enumeration value="54"/>
+                                <xsd:enumeration value="55"/>
+                                <xsd:enumeration value="56"/>
+                                <xsd:enumeration value="57"/>
+                                <xsd:enumeration value="58"/>
+                                <xsd:enumeration value="59"/>
+                                <xsd:enumeration value="60"/>
+                                <xsd:enumeration value="61"/>
+                                <xsd:enumeration value="62"/>
+                                <xsd:enumeration value="63"/>
+                                <xsd:enumeration value="64"/>
+                                <xsd:enumeration value="65"/>
+                                <xsd:enumeration value="66"/>
+                                <xsd:enumeration value="67"/>
+                                <xsd:enumeration value="68"/>
+                                <xsd:enumeration value="69"/>
+                                <xsd:enumeration value="70"/>
+                                <xsd:enumeration value="71"/>
+                                <xsd:enumeration value="72"/>
+                                <xsd:enumeration value="73"/>
+                                <xsd:enumeration value="74"/>
+                                <xsd:enumeration value="75"/>
+                                <xsd:enumeration value="76"/>
+                                <xsd:enumeration value="77"/>
+                                <xsd:enumeration value="78"/>
+                                <xsd:enumeration value="79"/>
+                                <xsd:enumeration value="80"/>
+                                <xsd:enumeration value="81"/>
+                                <xsd:enumeration value="82"/>
+                                <xsd:enumeration value="83"/>
+                                <xsd:enumeration value="84"/>
+                                <xsd:enumeration value="85"/>
+                                <xsd:enumeration value="86"/>
+                                <xsd:enumeration value="87"/>
+                                <xsd:enumeration value="88"/>
+                                <xsd:enumeration value="89"/>
+                                <xsd:enumeration value="90"/>
+                                <xsd:enumeration value="91"/>
+                                <xsd:enumeration value="92"/>
+                                <xsd:enumeration value="93"/>
+                                <xsd:enumeration value="94"/>
+                                <xsd:enumeration value="95"/>
+                                <xsd:enumeration value="971"/>
+                                <xsd:enumeration value="972"/>
+                                <xsd:enumeration value="973"/>
+                                <xsd:enumeration value="974"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="CdRegion">
+                        <xsd:annotation>
+                            <xsd:documentation>Le numéro de la région est le code INSEE sur 2 positions dont la liste de valeurs est la suivante :
+
+              Nomenclature : Codes des régions / COM / 2002 - 1
+
+              ----------------------------------------------------------------------
+               Code	!  Mnémonique               !  Libellé
+              ----------------------------------------------------------------------
+                 01	!  GUADELOUPE               !  GUADELOUPE
+                 02	!  MARTINIQUE               !  MARTINIQUE
+                 03	!  GUYANE                   !  GUYANE
+                 04	!  LA REUNION               !  LA REUNION
+                 11	!  ILE-DE-FRANCE            !  ILE-DE-FRANCE
+                 21	!  CHAMPAGNE-ARDENNE        !  CHAMPAGNE-ARDENNE
+                 22	!  PICARDIE                 !  PICARDIE
+                 23	!  HAUTE-NORMANDIE          !  HAUTE-NORMANDIE
+                 24	!  CENTRE                   !  CENTRE
+                 25	!  BASSE-NORMANDIE          !  BASSE-NORMANDIE
+                 26	!  BOURGOGNE                !  BOURGOGNE
+                 31	!  NORD-PAS-DE-CALAIS       !  NORD-PAS-DE-CALAIS
+                 41	!  LORRAINE                 !  LORRAINE
+                 42	!  ALSACE                   !  ALSACE
+                 43	!  FRANCHE-COMTE            !  FRANCHE-COMTE
+                 52	!  PAYS DE LA LOIRE         !  PAYS DE LA LOIRE
+                 53	!  BRETAGNE                 !  BRETAGNE
+                 54	!  POITOU-CHARENTES         !  POITOU-CHARENTES
+                 72	!  AQUITAINE                !  AQUITAINE
+                 73	!  MIDI-PYRENEES            !  MIDI-PYRENEES
+                 74	!  LIMOUSIN                 !  LIMOUSIN
+                 82	!  RHONE-ALPES              !  RHONE-ALPES
+                 83	!  AUVERGNE                 !  AUVERGNE
+                 91	!  LANGUEDOC-ROUSSILLON     !  LANGUEDOC-ROUSSILLON
+                 93	!  PROVENCE-ALPE            !  PROVENCE-ALPES-COTE D'AZUR
+                 94	!  CORSE                    !  CORSE
+              ----------------------------------------------------------------------
+
+              Fin de la nomenclature</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:enumeration value="01"/>
+                                <xsd:enumeration value="02"/>
+                                <xsd:enumeration value="03"/>
+                                <xsd:enumeration value="04"/>
+                                <xsd:enumeration value="11"/>
+                                <xsd:enumeration value="21"/>
+                                <xsd:enumeration value="22"/>
+                                <xsd:enumeration value="23"/>
+                                <xsd:enumeration value="24"/>
+                                <xsd:enumeration value="25"/>
+                                <xsd:enumeration value="26"/>
+                                <xsd:enumeration value="31"/>
+                                <xsd:enumeration value="41"/>
+                                <xsd:enumeration value="42"/>
+                                <xsd:enumeration value="43"/>
+                                <xsd:enumeration value="52"/>
+                                <xsd:enumeration value="53"/>
+                                <xsd:enumeration value="54"/>
+                                <xsd:enumeration value="72"/>
+                                <xsd:enumeration value="73"/>
+                                <xsd:enumeration value="74"/>
+                                <xsd:enumeration value="82"/>
+                                <xsd:enumeration value="83"/>
+                                <xsd:enumeration value="91"/>
+                                <xsd:enumeration value="93"/>
+                                <xsd:enumeration value="94"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="NumCircAdminBassin">
+                        <xsd:annotation>
+                            <xsd:documentation>Le numéro de la circonscription de bassin est un identifiant artificiel non signifiant sur 2 chiffres, dont la liste des valeurs attribuée par l'INSEE est la suivante :
+
+                   - 01 : ARTOIS-PICARDIE
+                   - 02 : RHIN-MEUSE
+                   - 03 : SEINE-NORMANDIE
+                   - 04 : LOIRE-BRETAGNE
+                   - 05 : ADOUR-GARONNE
+                   - 06 : RHONE-MEDITERRANEE-CORSE</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="CdMasseDEau">
+                        <xsd:annotation>
+                            <xsd:documentation>Le code de la masse d'eau de surface est structuré de la manière suivante :
+              Code du bassin (district au sens de la dce) + Code du type ("R" pour rivière, "L" pour plan d'eau, "T" pour transition, "C" pour cotière) + Incrément.
+
+              Le code de la masse d'eau souterraine est structuré de la manière suivante :
+              Code de la circonscription administrative + numéro d'ordre sur 3 chiffres (de 001 à 999).
+
+              Il est attribué par l'autorité compétente coordinatrice.</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="CdSecteurHydro">
+                        <xsd:annotation>
+                            <xsd:documentation>Le code du secteur hydrographique est un code alphanumérique sur deux positions qui identifie sur le plan national un secteur hydrographique. Il est composé d'un numéro qui désigne le secteur hydrographique au sein de la région hydrographique où il se situe ainsi que du code de celle-ci.
+
+              L'affectation d'un code à un secteur hydrographique relève de la responsabilité des Agences de l'Eau.</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="CdSousSecteurHydro">
+                        <xsd:annotation>
+                            <xsd:documentation>Le code du sous-secteur hydrographique est un code alphanumérique sur trois positions qui identifie sur le plan national un sous-secteur hydrographique. Il est composé d'un numéro qui désigne le sous-secteur hydrographique au sein du secteur hydrographique où il se situe ainsi que du code de ce dernier.
+
+              L'affectation d'un code à un sous-secteur hydrographique relève de la responsabilité des Agences de l'Eau.</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="CdZoneHydro">
+                        <xsd:annotation>
+                            <xsd:documentation>Le code de la zone hydrographique est un code alphanumérique sur quatre positions qui identifie sur le plan national une zone hydrographique. Il est composé d'un numéro qui désigne la zone hydrographique au sein du sous-secteur hydrographique où elle se situe ainsi que du code de ce dernier.
+
+              L'affectation d'un code à une zone hydrographique relève de la responsabilité des Agences de l'Eau.</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="CdEntiteHydrographique">
+                        <xsd:annotation>
+                            <xsd:documentation>Le code générique est l'identifiant de l'entité hydrographique. C'est un code alphanumérique sur 8 positions constitué des caractères invariants des codes des tronçons qui la composent, les autres caractères étant remplacés par des '-' (tirets, code ASCII 45). Par exemple, un cours d'eau qui traverse plusieurs zones ou plusieurs sous-secteurs aura un code générique du format des codes génériques suivants  'V12-4000' ou 'R5--0420'.
+
+              Pour les deux seuls fleuves qui traversent plusieurs régions (la Seine et la Loire), le code générique se résume au 5ème, 6ème et 7ème caractère (dits numéros d'entités) et au code milieu : '----0000' : pour la Loire et '----0010' : pour la Seine.
+
+              L'affectation des codes génériques aux entités hydrographiques relève de la responsabilité des Agences de l'Eau en application de la règle énoncée ci-dessus.</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="CdEntiteHydroGeologique">
+                        <xsd:annotation>
+                            <xsd:documentation>Le code de l'entité hydrogéologique est l'identifiant attribué à chaque entité hydrogéologique. 
+
+              La codification de la version 1 de la BD RHF était basée sur un code signifiant puisque des plages de valeurs autorisées avait été identifiées selon la nature de l’entité hydrogéologique (J. MARGAT): 
+              001 à 199 : grands systèmes aquifères à nappe essentiellement libre,
+              201 à 299 : grands systèmes aquifères captifs,
+              301 à 499 : zones alluviales dans les domaines sans grand système aquifère individualisé,
+              501 à 599 : domaines sans grand système aquifère individualisé, en terrains sédimentaires,
+              601 à 699 : domaines sans grand système indivualisé, en terrains de socle. 
+
+              Néanmoins, la reprise et l’amélioration du découpage initial de J. Margat par les agences de l’Eau ont entraîné des compléments de codification (ajout de sous-découpage, « a », « b »,…) et des dérives au regard de la règle de codification précédente. 
+
+              La codification de la version 1 n'est pas reprise et une nouvelle codification est réalisée pour l’ensemble des entités hydrogéologiques, même si l’entité avait été décrite dans la version 1. 
+
+              La codification des entités hydrogéologique est la suivante :
+
+              « Le code de l’entité hydrogéologique est un identifiant construit selon la règle suivante (en italique, information optionnelle selon l’entité) :
+              	[Code numérique de l’entité de niveau 1] + [Lettre de l’entité de niveau 2] + [Code numérique de l’entité de niveau 3]
+
+              Par exemple :
+              un grand système aquifère sera codifié : 98
+              Le système aquifère est le suivant : 98A et le domaine hydrogéologique : 98B
+              Les unités aquifères du premier système sont les suivants : 98A1 et 98A2
+
+              Lorsqu’il n’existe pas de découpage de niveau 2, le code de niveau 2 est remplacé par un tiret ‘-‘ (code ASCII 45). Par exemple, le code d’une unité aquifère incluse dans le grand domaine hydrogéologique de niveau 1 (55) est la suivante : 55-1.
+
+              Chaque partie du code est créée sans signifiance et est instancée de manière incrémentielle. Il n’y pas de limites de longueur pour chaque partie, la longueur finale du code est de 12 caractères. 
+
+
+              La liste des entités hydrogéologiques est administrée par le SANDRE qui en a la responsabilité.</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="CdMerOcean">
+                        <xsd:annotation>
+                            <xsd:documentation>Le code de la mer précise les différentes mers et océans qui ont été délimités par le Bureau Hydrographique International (OHI). 
+              Cette classification, reprise par l'IFREMER, est la suivante : 
+
+              Nomenclature : Mer / ELI / 2001 - 1
+
+              ----------------------------------------------------------------------
+               Code	!  Mnémonique               !  Libellé
+              ----------------------------------------------------------------------
+                1.2	!  Mer du Nord              !  Mer du Nord
+                1.6	!  Mer celtique             !  Mer celtique ou Celtic Sea
+                1.7	!  Manche                   !  La Manche ou English Channel
+                1.8	!  Golfe de Gascogne        !  Golfe de Gascogne ou Bay of Biscay
+                3.1	!  Mer Méditerranée         !  Mer Méditerranée
+              ----------------------------------------------------------------------
+
+
+              Golfe de Gascogne ou Bay of Biscay :
+              ------------------------------------
+              Les limites du Golfe de Gascogne sont les suivantes :
+              - A l'Ouest : ligne joignant la Pointe de Penmarc'h au Cap Ortegal
+              -Au Nord, à l'Est et au Sud : côtes françaises et espagnoles entre la Pointe de Penmarc'h  et le Cap Ortegal.
+
+
+              La Manche ou English Channel :
+              ------------------------------
+              Les limites de la Manche sont les suivantes :
+              - A l'Est : ligne joignant la frontière France-Belgique à North Foreland,
+              - Au Sud : côtes françaises entre la frontière France-Belgique et l'Ile Vierge, France (48°38'N - 4°34'W),
+              - A l'Ouest : ligne joignant l'Ile Vierge, à Land's End, Angleterre (50°04'N - 5°43'W).
+              - Au Nord : côtes anglaises entre North Foreland et Land's End.
+
+
+              Mer celtique ou Celtic Sea :
+              ----------------------------
+              Les limites de la mer celtique pour la France sont les suivantes :
+              - Au nord : ligne joignant l'Ile Vierge à Land's End, 
+              - A l'Est : côtes françaises entre l'Ile Vierge et la Pointe de Penmarc'h, France (47°48'N - 4°22'W), 
+              - Au sud : ligne joignant la Pointe de Penmarc'h au Cap Ortegal, Espagne (43°46'N - 7°52'W).
+
+
+              Mer du Nord :
+              -------------
+              Pour la France, la mer du Nord est délimitée à l'Ouest par la ligne joignant la frontière France-Belgique (51°06'N - 2°33'E) à North Foreland, Angleterre (51°23'N - 1°27'E).
+
+              Fin de la nomenclature
+
+              Les informations sur les mers et oceans relèvent de la responsabilité de l'IFREMER.</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:enumeration value="1.2"/>
+                                <xsd:enumeration value="1.6"/>
+                                <xsd:enumeration value="1.7"/>
+                                <xsd:enumeration value="1.8"/>
+                                <xsd:enumeration value="3.1"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="CdDistrict">
+                        <xsd:annotation>
+                            <xsd:documentation>Le code du bassin (district au sens de la dce) est un code non signifiant.
+
+              La liste des codes possibles relève de la nomenclature suivante administrée par le SANDRE.
+
+              Nomenclature : bassin (district au sens de la dce) / MDO / 2003-1
+
+              ----------------------------------------------------------------------
+               Code	!  Mnémonique               !  Libellé
+              ----------------------------------------------------------------------
+                  A	!  ESCAUT SOMME             !  L'Escaut, la Somme et les cours d'eau côtiers de la Manche et la Mer du Nord
+                  B1	!  MEUSE             !  La Meuse 
+                  B2	!   SAMBRE             !  La Sambre
+                  C	!  RHIN                     !  Le Rhin
+                  D	!  RHONE MED                !  Le Rhône et les cours d'eau côtiers méditerranéens
+                  E	!  CORSE                    !  Les cours d'eau côtiers de la Corse
+                  F	!  ADOUR GARONNE            !  L'Adour, la Garonne, la Dordogne, la Charente et les cours d'eau côtiers charentais et aquitains
+                  G	!  LOIRE                    !  La Loire, les cours d'eau côtiers vendéens et bretons
+                  H	!  SEINE                    !  La Seine et les cours d'eau côtiers normands
+                  I	!  GUADELOUPE               !  Guadeloupe
+                  J	!  MARTINIQUE               !  Martinique
+                  K	!  GUYANE                   !  Guyane
+                  L	!  REUNION                  !  Réunion
+                  M	!  MAYOTTE                  !  Mayotte
+              ----------------------------------------------------------------------
+
+              Fin de la nomenclature</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:enumeration value="A"/>
+                                <xsd:enumeration value="B1"/>
+                                <xsd:enumeration value="B2"/>
+                                <xsd:enumeration value="C"/>
+                                <xsd:enumeration value="D"/>
+                                <xsd:enumeration value="E"/>
+                                <xsd:enumeration value="F"/>
+                                <xsd:enumeration value="G"/>
+                                <xsd:enumeration value="H"/>
+                                <xsd:enumeration value="I"/>
+                                <xsd:enumeration value="J"/>
+                                <xsd:enumeration value="K"/>
+                                <xsd:enumeration value="L"/>
+                                <xsd:enumeration value="M"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="TypeMasseDEau">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="BBOX">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="Envelope">
+                                    <xsd:complexType>
+                                        <xsd:sequence>
+                                            <xsd:element name="SrsName">
+                                                <xsd:simpleType>
+                                                    <xsd:restriction base="xsd:string"/>
+                                                </xsd:simpleType>
+                                            </xsd:element>
+                                            <xsd:element name="LowerCorner">
+                                                <xsd:simpleType>
+                                                    <xsd:restriction base="xsd:string"/>
+                                                </xsd:simpleType>
+                                            </xsd:element>
+                                            <xsd:element name="UpperCorner">
+                                                <xsd:simpleType>
+                                                    <xsd:restriction base="xsd:string"/>
+                                                </xsd:simpleType>
+                                            </xsd:element>
+                                        </xsd:sequence>
+                                    </xsd:complexType>
+                                </xsd:element>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="DomainFilter">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="CdFamillePar">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="CodeSandreRdd">
+                        <xsd:annotation>
+                            <xsd:documentation>Le code du dispositif de collecte est un code artificiel non signifiant sur 10 positions qui identifie sur le plan national tout dispositif relatif à l'eau.
+
+               Il est constitué : [code bassin étendu sur 2 caractères] + [code sans signification]. 
+
+              Le code bassin est celui attribué par l'INSEE pour les 6 bassins auquel il est ajouté les cas suivants :
+              	- Un réseau de niveau national, (c’est-à-dire l’ensemble des 6 bassins) est codé par “ 00 ”.
+              	- Lorsque le réseau concerne plus de 2 bassins et moins de 5, ou s’il est transfrontalier alors les deux premiers chiffres du code seront “ 99 ”,
+              	- La codification suivante est proposée pour les DOM - en accord avec l’INSEE : “ 07 ” Guadeloupe, “ 08 ” Martinique, “ 09 ” Guyane et “ 10 ” Réunion.
+
+              Ce code est attribué par la SANDRE.</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="CdSite">
+                        <xsd:complexType>
+                            <xsd:simpleContent>
+                                <xsd:extension base="xsd:string">
+                                    <xsd:attribute name="schemeAgencyID" use="optional">
+                                        <xsd:simpleType>
+                                            <xsd:restriction base="xsd:normalizedString">
+                                                <xsd:enumeration value="AE"/>
+                                            </xsd:restriction>
+                                        </xsd:simpleType>
+                                    </xsd:attribute>
+                                </xsd:extension>
+                            </xsd:simpleContent>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="LbSite">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="Sites">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" name="CdSite">
+                        <xsd:complexType>
+                            <xsd:simpleContent>
+                                <xsd:extension base="xsd:string">
+                                    <xsd:attribute name="schemeAgencyID" use="optional">
+                                        <xsd:simpleType>
+                                            <xsd:restriction base="xsd:normalizedString">
+                                                <xsd:enumeration value="AE"/>
+                                            </xsd:restriction>
+                                        </xsd:simpleType>
+                                    </xsd:attribute>
+                                </xsd:extension>
+                            </xsd:simpleContent>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="DataSites">
+                <xsd:sequence>
+                    <xsd:element name="NbDeSites">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:integer"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="DataSite">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="CdSite">
+                                    <xsd:complexType>
+                                        <xsd:simpleContent>
+                                            <xsd:extension base="xsd:string">
+                                                <xsd:attribute name="schemeAgencyID" use="optional">
+                                                    <xsd:simpleType>
+                                                        <xsd:restriction base="xsd:normalizedString">
+                                                            <xsd:enumeration value="AE"/>
+                                                        </xsd:restriction>
+                                                    </xsd:simpleType>
+                                                </xsd:attribute>
+                                            </xsd:extension>
+                                        </xsd:simpleContent>
+                                    </xsd:complexType>
+                                </xsd:element>
+                                <xsd:element maxOccurs="unbounded" name="Resultats">
+                                    <xsd:complexType>
+                                        <xsd:sequence>
+                                            <xsd:element name="Annee">
+                                                <xsd:simpleType>
+                                                    <xsd:restriction base="xsd:gYear"/>
+                                                </xsd:simpleType>
+                                            </xsd:element>
+                                            <xsd:element name="TypePrelevement">
+                                                <xsd:simpleType>
+                                                    <xsd:restriction base="xsd:integer"/>
+                                                </xsd:simpleType>
+                                            </xsd:element>
+                                            <xsd:element minOccurs="0" name="NbPrelevements">
+                                                <xsd:simpleType>
+                                                    <xsd:restriction base="xsd:short"/>
+                                                </xsd:simpleType>
+                                            </xsd:element>
+                                            <xsd:element minOccurs="0" name="NbAnalyses">
+                                                <xsd:simpleType>
+                                                    <xsd:restriction base="xsd:short"/>
+                                                </xsd:simpleType>
+                                            </xsd:element>
+                                        </xsd:sequence>
+                                    </xsd:complexType>
+                                </xsd:element>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="TemporalFilter">
+                <xsd:sequence>
+                    <xsd:element name="DateDebutDonnees">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:pattern value="((-?[0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})(.[0-9]*)?(Z|[+\-][0-9]{4}|[+\-][0-9]{2}:[0-9]{2})?)?"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="DateFinDonnees">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:pattern value="((-?[0-9]{4})-([0-9]{2})-([0-9]{2})T([0-9]{2}):([0-9]{2}):([0-9]{2})(.[0-9]*)?(Z|[+\-][0-9]{4}|[+\-][0-9]{2}:[0-9]{2})?)?"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="AnalyticFilter">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="CodeDeLaFamilleDeParametre">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="CdParametre">
+                        <xsd:annotation>
+                            <xsd:documentation>Le code du paramètre est un identifiant numérique non signifiant sur 5 positions maximum, associé à chaque paramètre enregistré par le SANDRE.
+
+              L'attribution d'un code à un paramètre relève de la responsabilité du SANDRE.</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:integer"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="CdSupport">
+                        <xsd:annotation>
+                            <xsd:documentation>Le code du support est un identifiant numérique non signifiant sur trois positions, qui associe à un nom de support un nombre.
+
+              La liste des supports est administrée par le SANDRE qui en a la responsabilité.</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:integer"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="CdTaxon">
+                        <xsd:annotation>
+                            <xsd:documentation>Le code du taxon est un identifiant non signifiant sur six positions attribué par le SANDRE.</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:integer"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="CodeDeLaFamilleDeTaxon">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="TypeDePrelevementBiologique">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="DomainDataFilter">
+                <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="CodeSandreRdd">
+                        <xsd:annotation>
+                            <xsd:documentation>Le code du dispositif de collecte est un code artificiel non signifiant sur 10 positions qui identifie sur le plan national tout dispositif relatif à l'eau.
+
+               Il est constitué : [code bassin étendu sur 2 caractères] + [code sans signification]. 
+
+              Le code bassin est celui attribué par l'INSEE pour les 6 bassins auquel il est ajouté les cas suivants :
+              	- Un réseau de niveau national, (c’est-à-dire l’ensemble des 6 bassins) est codé par “ 00 ”.
+              	- Lorsque le réseau concerne plus de 2 bassins et moins de 5, ou s’il est transfrontalier alors les deux premiers chiffres du code seront “ 99 ”,
+              	- La codification suivante est proposée pour les DOM - en accord avec l’INSEE : “ 07 ” Guadeloupe, “ 08 ” Martinique, “ 09 ” Guyane et “ 10 ” Réunion.
+
+              Ce code est attribué par la SANDRE.</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="ConformiteAna">
+                        <xsd:annotation>
+                            <xsd:documentation>La qualification du résultat indique à l'aide de l'un des codes de la nomenclature suivante administrée par le SANDRE, le niveau de conformité au cahier des charges attribué à l'analyse par le producteur de données.
+
+              Nomenclature : Qualification du résultat / 2005
+
+              ----------------------------------------------------------------------
+               Code	!  Mnémonique               !  Libellé
+              ----------------------------------------------------------------------
+                  0	!  non définissable         !  Qualification non définissable
+                  1	!  Correcte                 !  Correcte
+                  2	!  Incorrecte               !  Incorrecte
+                  3	!  Incertaine               !  Incertaine
+                  4	!  Non qualifié             !  Non qualifié
+              ----------------------------------------------------------------------
+
+
+              Correcte :
+              ----------
+              Une valeur est déclarée « Correcte » lorsque elle est estimée valide au stade de validation indiquée dans l'information « statut de la donnée » et vis-à-vis de la finalité recherchée.
+
+
+              Incertaine :
+              ------------
+              Une valeur sera déclarée « Incertaine » si la validité de la  donnée reste « douteuse » au stade de validation indiquée dans l'information « statut de la donnée ». 
+              Dans la mesure du possible, la qualification « Douteuse » doit être une étape transitoire de la validation de la donnée et doit être réservé à des avancements intermédiaires de la validation.
+
+
+              Incorrecte :
+              ------------
+              Une valeur est déclarée « Incorrecte » lorsque elle est estimée erronée au stade de validation indiquée dans l'information « statut de la donnée » et vis-à-vis de la finalité recherchée.
+
+
+              Non qualifié :
+              --------------
+              Etat initial de la mesure qui n'a encore subi aucun audit ou interprétation du producteur de données en vue de sa validation.
+
+
+              Qualification non définissable :
+              --------------------------------
+              Une valeur sera non définissable lorsque le producteur est dans l¿impossibilité d¿obtenir les informations nécessaires évaluer la conformité de la donnée. Il s'agit par exemple de données historiques récupérées des archives dont on a perdu toute information sur la façon dont elles ont été produites.
+
+              Fin de la nomenclature
+              Les informations relatives aux résultats d'analyse sont fournies par l'organisme chargé de l'analyse, et communiquées sous la responsabilité de l'organisme producteur de données qui confirme ou non le résultat au regard de la connaissance et du contrôle du processus de production de la donnée et qui s'engage ou pas sur la vraisemblance et la représentativité de la donnée par rapport au milieu où a été réalisé le prélèvement.</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:integer"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="Statut">
+                        <xsd:annotation>
+                            <xsd:documentation>Le statut de l'analyse indique l’état d’avancement de la validation des données sur les plans d’eau selon la nomenclature ci-après. Cette information complète la qualification du résultat (correct, incorrect,...) afin de préciser à quelle étape de validation se trouve le résultat échangé :</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:integer"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element maxOccurs="unbounded" minOccurs="0" name="CdIntervenant">
+                        <xsd:annotation>
+                            <xsd:documentation>Le code de l'intervenant est son identifiant au sein du système d'identifiant défini dans l'attribut 'Origine du code de l'intervenant'.
+
+              Ce code est en priorité le code SIRET attribué par l'INSEE. Il s'agit d'un code qui identifie chaque établissement d'une entreprise par un numéro à quatorze chiffres composé, dans l'ordre :
+                   - des neufs chiffres du numéro SIREN de l'entreprise;
+                   - de cinq chiffres complémentaires propres à l'établissement identifié, également appelé NIC (Numéro Interne de Classement).
+
+              Le dernier chiffre du numéro SIREN et du code SIRET sont une clé de contrôle.
+
+              Ce numéro est rattaché au lieu d'exercice de l'activité. Il en résulte que le changement d'adresse du lieu d'activité entraîne un changement de numéro de l'établissement concerné, sans que soient modifiés les neufs premiers chiffres puisque l'entreprise est toujours la même.
+
+              Un numéro SIRET supprimé n'est jamais réutilisé.
+
+              Le numéro SIREN est le numéro unique d'identification des entreprises prévu par l'article de la loi du 11 février 1994. Il entre dans le composition du numéro d'immatriculation au registre du commerce et des sociétés (RCS) et du numéro d'opérateur du commerce intra communautaire. Ces derniers doivent figurer, en tant que de besoin, sur les papiers à en-tête.
+
+              Lorsque l'entreprise est une personne morale (association, société, GIE, etc.) ce numéro est attaché à l'entreprise et reste identique tant que celle-ci existe, même si son activité change, si son siège social, sa raison sociale, le montant de son capital change ou si sa forme juridique est modifiée sans rupture de la personnalité. Le numéro est supprimé en cas de dissolution.
+
+              Lorsque l'entreprise est une personne physique (entreprise individuelle, profession libérale, etc.), le numéro SIREN est rattaché à la personne physique qui conservera son numéro à vie, quelle que soit son activité.
+
+              Le numéro SIREN supprimé n'est jamais réutilisé.
+
+              Le code SIRET de l'intervenant est le dernier en date qui lui a été attribué (le dictionnaire de permet pas d'historiser les évolutions de ce code pour un intervenant).
+
+              Le code SANDRE de l'intervenant supplée le code SIRET lorsque l'activité de l'intervenant ne peut être codifié dans la nomenclature INSEE.
+
+              Il s'agit d'un numéro d'enregistrement attribué par le SANDRE. Le code est une valeur numérique entière comprise entre 0 et 99.999.999.999.999.999.</xsd:documentation>
+                        </xsd:annotation>
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="SchemaAgency">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                    <xsd:element name="Role">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string"/>
+                        </xsd:simpleType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:element name="getCapabilities">
+                <xsd:complexType/>
+            </xsd:element>
+            <xsd:element name="getCapabilitiesResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Result" type="sa_mo:GetCapabilitiesResponse"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getCapabilitiesError">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="CdErreur" type="xsd:string"/>
+                        <xsd:element minOccurs="0" name="LocationErreur" type="xsd:string"/>
+                        <xsd:element minOccurs="0" name="DescriptifErreur" type="xsd:string"/>
+                    </xsd:sequence>
+                    <xsd:attribute name="SeveriteErreur" use="optional">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:enumeration value="Warning"/>
+                                <xsd:enumeration value="Error"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:attribute>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getSites">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="domain" type="xsd:string"/>
+                        <xsd:element minOccurs="0" name="spatialConstraints" type="sa_mo:SpatialFilter"/>
+                        <xsd:element minOccurs="0" name="domainConstraints" type="sa_mo:DomainFilter"/>
+                        <xsd:element name="outputSchema" type="xsd:string"/>
+                        <xsd:element name="outputFormat" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getSitesResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Result" type="sa_mo:ResumeSites"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getSitesError">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="CdErreur" type="xsd:string"/>
+                        <xsd:element minOccurs="0" name="LocationErreur" type="xsd:string"/>
+                        <xsd:element minOccurs="0" name="DescriptifErreur" type="xsd:string"/>
+                    </xsd:sequence>
+                    <xsd:attribute name="SeveriteErreur" use="optional">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:enumeration value="Warning"/>
+                                <xsd:enumeration value="Error"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:attribute>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getSiteDescription">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="domain" type="xsd:string"/>
+                        <xsd:element name="sites" type="sa_mo:Sites"/>
+                        <xsd:element name="outputSchema" type="xsd:string"/>
+                        <xsd:element name="outputFormat" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getSiteDescriptionResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Result" type="xsd:base64Binary"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getSiteDescriptionError">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="CdErreur" type="xsd:string"/>
+                        <xsd:element minOccurs="0" name="LocationErreur" type="xsd:string"/>
+                        <xsd:element minOccurs="0" name="DescriptifErreur" type="xsd:string"/>
+                    </xsd:sequence>
+                    <xsd:attribute name="SeveriteErreur" use="optional">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:enumeration value="Warning"/>
+                                <xsd:enumeration value="Error"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:attribute>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getDataAvailability">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="domain" type="xsd:string"/>
+                        <xsd:element name="sites" type="sa_mo:Sites"/>
+                        <xsd:element name="outputSchema" type="xsd:string"/>
+                        <xsd:element name="outputFormat" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getDataAvailabilityResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Result" type="sa_mo:DataSites"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getDataAvailabilityError">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="CdErreur" type="xsd:string"/>
+                        <xsd:element minOccurs="0" name="LocationErreur" type="xsd:string"/>
+                        <xsd:element minOccurs="0" name="DescriptifErreur" type="xsd:string"/>
+                    </xsd:sequence>
+                    <xsd:attribute name="SeveriteErreur" use="optional">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:enumeration value="Warning"/>
+                                <xsd:enumeration value="Error"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:attribute>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getData">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="domain" type="xsd:string"/>
+                        <xsd:element name="sites" type="sa_mo:Sites"/>
+                        <xsd:element name="temporalConstraints" type="sa_mo:TemporalFilter"/>
+                        <xsd:element name="analyticConstraints" type="sa_mo:AnalyticFilter"/>
+                        <xsd:element minOccurs="0" name="domainConstraints" type="sa_mo:DomainDataFilter"/>
+                        <xsd:element name="outputSchema" type="xsd:string"/>
+                        <xsd:element name="outputFormat" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getDataResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Result" type="xsd:base64Binary"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getDataError">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="CdErreur" type="xsd:string"/>
+                        <xsd:element minOccurs="0" name="LocationErreur" type="xsd:string"/>
+                        <xsd:element minOccurs="0" name="DescriptifErreur" type="xsd:string"/>
+                    </xsd:sequence>
+                    <xsd:attribute name="SeveriteErreur" use="optional">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:enumeration value="Warning"/>
+                                <xsd:enumeration value="Error"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:attribute>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getSitesASync">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="domain" type="xsd:string"/>
+                        <xsd:element name="spatialConstraints" type="sa_mo:SpatialFilter"/>
+                        <xsd:element name="domainConstraints" type="sa_mo:DomainFilter"/>
+                        <xsd:element name="outputSchema" type="xsd:string"/>
+                        <xsd:element name="outputFormat" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="MessageHeader">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="conversationID" type="xsd:string"/>
+                        <xsd:element name="callbackLocation" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getSitesASyncResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Result" type="xsd:boolean"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getSitesASyncError">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="CdErreur" type="xsd:string"/>
+                        <xsd:element minOccurs="0" name="LocationErreur" type="xsd:string"/>
+                        <xsd:element minOccurs="0" name="DescriptifErreur" type="xsd:string"/>
+                    </xsd:sequence>
+                    <xsd:attribute name="SeveriteErreur" use="optional">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:enumeration value="Warning"/>
+                                <xsd:enumeration value="Error"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:attribute>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getDataASync">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="domain" type="xsd:string"/>
+                        <xsd:element name="sites" type="sa_mo:Sites"/>
+                        <xsd:element name="temporalConstraints" type="sa_mo:TemporalFilter"/>
+                        <xsd:element name="analyticConstraints" type="sa_mo:AnalyticFilter"/>
+                        <xsd:element name="domainConstraints" type="sa_mo:DomainDataFilter"/>
+                        <xsd:element name="outputSchema" type="xsd:string"/>
+                        <xsd:element name="outputFormat" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getDataASyncResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="Result" type="xsd:boolean"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="getDataASyncError">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="CdErreur" type="xsd:string"/>
+                        <xsd:element minOccurs="0" name="LocationErreur" type="xsd:string"/>
+                        <xsd:element minOccurs="0" name="DescriptifErreur" type="xsd:string"/>
+                    </xsd:sequence>
+                    <xsd:attribute name="SeveriteErreur" use="optional">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:enumeration value="Warning"/>
+                                <xsd:enumeration value="Error"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:attribute>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="getSitesASyncSoapIn">
+        <wsdl:part name="parameters" element="sa_mo:getSitesASync"/>
+    </wsdl:message>
+    <wsdl:message name="getSitesASyncSoapIn">
+        <wsdl:part name="SendHeader" element="sa_mo:MessageHeader"/>
+    </wsdl:message>
+    <wsdl:message name="getSitesASyncSoapOut">
+        <wsdl:part name="parameters" element="sa_mo:getSitesASyncResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getSitesASyncFault">
+        <wsdl:part name="parameters" element="sa_mo:getSitesASyncError"/>
+    </wsdl:message>
+    <wsdl:message name="getSiteDescriptionSoapIn">
+        <wsdl:part name="parameters" element="sa_mo:getSiteDescription"/>
+    </wsdl:message>
+    <wsdl:message name="getSiteDescriptionSoapOut">
+        <wsdl:part name="parameters" element="sa_mo:getSiteDescriptionResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getSiteDescriptionFault">
+        <wsdl:part name="parameters" element="sa_mo:getSiteDescriptionError"/>
+    </wsdl:message>
+    <wsdl:message name="getSitesSoapIn">
+        <wsdl:part name="parameters" element="sa_mo:getSites"/>
+    </wsdl:message>
+    <wsdl:message name="getSitesSoapOut">
+        <wsdl:part name="parameters" element="sa_mo:getSitesResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getSitesFault">
+        <wsdl:part name="parameters" element="sa_mo:getSitesError"/>
+    </wsdl:message>
+    <wsdl:message name="getCapabilitiesSoapIn">
+        <wsdl:part name="parameters" element="sa_mo:getCapabilities"/>
+    </wsdl:message>
+    <wsdl:message name="getCapabilitiesSoapOut">
+        <wsdl:part name="parameters" element="sa_mo:getCapabilitiesResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getCapabilitiesFault">
+        <wsdl:part name="parameters" element="sa_mo:getCapabilitiesError"/>
+    </wsdl:message>
+    <wsdl:message name="getDataASyncSoapIn">
+        <wsdl:part name="parameters" element="sa_mo:getDataASync"/>
+    </wsdl:message>
+    <wsdl:message name="getDataASyncSoapIn">
+        <wsdl:part name="SendHeader" element="sa_mo:MessageHeader"/>
+    </wsdl:message>
+    <wsdl:message name="getDataASyncSoapOut">
+        <wsdl:part name="parameters" element="sa_mo:getDataASyncResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getDataASyncFault">
+        <wsdl:part name="parameters" element="sa_mo:getDataASyncError"/>
+    </wsdl:message>
+    <wsdl:message name="getDataAvailabilitySoapIn">
+        <wsdl:part name="parameters" element="sa_mo:getDataAvailability"/>
+    </wsdl:message>
+    <wsdl:message name="getDataAvailabilitySoapOut">
+        <wsdl:part name="parameters" element="sa_mo:getDataAvailabilityResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getDataAvailabilityFault">
+        <wsdl:part name="parameters" element="sa_mo:getDataAvailabilityError"/>
+    </wsdl:message>
+    <wsdl:message name="getDataSoapIn">
+        <wsdl:part name="parameters" element="sa_mo:getData"/>
+    </wsdl:message>
+    <wsdl:message name="getDataSoapOut">
+        <wsdl:part name="parameters" element="sa_mo:getDataResponse"/>
+    </wsdl:message>
+    <wsdl:message name="getDataFault">
+        <wsdl:part name="parameters" element="sa_mo:getDataError"/>
+    </wsdl:message>
+    <wsdl:portType name="MonitoringServicePortType">
+        <wsdl:operation name="getSitesASync">
+            <wsdl:input message="sa_mo:getSitesASyncSoapIn" wsaw:Action="getSitesASync"/>
+            <wsdl:output message="sa_mo:getSitesASyncSoapOut" wsaw:Action="http://xml.sandre.eaufrance.fr/wsdl/Monitoring/1.1/Monitoring/getSitesASyncResponse"/>
+            <wsdl:fault message="sa_mo:getSitesASyncFault" name="getSitesASyncFault" wsaw:Action="urn:getSitesASyncgetSitesASyncFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="getSiteDescription">
+            <wsdl:input message="sa_mo:getSiteDescriptionSoapIn" wsaw:Action="getSiteDescription"/>
+            <wsdl:output message="sa_mo:getSiteDescriptionSoapOut" wsaw:Action="http://xml.sandre.eaufrance.fr/wsdl/Monitoring/1.1/Monitoring/getSiteDescriptionResponse"/>
+            <wsdl:fault message="sa_mo:getSiteDescriptionFault" name="getSiteDescriptionFault" wsaw:Action="urn:getSiteDescriptiongetSiteDescriptionFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="getSites">
+            <wsdl:documentation>Cette opération permet de rechercher un ensemble de sites et de disposer des informations descriptives sur le site. Cette interface permet de traiter la plupart des cas d’utilisation du service WaterData.  
+
+          Cette opération est OBLIGATOIRE.</wsdl:documentation>
+            <wsdl:input message="sa_mo:getSitesSoapIn" wsaw:Action="getSites"/>
+            <wsdl:output message="sa_mo:getSitesSoapOut" wsaw:Action="http://xml.sandre.eaufrance.fr/wsdl/Monitoring/1.1/Monitoring/getSitesResponse"/>
+            <wsdl:fault message="sa_mo:getSitesFault" name="getSitesFault" wsaw:Action="urn:getSitesgetSitesFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="getCapabilities">
+            <wsdl:input message="sa_mo:getCapabilitiesSoapIn" wsaw:Action="getCapabilities"/>
+            <wsdl:output message="sa_mo:getCapabilitiesSoapOut" wsaw:Action="http://xml.sandre.eaufrance.fr/wsdl/Monitoring/1.1/Monitoring/getCapabilitiesResponse"/>
+            <wsdl:fault message="sa_mo:getCapabilitiesFault" name="getCapabilitiesFault" wsaw:Action="urn:getCapabilitiesgetCapabilitiesFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="getDataASync">
+            <wsdl:input message="sa_mo:getDataASyncSoapIn" wsaw:Action="getDataASync"/>
+            <wsdl:output message="sa_mo:getDataASyncSoapOut" wsaw:Action="http://xml.sandre.eaufrance.fr/wsdl/Monitoring/1.1/Monitoring/getDataASyncResponse"/>
+            <wsdl:fault message="sa_mo:getDataASyncFault" name="getDataASyncFault" wsaw:Action="urn:getDataASyncgetDataASyncFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="getDataAvailability">
+            <wsdl:input message="sa_mo:getDataAvailabilitySoapIn" wsaw:Action="getDataAvailability"/>
+            <wsdl:output message="sa_mo:getDataAvailabilitySoapOut" wsaw:Action="http://xml.sandre.eaufrance.fr/wsdl/Monitoring/1.1/Monitoring/getDataAvailabilityResponse"/>
+            <wsdl:fault message="sa_mo:getDataAvailabilityFault" name="getDataAvailabilityFault" wsaw:Action="urn:getDataAvailabilitygetDataAvailabilityFault"/>
+        </wsdl:operation>
+        <wsdl:operation name="getData">
+            <wsdl:input message="sa_mo:getDataSoapIn" wsaw:Action="getData"/>
+            <wsdl:output message="sa_mo:getDataSoapOut" wsaw:Action="http://xml.sandre.eaufrance.fr/wsdl/Monitoring/1.1/Monitoring/getDataResponse"/>
+            <wsdl:fault message="sa_mo:getDataFault" name="getDataFault" wsaw:Action="urn:getDatagetDataFault"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="MonitoringServiceSOAP11Binding" type="sa_mo:MonitoringServicePortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="getSitesASync">
+            <soap:operation soapAction="getSitesASync" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+                <soap:header use="literal" part="SendHeader" message="sa_mo:getSitesASyncSoapIn"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="getSitesASyncFault">
+                <soap:fault use="literal" name="getSitesASyncFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getSiteDescription">
+            <soap:operation soapAction="getSiteDescription" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="getSiteDescriptionFault">
+                <soap:fault use="literal" name="getSiteDescriptionFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getSites">
+            <soap:operation soapAction="getSites" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="getSitesFault">
+                <soap:fault use="literal" name="getSitesFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getCapabilities">
+            <soap:operation soapAction="getCapabilities" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="getCapabilitiesFault">
+                <soap:fault use="literal" name="getCapabilitiesFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getDataASync">
+            <soap:operation soapAction="getDataASync" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+                <soap:header use="literal" part="SendHeader" message="sa_mo:getDataASyncSoapIn"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="getDataASyncFault">
+                <soap:fault use="literal" name="getDataASyncFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getDataAvailability">
+            <soap:operation soapAction="getDataAvailability" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="getDataAvailabilityFault">
+                <soap:fault use="literal" name="getDataAvailabilityFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getData">
+            <soap:operation soapAction="getData" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="getDataFault">
+                <soap:fault use="literal" name="getDataFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="MonitoringServiceSOAP12Binding" type="sa_mo:MonitoringServicePortType">
+        <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        <wsdl:operation name="getSitesASync">
+            <soap12:operation soapAction="getSitesASync" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+                <soap12:header use="literal" part="SendHeader" message="sa_mo:getSitesASyncSoapIn"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="getSitesASyncFault">
+                <soap12:fault use="literal" name="getSitesASyncFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getSiteDescription">
+            <soap12:operation soapAction="getSiteDescription" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="getSiteDescriptionFault">
+                <soap12:fault use="literal" name="getSiteDescriptionFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getSites">
+            <soap12:operation soapAction="getSites" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="getSitesFault">
+                <soap12:fault use="literal" name="getSitesFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getCapabilities">
+            <soap12:operation soapAction="getCapabilities" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="getCapabilitiesFault">
+                <soap12:fault use="literal" name="getCapabilitiesFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getDataASync">
+            <soap12:operation soapAction="getDataASync" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+                <soap12:header use="literal" part="SendHeader" message="sa_mo:getDataASyncSoapIn"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="getDataASyncFault">
+                <soap12:fault use="literal" name="getDataASyncFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getDataAvailability">
+            <soap12:operation soapAction="getDataAvailability" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="getDataAvailabilityFault">
+                <soap12:fault use="literal" name="getDataAvailabilityFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="getData">
+            <soap12:operation soapAction="getData" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="getDataFault">
+                <soap12:fault use="literal" name="getDataFault"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="MonitoringServiceHttpBinding" type="sa_mo:MonitoringServicePortType">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="getSitesASync">
+            <http:operation location="MonitoringService/getSitesASync"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getSitesASync"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getSitesASync"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getSiteDescription">
+            <http:operation location="MonitoringService/getSiteDescription"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getSiteDescription"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getSiteDescription"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getSites">
+            <http:operation location="MonitoringService/getSites"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getSites"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getSites"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getCapabilities">
+            <http:operation location="MonitoringService/getCapabilities"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getCapabilities"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getCapabilities"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getDataASync">
+            <http:operation location="MonitoringService/getDataASync"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getDataASync"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getDataASync"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getDataAvailability">
+            <http:operation location="MonitoringService/getDataAvailability"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getDataAvailability"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getDataAvailability"/>
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="getData">
+            <http:operation location="MonitoringService/getData"/>
+            <wsdl:input>
+                <mime:content type="text/xml" part="getData"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content type="text/xml" part="getData"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="MonitoringService">
+        <wsdl:port name="MonitoringServiceSOAP11port_http" binding="sa_mo:MonitoringServiceSOAP11Binding">
+            <soap:address location="http://wssie.eau-loire-bretagne.fr:80/AELB-IWS-MONITORING/services/MonitoringService"/>
+        </wsdl:port>
+        <wsdl:port name="MonitoringServiceSOAP12port_http" binding="sa_mo:MonitoringServiceSOAP12Binding">
+            <soap12:address location="http://wssie.eau-loire-bretagne.fr:80/AELB-IWS-MONITORING/services/MonitoringService"/>
+        </wsdl:port>
+        <wsdl:port name="MonitoringServiceHttpport" binding="sa_mo:MonitoringServiceHttpBinding">
+            <http:address location="http://wssie.eau-loire-bretagne.fr:80/AELB-IWS-MONITORING/services/MonitoringService"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
