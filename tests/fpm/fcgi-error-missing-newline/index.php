@@ -1,3 +1,2 @@
 <?php
-echo $a;
-echo $a;
+d();
