@@ -8,6 +8,8 @@ RUN apt-get install -y \
         re2c \
         gcc \
         g++ \
+        gdb \
+        vim \
         make \
         locales \
         openssl \
