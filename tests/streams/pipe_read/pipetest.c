@@ -47,7 +47,7 @@ int main(int argc,char **argv)
 		
 		while ((n=fread(buf,1,BUF_SIZE,fp))==BUF_SIZE) fprintf(stderr,"n: %zu ",n);
 		if (errno!=0) perror("fread");
-		fprintf(stderr,"n: %zu EOF: %d\n",n, 1);
+		fprintf(stderr,"n: %zu EOF: %d\n",n,feof(fp));
 	}
 	else
 	{ //fork error
