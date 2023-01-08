@@ -45,6 +45,7 @@ PHPU_ETC=/usr/local/etc
 PHPU_CONF="$PHPU_ROOT/conf"
 PHPU_CONF_OPT="$PHPU_CONF/options.conf"
 PHPU_CONF_OPT_MASTER="$PHPU_CONF/options-master.conf"
+PHPU_CONF_OPT_MASTER_SANITIZE="$PHPU_CONF/options-master-sanitize.conf"
 PHPU_CONF_OPT_8="$PHPU_CONF/options-8.conf"
 PHPU_CONF_OPT_74="$PHPU_CONF/options-74.conf"
 PHPU_CONF_OPT_7="$PHPU_CONF/options-7.conf"
@@ -398,6 +399,13 @@ function phpu_conf {
     if [[ ! "$*" =~ "no-debug" ]]; then
       PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-debug"
     fi
+    if [[ "$*" =~ "sanitize" ]]; then
+      PHPU_SANITIZE=1
+      PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-memory-sanitizer"
+      export CC=clang
+      export CXX=clang++
+      export CFLAGS="-DZEND_TRACK_ARENA_ALLOC"
+    fi
     if [[ ! "$*" =~ "no-zts" ]]; then
       if [[ $PHPU_CURRENT_DIR =~ ^(src|std|sec|7|71|72|73|74)$ ]]; then
         PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-maintainer-zts"
@@ -438,7 +446,11 @@ function phpu_conf {
   # set conf active ext and options path
   if [[ $PHPU_CURRENT_DIR =~ ^(master|81|82)$ ]]; then
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
-    PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_MASTER"
+    if [ "$PHPU_SANITIZE" == "1" ]; then
+      PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_MASTER_SANITIZE"
+    else
+      PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_MASTER"
+    fi
   elif [[ $PHPU_CURRENT_DIR == 80 ]]; then
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
     PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_8"
@@ -496,6 +508,17 @@ function phpu_conf {
   fi
   ./buildconf --force
  _phpu_configure $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_ACTIVE_OPT"`
+}
+
+# run make
+function phpu_make {
+  if [ "$1" == "sanitize" ]; then
+    shift
+    export CC=clang
+    export CXX=clang++
+    export CFLAGS="-DZEND_TRACK_ARENA_ALLOC"
+  fi
+  make $@
 }
 
 
@@ -851,6 +874,9 @@ case $PHPU_ACTION in
     ;;
   conf)
     phpu_conf $@
+    ;;
+  make)
+    phpu_make $@
     ;;
   new)
     phpu_new $@
