@@ -117,8 +117,9 @@ PHPU_DOC_REFERENCE="$PHPU_DOC/en/reference"
 PHPU_OPENSSL_BASE_DIR="/usr/local/"
 # The directory prefix for version 1.0.x is empty
 PHPU_OPENSSL_VERSION_DIR="ssl"
-# Dockerfile
-PHPU_DOCKERFILE="$PHPU_ROOT/docker/Dockerfile"
+# Dockerfiles
+PHPU_DOCKER_DIR="$PHPU_ROOT/docker"
+
 
 # show error
 function error {
@@ -788,25 +789,55 @@ function phpu_docker {
   if [ -z "$1" ]; then
     error "Docker action not set"
     phpu_help
+    exit
   elif [ -z "$2" ]; then
     error "Docker PHP branch not set"
     phpu_help
-  elif [ "$1" == "build" ]; then
-    cp $PHPU_DOCKERFILE $PHPU_ROOT/$2
-    cd $PHPU_ROOT/$2
-    make clean
-    docker build --build-arg PHP_PROJECT=$2 -t php_local_$2 .
-    rm $PHPU_ROOT/$2/Dockerfile
-    echo "build done"
-  elif [ "$1" == "run" ]; then
-    PHPU_DOCKER_IMAGE=php_local_$2
-    shift
-    shift
-    docker run $@ -ti $PHPU_DOCKER_IMAGE
-  else
-    error "Invalid docker action $1"
-    phpu_help
+    exit
   fi
+  PHPU_DOCKER_ACTION=$1
+  shift
+  PHPU_DOCKER_BRANCH=$1
+  shift
+  
+  PHPU_DOCKER_WORKDIR=$PHPU_ROOT/$PHPU_DOCKER_BRANCH
+  if [ ! -d "$PHPU_DOCKER_WORKDIR" ]; then
+    error "Docker workdir $PHPU_DOCKER_WORKDIR is not a directory"
+    exit
+  fi
+  PHPU_DOCKER_IMAGE=php_local_${PHPU_DOCKER_TYPE}_$PHPU_DOCKER_BRANCH
+  
+  # set type of Dockerfile
+  if [ -n "$1" ]; then
+    PHPU_DOCKER_TYPE=$1
+    shift
+  else
+    PHPU_DOCKER_TYPE=standard
+  fi
+  # set Dockerfile path
+  PHPU_DOCKERFILE="$PHPU_DOCKER_DIR/$PHPU_DOCKER_TYPE.dockerfile"
+  if [ ! -f $PHPU_DOCKERFILE ]; then
+    error "Dockerfile $PHPU_DOCKERFILE does not exist"
+    exit
+  fi
+  # execute action
+  case $PHPU_DOCKER_ACTION in
+    build)
+      cp $PHPU_DOCKERFILE $PHPU_DOCKER_WORKDIR/Dockerfile
+      cd $PHPU_DOCKER_WORKDIR
+      make clean
+      docker build -t $PHPU_DOCKER_IMAGE .
+      rm $PHPU_DOCKER_WORKDIR/Dockerfile
+      echo "build done"
+      ;;
+    run)
+      docker run $@ -ti $PHPU_DOCKER_IMAGE
+      ;;
+    *)
+      error "Invalid docker action $PHPU_DOCKER_ACTION"
+      phpu_help
+      ;;
+  esac
 }
 
 # se action
