@@ -407,6 +407,9 @@ function phpu_conf {
       export CXX=clang++
       export CFLAGS="-DZEND_TRACK_ARENA_ALLOC"
     fi
+    if [[ "$*" =~ "presanit" ]]; then
+      PHPU_SANITIZE=1
+    fi
     if [[ ! "$*" =~ "no-zts" ]]; then
       if [[ $PHPU_CURRENT_DIR =~ ^(src|std|sec|7|71|72|73|74)$ ]]; then
         PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-maintainer-zts"
@@ -805,14 +808,13 @@ function phpu_docker {
     error "Docker workdir $PHPU_DOCKER_WORKDIR is not a directory"
     exit
   fi
-  PHPU_DOCKER_IMAGE=php_local_${PHPU_DOCKER_TYPE}_$PHPU_DOCKER_BRANCH
   
   # set type of Dockerfile
   if [ -n "$1" ]; then
     PHPU_DOCKER_TYPE=$1
     shift
   else
-    PHPU_DOCKER_TYPE=standard
+    PHPU_DOCKER_TYPE=standard-ubuntu-22-04
   fi
   # set Dockerfile path
   PHPU_DOCKERFILE="$PHPU_DOCKER_DIR/$PHPU_DOCKER_TYPE.dockerfile"
@@ -820,6 +822,8 @@ function phpu_docker {
     error "Dockerfile $PHPU_DOCKERFILE does not exist"
     exit
   fi
+  # set image
+  PHPU_DOCKER_IMAGE=php_local_${PHPU_DOCKER_TYPE}_$PHPU_DOCKER_BRANCH
   # execute action
   case $PHPU_DOCKER_ACTION in
     build)
