@@ -1,0 +1,1 @@
+exec docker run -p 9000:9000 -v /home/jakub/prog/php/tests/fpm/unknown-child:/home/jakub/prog/php/tests/fpm/unknown-child php:7.4-fpm-alpine -R -y /home/jakub/prog/php/tests/fpm/unknown-child/fpm.conf -F
