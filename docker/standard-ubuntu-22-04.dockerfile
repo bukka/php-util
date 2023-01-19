@@ -47,37 +47,35 @@ WORKDIR php
 
 RUN ./buildconf --force
 
-# RUN ./configure \
-#         --enable-option-checking=fatal \
-#         --prefix=/usr \
-#         --enable-phpdbg \
-#         --enable-fpm \
-#         --enable-intl \
-#         --without-pear \
-#         --enable-gd \
-#         --with-jpeg \
-#         --with-webp \
-#         --with-freetype \
-#         --with-zip \
-#         --with-zlib \
-#         --with-zlib-dir=/usr \
-#         --enable-soap \
-#         --enable-pcntl \
-#         --with-readline \
-#         --enable-mbstring \
-#         --with-curl \
-#         --enable-sockets \
-#         --with-openssl \
-#         --with-gmp \
-#         --with-kerberos \
-#         --enable-sysvmsg \
-#         --with-ffi \
-#         --enable-zend-test \
-#         --enable-dl-test=shared \
-#         --with-config-file-path=/etc \
-#         --with-config-file-scan-dir=/etc/php.d
-
-RUN ./configure --enable-address-sanitizer --enable-debug --enable-fpm
+RUN ./configure \
+        --enable-option-checking=fatal \
+        --prefix=/usr \
+        --enable-phpdbg \
+        --enable-fpm \
+        --enable-intl \
+        --without-pear \
+        --enable-gd \
+        --with-jpeg \
+        --with-webp \
+        --with-freetype \
+        --with-zip \
+        --with-zlib \
+        --with-zlib-dir=/usr \
+        --enable-soap \
+        --enable-pcntl \
+        --with-readline \
+        --enable-mbstring \
+        --with-curl \
+        --enable-sockets \
+        --with-openssl \
+        --with-gmp \
+        --with-kerberos \
+        --enable-sysvmsg \
+        --with-ffi \
+        --enable-zend-test \
+        --enable-dl-test=shared \
+        --with-config-file-path=/etc \
+         --with-config-file-scan-dir=/etc/php.d
 
 RUN make -j8 && make install
 
