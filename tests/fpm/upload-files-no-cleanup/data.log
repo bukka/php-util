@@ -1,0 +1,84 @@
+== Info:   Trying 127.0.0.1:8080...
+== Info: TCP_NODELAY set
+== Info: Connected to localhost (127.0.0.1) port 8080 (#0)
+=> Send header, 289 bytes (0x121)
+0000: 50 4f 53 54 20 2f 69 6e 64 65 78 2e 70 68 70 20 POST /index.php 
+0010: 48 54 54 50 2f 31 2e 31 0d 0a 48 6f 73 74 3a 20 HTTP/1.1..Host: 
+0020: 6c 6f 63 61 6c 68 6f 73 74 3a 38 30 38 30 0d 0a localhost:8080..
+0030: 55 73 65 72 2d 41 67 65 6e 74 3a 20 4d 6f 7a 69 User-Agent: Mozi
+0040: 6c 6c 61 2f 35 2e 30 20 28 58 31 31 3b 20 4c 69 lla/5.0 (X11; Li
+0050: 6e 75 78 20 78 38 36 5f 36 34 29 20 41 70 70 6c nux x86_64) Appl
+0060: 65 57 65 62 4b 69 74 2f 35 33 37 2e 33 36 20 28 eWebKit/537.36 (
+0070: 4b 48 54 4d 4c 2c 20 6c 69 6b 65 20 47 65 63 6b KHTML, like Geck
+0080: 6f 29 20 43 68 72 6f 6d 65 2f 38 35 2e 30 2e 34 o) Chrome/85.0.4
+0090: 31 38 33 2e 31 32 31 20 53 61 66 61 72 69 2f 35 183.121 Safari/5
+00a0: 33 37 2e 33 36 0d 0a 41 63 63 65 70 74 3a 20 2a 37.36..Accept: *
+00b0: 2f 2a 0d 0a 43 6f 6e 74 65 6e 74 2d 4c 65 6e 67 /*..Content-Leng
+00c0: 74 68 3a 20 32 33 35 0d 0a 43 6f 6e 74 65 6e 74 th: 235..Content
+00d0: 2d 54 79 70 65 3a 20 6d 75 6c 74 69 70 61 72 74 -Type: multipart
+00e0: 2f 66 6f 72 6d 2d 64 61 74 61 3b 20 62 6f 75 6e /form-data; boun
+00f0: 64 61 72 79 3d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d dary=-----------
+0100: 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 35 38 61 -------------58a
+0110: 34 36 32 35 34 36 66 66 65 30 36 61 32 0d 0a 0d 462546ffe06a2...
+0120: 0a                                              .
+=> Send data, 235 bytes (0xeb)
+0000: 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d ----------------
+0010: 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 35 38 61 34 36 32 ----------58a462
+0020: 35 34 36 66 66 65 30 36 61 32 0d 0a 43 6f 6e 74 546ffe06a2..Cont
+0030: 65 6e 74 2d 44 69 73 70 6f 73 69 74 69 6f 6e 3a ent-Disposition:
+0040: 20 66 6f 72 6d 2d 64 61 74 61 3b 20 6e 61 6d 65  form-data; name
+0050: 3d 22 66 69 6c 65 6e 61 6d 65 22 3b 20 66 69 6c ="filename"; fil
+0060: 65 6e 61 6d 65 3d 22 74 6d 70 2e 74 78 74 22 0d ename="tmp.txt".
+0070: 0a 43 6f 6e 74 65 6e 74 2d 54 79 70 65 3a 20 74 .Content-Type: t
+0080: 65 78 74 2f 70 6c 61 69 6e 0d 0a 0d 0a 48 65 79 ext/plain....Hey
+0090: 2c 20 6c 6f 6f 6b 20 61 74 20 6d 65 2c 20 49 6d , look at me, Im
+00a0: 20 61 20 74 65 6d 70 6f 72 61 72 79 20 66 69 6c  a temporary fil
+00b0: 65 20 63 6f 6e 74 65 6e 74 2e 0a 0d 0a 2d 2d 2d e content....---
+00c0: 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d 2d ----------------
+00d0: 2d 2d 2d 2d 2d 2d 2d 35 38 61 34 36 32 35 34 36 -------58a462546
+00e0: 66 66 65 30 36 61 32 2d 2d 0d 0a                ffe06a2--..
+== Info: We are completely uploaded and fine
+== Info: Mark bundle as not supporting multiuse
+<= Recv header, 17 bytes (0x11)
+0000: 48 54 54 50 2f 31 2e 31 20 32 30 30 20 4f 4b 0d HTTP/1.1 200 OK.
+0010: 0a                                              .
+<= Recv header, 31 bytes (0x1f)
+0000: 53 65 72 76 65 72 3a 20 6e 67 69 6e 78 2f 31 2e Server: nginx/1.
+0010: 31 38 2e 30 20 28 55 62 75 6e 74 75 29 0d 0a    18.0 (Ubuntu)..
+<= Recv header, 37 bytes (0x25)
+0000: 44 61 74 65 3a 20 46 72 69 2c 20 30 33 20 46 65 Date: Fri, 03 Fe
+0010: 62 20 32 30 32 33 20 31 33 3a 32 34 3a 33 39 20 b 2023 13:24:39 
+0020: 47 4d 54 0d 0a                                  GMT..
+<= Recv header, 40 bytes (0x28)
+0000: 43 6f 6e 74 65 6e 74 2d 54 79 70 65 3a 20 74 65 Content-Type: te
+0010: 78 74 2f 68 74 6d 6c 3b 20 63 68 61 72 73 65 74 xt/html; charset
+0020: 3d 55 54 46 2d 38 0d 0a                         =UTF-8..
+<= Recv header, 28 bytes (0x1c)
+0000: 54 72 61 6e 73 66 65 72 2d 45 6e 63 6f 64 69 6e Transfer-Encodin
+0010: 67 3a 20 63 68 75 6e 6b 65 64 0d 0a             g: chunked..
+<= Recv header, 24 bytes (0x18)
+0000: 43 6f 6e 6e 65 63 74 69 6f 6e 3a 20 6b 65 65 70 Connection: keep
+0010: 2d 61 6c 69 76 65 0d 0a                         -alive..
+<= Recv header, 30 bytes (0x1e)
+0000: 58 2d 50 6f 77 65 72 65 64 2d 42 79 3a 20 50 48 X-Powered-By: PH
+0010: 50 2f 38 2e 30 2e 32 37 2d 64 65 76 0d 0a       P/8.0.27-dev..
+<= Recv header, 2 bytes (0x2)
+0000: 0d 0a                                           ..
+<= Recv data, 245 bytes (0xf5)
+0000: 65 61 0d 0a 61 72 72 61 79 28 31 29 20 7b 0a 20 ea..array(1) {. 
+0010: 20 5b 22 66 69 6c 65 6e 61 6d 65 22 5d 3d 3e 0a  ["filename"]=>.
+0020: 20 20 61 72 72 61 79 28 35 29 20 7b 0a 20 20 20   array(5) {.   
+0030: 20 5b 22 6e 61 6d 65 22 5d 3d 3e 0a 20 20 20 20  ["name"]=>.    
+0040: 73 74 72 69 6e 67 28 37 29 20 22 74 6d 70 2e 74 string(7) "tmp.t
+0050: 78 74 22 0a 20 20 20 20 5b 22 74 79 70 65 22 5d xt".    ["type"]
+0060: 3d 3e 0a 20 20 20 20 73 74 72 69 6e 67 28 31 30 =>.    string(10
+0070: 29 20 22 74 65 78 74 2f 70 6c 61 69 6e 22 0a 20 ) "text/plain". 
+0080: 20 20 20 5b 22 74 6d 70 5f 6e 61 6d 65 22 5d 3d    ["tmp_name"]=
+0090: 3e 0a 20 20 20 20 73 74 72 69 6e 67 28 31 34 29 >.    string(14)
+00a0: 20 22 2f 74 6d 70 2f 70 68 70 47 30 4f 58 6f 43  "/tmp/phpG0OXoC
+00b0: 22 0a 20 20 20 20 5b 22 65 72 72 6f 72 22 5d 3d ".    ["error"]=
+00c0: 3e 0a 20 20 20 20 69 6e 74 28 30 29 0a 20 20 20 >.    int(0).   
+00d0: 20 5b 22 73 69 7a 65 22 5d 3d 3e 0a 20 20 20 20  ["size"]=>.    
+00e0: 69 6e 74 28 34 36 29 0a 20 20 7d 0a 7d 0a 0d 0a int(46).  }.}...
+00f0: 30 0d 0a 0d 0a                                  0....
+== Info: Connection #0 to host localhost left intact
