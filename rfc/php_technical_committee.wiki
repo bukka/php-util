@@ -47,7 +47,7 @@ The work flow for TC is following:
     * closing / rejecting the issue / PR  
     * making requested change to the PR
 
-It should be noted that if the problem is with specific commit, the core developer can create an issue specifying the
+It should be noted that if the problem is with a specific commit, the core developer can create an issue specifying the
 problem and put label on it.
 
 ==== TC Decissions ====
