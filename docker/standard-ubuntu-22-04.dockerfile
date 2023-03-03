@@ -75,7 +75,7 @@ RUN ./configure \
         --enable-zend-test \
         --enable-dl-test=shared \
         --with-config-file-path=/etc \
-         --with-config-file-scan-dir=/etc/php.d
+        --with-config-file-scan-dir=/etc/php.d
 
 RUN make -j8 && make install
 

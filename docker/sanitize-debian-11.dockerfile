@@ -49,7 +49,6 @@ RUN ./configure \
         --enable-zend-test \
         --enable-werror \
         --enable-memory-sanitizer \
-        --enable-address-sanitizer \
         --with-config-file-path=/etc \
         --with-config-file-scan-dir=/etc/php.d
 

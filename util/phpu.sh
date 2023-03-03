@@ -402,7 +402,11 @@ function phpu_conf {
     fi
     if [[ "$*" =~ "sanitize" ]]; then
       PHPU_SANITIZE=1
-      PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-memory-sanitizer"
+      if [[ "$*" =~ "sanitize-memory" ]]; then
+        PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-memory-sanitizer"
+      else
+        PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-address-sanitizer"
+      fi
       export CC=clang
       export CXX=clang++
       export CFLAGS="-DZEND_TRACK_ARENA_ALLOC"
