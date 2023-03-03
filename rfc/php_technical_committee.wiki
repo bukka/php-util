@@ -52,8 +52,8 @@ problem and put label on it.
 
 ==== TC Decissions ====
 
-The TC member will consider only technical aspects. Specifically the decission is not made on the user facing features
-which will be still decided by the RFC process. TC can however decide on the implementation of those features.
+The TC members will only consider technical aspects. Specifically the decision is not made for user facing features
+which continue to be decided by the RFC process. TC can however decide on the implementation of those features.
 
 The TC can decide whether the issue / PR is a feature or a bug. If it is a feature it can also decide if it is a self
 contained feature that can go to the lower branches. This happens only on request like described in the work flow.
