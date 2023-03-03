@@ -39,7 +39,7 @@ The work flow for TC is following:
   - Any core developer can add label tc-hold on issue or pull request. 
   - The core developer should mention the TC GitHub team to notify members of the TC.
   - The TC discusses the issue or pull request and vote on it (this can be done privately)
-    * The TC should consult with maintainers if the issue if the problem impacting code maintained by the maintainer
+    * The TC should consult with maintainers if the issue / PR changes or impacts code maintained by the maintainer
     * The TC should consult with RM if the issue / PR is about classification of the self contained feature or a bug
   - The TC announce its decision and reasoning by commenting on the issue or pull request
   - The core developer will follow the decision which can mean (not limited to):
@@ -50,21 +50,25 @@ The work flow for TC is following:
 It should be noted that if the problem is with a specific commit, the core developer can create an issue specifying the
 problem and put label on it.
 
-==== TC Decissions ====
+==== TC Decisions ====
 
 The TC members will only consider technical aspects. Specifically the decision is not made for user facing features
 which continue to be decided by the RFC process. TC can however decide on the implementation of those features.
 
-The TC can decide whether the issue / PR is a feature or a bug. If it is a feature it can also decide if it is a self
-contained feature that can go to the lower branches. This happens only on request like described in the work flow.
+The TC can decide whether the issue / PR is a feature or a bug if there is a disagreement between RM and a core
+developer. If it is a feature it can also decide if it is a self contained feature by assessing its technical
+impact. This happens only on request like described in the work flow.
 
 The way how to vote and discuss the issue is up to the TC members.
 
 ==== TC membership ====
 
 The TC will be composed of 5 member who will be voted once a year together with release managers by the RFC process.
-The vote is not necessary if no more than 5 condidates volunteer. The candidate must be a core developer and should
-have a general knowledge about PHP internals.
+It will be done using a single transferable vote if more than 5 candiates volunteer. The candidate must be a core
+developer and should have a general knowledge about PHP internals.
+
+If one of the members wants or needs to drop out of being part of the TC, the new volunteer is selected using the RFC
+process if there are more volunteer. The selection is automatic if there is only one volunteer.
 
 ===== Future Scope =====
 This section details areas where the feature might be improved in future, but that are not currently proposed in this RFC.
