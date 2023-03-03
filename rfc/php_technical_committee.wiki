@@ -1,0 +1,79 @@
+====== PHP RFC: PHP Technical Committee ======
+  * Version: 0.1
+  * Date: 2023-03-03
+  * Author: Jakub Zelenka, bukka@php.net
+  * Status: Draft
+
+===== Introduction =====
+
+PHP uses voting system for deciding about changes to PHP. This was created mainly for user visible changes in language.
+It works well for that purpose but it is not that effective for deciding about purely technical changes that impact PHP
+internals and extension API's. It is not exactly clear how it should resolve conflicts (on technical bases) between
+contributors that sometimes happen.
+
+
+===== Proposal =====
+
+This RFC proposes introduction of the PHP Technical Committee (TC) that would decide about all technical aspects of
+php-src. Specifically its main purpose is to decide about disagreements between contributors but it is not limited to
+that only.
+
+==== Definitions ====
+
+The text contains various terms that need further clarification to prevent future wording dispute. Here are their
+definitions:
+
+  * contributor - Anyone who has already contributed to php-src.
+  * core developer - Anyone with write commit right to php-src.
+  * dev branch - php-src branch consisting of PHP- prefix and major and minor version number (e.g. PHP-8.2)
+  * php-src - Source code in https://github.com/php/php-src/.
+  * RM - PHP release managers.
+  * technical aspect - Any issue or pull request in php-src or commit to php-src master and dev branches.
+  * TC - PHP Technical Committee.
+  * user facing feature - Feature resulting in change in PHP code (e.g. new language constructs, classes, functions and so on).
+
+==== Work flow ====
+
+The work flow for TC is following:
+
+  - Any core developer can add label tc-hold on issue or pull request. 
+  - The core developer should mention the TC GitHub team to notify members of the TC.
+  - The TC discusses the issue or pull request and vote on it (this can be done privately)
+    * The TC should consult with maintainers if the issue if the problem impacting code maintained by the maintainer
+    * The TC should consult with RM if the issue / PR is about classification of the self contained feature or a bug
+  - The TC announce its decision and reasoning by commenting on the issue or pull request
+  - The core developer will follow the decision which can mean (not limited to):
+    * merging the issue / PR
+    * closing / rejecting the issue / PR  
+    * making requested change to the PR
+
+It should be noted that if the problem is with specific commit, the core developer can create an issue specifying the
+problem and put label on it.
+
+==== TC Decissions ====
+
+The TC member will consider only technical aspects. Specifically the decission is not made on the user facing features
+which will be still decided by the RFC process. TC can however decide on the implementation of those features.
+
+The TC can decide whether the issue / PR is a feature or a bug. If it is a feature it can also decide if it is a self
+contained feature that can go to the lower branches. This happens only on request like described in the work flow.
+
+The way how to vote and discuss the issue is up to the TC members.
+
+==== TC membership ====
+
+The TC will be composed of 5 member who will be voted once a year together with release managers by the RFC process.
+The vote is not necessary if no more than 5 condidates volunteer. The candidate must be a core developer and should
+have a general knowledge about PHP internals.
+
+===== Future Scope =====
+This section details areas where the feature might be improved in future, but that are not currently proposed in this RFC.
+
+===== Proposed Voting Choices =====
+Include these so readers know where you are heading and can discuss the proposed voting options.
+
+===== References =====
+Links to external references, discussions or RFCs
+
+===== Rejected Features =====
+Keep this updated with features that were discussed on the mail lists.
