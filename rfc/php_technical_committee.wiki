@@ -87,14 +87,16 @@ If one of the members wants or needs to drop out of being part of the TC, the ne
 the RFC process. The vote happens only if there are more than one volunteer. The selection is automatic if there is
 only one volunteer.
 
-===== Future Scope =====
-This section details areas where the feature might be improved in future, but that are not currently proposed in this RFC.
-
 ===== Proposed Voting Choices =====
-Include these so readers know where you are heading and can discuss the proposed voting options.
+
+As per the voting RFC a yes/no vote with a 2/3 majority is needed for this proposal to be accepted.
+
+Voting started on 2023-XX-XX and will end on 2023-XX-XX.
 
 ===== References =====
+
 Links to external references, discussions or RFCs
 
 ===== Rejected Features =====
+
 Keep this updated with features that were discussed on the mail lists.
