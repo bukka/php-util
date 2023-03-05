@@ -26,11 +26,17 @@ definitions:
   * contributor - Anyone who has already contributed to php-src.
   * core developer - Anyone with write commit right to php-src.
   * dev branch - php-src branch consisting of PHP- prefix and major and minor version number (e.g. PHP-8.2)
+  * issue - php-src GitHub issue.
   * php-src - Source code in https://github.com/php/php-src/.
+  * PR - Pull request.
+  * processing changes - Any changes impacting the way how PHP project is managed and its bylaws.
+  * pull request - php-src GitHub pull request.
   * RM - PHP release managers.
-  * technical aspect - Any issue or pull request in php-src or commit to php-src master and dev branches.
+  * technical aspect - Technical side of any issue or pull request in php-src or commit to php-src master and dev branches.
+  * technical descision - Decision on a technical aspect.
+  * technical side - All php-src changes excluding user facing changes. It covers alse the implementation of user facing changes.
   * TC - PHP Technical Committee.
-  * user facing feature - Feature resulting in change in PHP code (e.g. new language constructs, classes, functions and so on).
+  * user facing changes - Changes in PHP languege, user visible funtions, classes, interfaces, constants and other user visible constructs.
 
 ==== Work flow ====
 
@@ -50,16 +56,26 @@ The work flow for TC is following:
 It should be noted that if the problem is with a specific commit, the core developer can create an issue specifying the
 problem and put label on it.
 
-==== TC Decisions ====
+==== Decision process ====
 
-The TC members will only consider technical aspects. Specifically the decision is not made for user facing features
+=== RFC ===
+
+The RFC process will continue to be used for user facing changes. It will also continue to be used for all processing
+changes. However, it will no longer be used for any technical decisions.
+
+=== TC ===
+
+The TC members will only consider technical aspects. Specifically the decision is not made for the user facing changes
 which continue to be decided by the RFC process. TC can however decide on the implementation of those features.
 
-The TC can decide whether the issue / PR is a feature or a bug if there is a disagreement between RM and a core
-developer. If it is a feature it can also decide if it is a self contained feature by assessing its technical
-impact. This happens only on request like described in the work flow.
+The TC does not need to follow technical decisions made previously by the RFC process.
 
-The way how to vote and discuss the issue is up to the TC members.
+The TC can decide whether the issue / PR is a feature or a bug if there is a disagreement between RM and a core
+developer. If it is a feature, the TC can also decide whether it is a self contained feature by assessing its technical
+impact on php-src. This happens only on request like described in the work flow section.
+
+The way how to discuss and vote on the issue is up to the TC members. The only requirement is that the decision needs
+to be communicated publicly by commenting on GitHub issue or pull request.
 
 ==== TC membership ====
 
@@ -67,8 +83,9 @@ The TC will be composed of 5 member who will be voted once a year together with 
 It will be done using a single transferable vote if more than 5 candiates volunteer. The candidate must be a core
 developer and should have a general knowledge about PHP internals.
 
-If one of the members wants or needs to drop out of being part of the TC, the new volunteer is selected using the RFC
-process if there are more volunteer. The selection is automatic if there is only one volunteer.
+If one of the members wants or needs to drop out of being part of the TC, the new volunteer will be selected using
+the RFC process. The vote happens only if there are more than one volunteer. The selection is automatic if there is
+only one volunteer.
 
 ===== Future Scope =====
 This section details areas where the feature might be improved in future, but that are not currently proposed in this RFC.
