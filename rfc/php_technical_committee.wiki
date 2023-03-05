@@ -27,16 +27,30 @@ definitions:
   * core developer - Anyone with write commit right to php-src.
   * dev branch - php-src branch consisting of PHP- prefix and major and minor version number (e.g. PHP-8.2)
   * issue - php-src GitHub issue.
+  * maintainer - person responsible for extension or SAPI as defined in php-src EXTENSION file
   * php-src - Source code in https://github.com/php/php-src/.
   * PR - Pull request.
-  * processing changes - Any changes impacting the way how PHP project is managed and its bylaws.
+  * process changes - Any changes impacting the way how PHP project is managed and its bylaws.
   * pull request - php-src GitHub pull request.
   * RM - PHP release managers.
-  * technical aspect - Technical side of any issue or pull request in php-src or commit to php-src master and dev branches.
+  * technical aspect - Technical change of any issue or pull request in php-src or commit to php-src master and dev branches.
   * technical descision - Decision on a technical aspect.
-  * technical side - All php-src changes excluding user facing changes. It covers alse the implementation of user facing changes.
+  * technical change - Any php-src change excluding user facing changes. It covers also the implementation of user facing changes.
   * TC - PHP Technical Committee.
   * user facing changes - Changes in PHP languege, user visible funtions, classes, interfaces, constants and other user visible constructs.
+
+To further clarify some of the defined terms, following subsection provides some useful examples.
+
+=== Changes ===
+
+It is important to clarify differnce between user facing change and technical changes. As it is defined the technical
+change is any php-src change that is not a user facing change. However, the implementation of user facing change is
+still a technical change. The meaning of that is that the part of the user facing change that defines the user
+interface is not a technical change.
+
+For example if there is a proposal to add accessors for PHP classes, then everything that is visible to user space
+like the constructs and their usage in PHP code is a user facing change. The actual C implementation and tests are
+a technical change.
 
 ==== Work flow ====
 
@@ -60,15 +74,19 @@ problem and put label on it.
 
 === RFC ===
 
-The RFC process will continue to be used for user facing changes. It will also continue to be used for all processing
+The RFC process will continue to be used for user facing changes. It will also continue to be used for all process
 changes. However, it will no longer be used for any technical decisions.
 
 === TC ===
 
 The TC members will only consider technical aspects. Specifically the decision is not made for the user facing changes
-which continue to be decided by the RFC process. TC can however decide on the implementation of those features.
+which continue to be decided by the RFC process. TC can however decide on the implementation of those features. In
+other words TC can decide about implementation and ABI but not about API.
 
-The TC does not need to follow technical decisions made previously by the RFC process.
+The TC does not need to follow technical decisions made by the RFC process in past. It means that if the RFC was used
+for a technical aspects like for example changing some internal structure, the TC would not be required to keep such
+internal structure unchanged. The TC should always decide on case by case bases and not be limited by previous
+decisions. However, it can and should at least consider those previous decisions.
 
 The TC can decide whether the issue / PR is a feature or a bug if there is a disagreement between RM and a core
 developer. If it is a feature, the TC can also decide whether it is a self contained feature by assessing its technical
