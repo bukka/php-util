@@ -70,6 +70,25 @@ The work flow for TC is following:
 It should be noted that if the problem is with a specific commit, the core developer can create an issue specifying the
 problem and put label on it.
 
+The TC decision should not take longer than month. If it takes longer than one month, the core developer can send a
+formal notification to the internals mailing list. If this is ignored for more than one month by the TC, the core
+developer can send a formal warning to the internals mailing list. If this is also ignored for more than a month,
+then the core developer can call for new election of TC members that needs to happen within a month. If the election
+happens due to yearly elections, the core developer needs to send a new notification after the elections.
+
+==== TC membership ====
+
+The TC will be composed of 5 member who will be voted once a year together with release managers by the RFC process.
+It will be done using a single transferable vote if more than 5 candiates volunteer. The candidate must be a core
+developer and should have a general knowledge about PHP internals. If the candidates are paid to work on PHP, they
+need to state which company or organization they represent.
+
+One member will be selected by other members as a TC secratary. The TC secratary is responsible for preparing a vote
+and communicating the decision.
+
+Any member can decide to drop out of being part of the TC. The TC can continue in reduced number unless their number
+goes below 3. If that happens, the new election needs to be scheduled within a month.
+
 ==== Decision process ====
 
 === RFC ===
@@ -92,18 +111,15 @@ The TC can decide whether the issue / PR is a feature or a bug if there is a dis
 developer. If it is a feature, the TC can also decide whether it is a self contained feature by assessing its technical
 impact on php-src. This happens only on request like described in the work flow section.
 
-The way how to discuss and vote on the issue is up to the TC members. The only requirement is that the decision needs
-to be communicated publicly by commenting on GitHub issue or pull request.
+The way how to discuss the issue is up to the TC members.
 
-==== TC membership ====
+The vote happens between the TC members and can be private. Each member can either vote or abstain from the vote. The
+vote can take up to one week. It can finish earlier if all members vote or explicitly abstain from the vote. If the TC
+members do not vote or explicitly abstain from the vote during the voting week, they are automatically considered as
+abstaining from the vote. If the result of the vote is draw, the secretary can select the wining option.
 
-The TC will be composed of 5 member who will be voted once a year together with release managers by the RFC process.
-It will be done using a single transferable vote if more than 5 candiates volunteer. The candidate must be a core
-developer and should have a general knowledge about PHP internals.
+The decision needs to be communicated publicly by commenting on GitHub issue or pull request that is being decided.
 
-If one of the members wants or needs to drop out of being part of the TC, the new volunteer will be selected using
-the RFC process. The vote happens only if there are more than one volunteer. The selection is automatic if there is
-only one volunteer.
 
 ===== Proposed Voting Choices =====
 
