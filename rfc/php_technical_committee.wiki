@@ -93,7 +93,7 @@ same as for any other election, but the newly elected TC members will serve only
 ==== Work flow ====
 
 The TC is primarily a reactive body, and is not expected to proactively search PRs for issues.  However, TC members
-are permitted to comment on any open issue, and core developers are encouraged to give their comments appropriate weight.
+are permitted to comment on any open issue, and contributors are encouraged to give their comments appropriate weight.
 
 Should a dispute or question about a change arise, the TC may be called on to resolve it.
 
@@ -104,8 +104,7 @@ Should a dispute or question about a change arise, the TC may be called on to re
     * The TC SHOULD consult with relevant other individuals, including the core developers involved in the issue, Release
       Managers, and impacted extension maintainers as appropriate.
   - The TC MUST deliver a decision within one month, via the mechanism described below.
-  - The TC Secretary MUST announce the decision and reasoning for it on the issue or issue in a comment on the issue and
-    removing the `tc-hold` tag.
+  - The TC Secretary MUST announce the decision and reasoning for it on the issue in question and remove the `tc-hold` tag.
   - The decision of the TC is binding.  That means a relevant change MUST NOT be merged until and unless it conforms
     with the TC's decision.  Depending on the decision, the core developer involved may merge the issue, close it, or
     revise it accordingly.
