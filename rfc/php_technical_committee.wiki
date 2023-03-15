@@ -137,8 +137,8 @@ As noted, the TC has no special role or authority on user-facing changes.  The T
 implementation of those features. In other words the TC can decide about implementation and ABI but not about API.
 
 The TC SHOULD NOT block the merging of a user-facing change approved by the RFC process, unless the provided implementation
-would result in security issues or significant performance penalties.  If so, TC members are expected to actively participate
-in finding a more acceptable alternative.
+would result in introduction of new bugs, side effects not mentioned in the RFC, significant performance penalties,
+ or if there is an equivalent implementation in progress that TC finds more appropriate.
 
 The TC SHOULD give due consideration and weight to previous decisions regarding technical aspects, either by the TC
 or by RFCs prior to the TC's creation.  However, it is NOT REQUIRED to abide by them, and may make decisions as it
