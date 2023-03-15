@@ -65,7 +65,7 @@ The TC Secretary is responsible for:
 === Elections ===
 
 The election process takes place annually, concurrent with the election of a release manager in approximately
-March/April.  (The exact date may vary year to hear.)  The sitting TC Secretary officially begins the process with
+March/April.  (The exact date may vary year to year.)  The sitting TC Secretary officially begins the process with
 a call for nominations.  The nomination period lasts for one week.
 
 During that week, any eligible core developer may self-nominate by posting to the Internals mailing list.  If the
@@ -97,7 +97,7 @@ are permitted to comment on any open issue, and contributors are encouraged to g
 
 Should a dispute or question about a change arise, the TC may be called on to resolve it.
 
-  - Any developer (including a TC member) may ask for TC resolution of a issue by adding the label `tc-hold` to it and
+  - Any core developer (including a TC member) may ask for TC resolution of an issue by adding the label `tc-hold` to it and
     @-mentioning the TC GitHub team.
   - An issue with the `tc-hold` tag MUST NOT be merged.
   - The TC members will confer in whatever manner they deem most convenient, public or private or both.
@@ -113,7 +113,7 @@ If an issue has been marked `tc-hold` for more than two weeks with no response o
 developer SHOULD post to the Internals mailing list a notification of absence.
 
 If a notification of absence receives no response from the TC or any member of it for one month, then the entire TC
-is considered AWOL.  The senior-most Release Manager of the current stable release will step in to act as TC Secretary
+is considered AWOL.  The senior-most Release Manager of the latest stable release will step in to act as TC Secretary
 and immediately call for a new vacancy election as described above.
 
 The election of a new TC will "reset the clock" on any outstanding `tc-hold` issues.
