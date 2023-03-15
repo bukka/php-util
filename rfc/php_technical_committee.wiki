@@ -34,16 +34,16 @@ definitions:
   * pull request - php-src GitHub pull request.
   * RM - PHP release managers.
   * technical aspect - Technical change of any issue or pull request in php-src or commit to php-src master and dev branches.
-  * technical descision - Decision on a technical aspect.
+  * technical decision - Decision on a technical aspect.
   * technical change - Any php-src change excluding user facing changes. It covers also the implementation of user facing changes.
   * TC - PHP Technical Committee.
-  * user facing changes - Changes in PHP languege, user visible funtions, classes, interfaces, constants and other user visible constructs.
+  * user facing changes - Changes in PHP language, user visible functions, classes, interfaces, constants and other user visible constructs.
 
 To further clarify some of the defined terms, following subsection provides some useful examples.
 
 === Changes ===
 
-It is important to clarify differnce between user facing change and technical changes. As it is defined, the technical
+It is important to clarify difference between user facing change and technical changes. As it is defined, the technical
 change is any php-src change that is not a user facing change. However, the implementation of user facing change is
 still a technical change. The meaning of that is that the part of the user facing change that defines the user
 interface is not a technical change.
@@ -86,12 +86,12 @@ The TC candidates nominate themself to become a TC member. They must be a core d
 knowledge about PHP internals. If the candidates are paid to work on php-src or PHP extensions, they must state in
 their nomination which company or organization they work for.
 
-The TC shoudl be composed of 5 members. If there are not enough candiates, it can be composed of reduced number of
-members but it must have at least 3 members. The TC election of memebers will happen every year together with
+The TC shoudl be composed of 5 members. If there are not enough candidates, it can be composed of reduced number of
+members but it must have at least 3 members. The TC election of members will happen every year together with
 release managers selection. The RFC voting process using a single transferable vote will be used if more than 5
 candiates volunteer. Otherwise the candidates will be selected automatically.
 
-One member will be selected by other TC members as a TC secratary. The TC secratary is responsible for preparing a vote,
+One member will be selected by other TC members as a TC secretary. The TC secretary is responsible for preparing a vote,
 and communicating the decision. The secretary also have a casting vote if the TC decision vote is a draw.
 
 Any member can decide to drop out of being part of the TC. The TC can continue in reduced number unless their number
