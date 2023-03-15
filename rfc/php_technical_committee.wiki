@@ -64,7 +64,7 @@ The TC Secretary is responsible for:
 
 === Elections ===
 
-The election process takes place annually, concurrent with the election of a release manager in approximately
+The election process takes place annually, concurrent with the election of the Release Managers in approximately
 March/April.  (The exact date may vary year to year.)  The sitting TC Secretary officially begins the process with
 a call for nominations.  The nomination period lasts for one week.
 
@@ -86,9 +86,15 @@ The newly elected TC members will elect from their own number a TC Secretary by 
 Any TC member may resign at any time via an email to the Internals mailing list.  If the resigning member is the TC
 Secretary, then the TC will elect a new Secretary from its number.
 
+The TC may declare one of its members AWOL after no communication from that individual for one month, by a majority vote.
+If the vote passes, the TC member is removed.
+
 If the number of TC members is reduced to three or fewer and there are more than two months until the next regularly
 scheduled election, the Secretary must call for a special election for the vacant seats.  The election process is the
 same as for any other election, but the newly elected TC members will serve only until the next regular election.
+
+Should the number of TC members fall to zero, the senior-most Release Manager of the latest stable release will step
+ in to act as TC Secretary and immediately call for a new vacancy election.
 
 ==== Work flow ====
 
@@ -113,8 +119,7 @@ If an issue has been marked `tc-hold` for more than two weeks with no response o
 developer SHOULD post to the Internals mailing list a notification of absence.
 
 If a notification of absence receives no response from the TC or any member of it for one month, then the entire TC
-is considered AWOL.  The senior-most Release Manager of the latest stable release will step in to act as TC Secretary
-and immediately call for a new vacancy election as described above.
+is considered AWOL and removed.  New elections must then be immediately called as described above.
 
 The election of a new TC will "reset the clock" on any outstanding `tc-hold` issues.
 
