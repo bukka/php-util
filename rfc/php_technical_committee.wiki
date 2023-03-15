@@ -27,7 +27,7 @@ definitions:
   * core developer - Anyone with write commit access to php-src.
   * dev branch - php-src branch consisting of PHP- prefix and major and minor version number (e.g. PHP-8.2).
   * maintainer - person responsible for extension or SAPI that is listed in the php-src EXTENSION file.
-  * issue - php-src GitHub issue.
+  * issue - php-src GitHub issue, including pull requests.
   * PR - Pull request
   * process changes - Any changes impacting the way how PHP project is managed and its bylaws.
   * pull request - php-src GitHub pull request or issue.
@@ -93,18 +93,18 @@ same as for any other election, but the newly elected TC members will serve only
 ==== Work flow ====
 
 The TC is primarily a reactive body, and is not expected to proactively search PRs for issues.  However, TC members
-are permitted to comment on any open PR, and core developers are encouraged to give their comments appropriate weight.
+are permitted to comment on any open issue, and core developers are encouraged to give their comments appropriate weight.
 
 Should a dispute or question about a change arise, the TC may be called on to resolve it.
 
-  - Any developer (including a TC member) may ask for TC resolution of a PR by adding the label `tc-hold` to it and
+  - Any developer (including a TC member) may ask for TC resolution of a issue by adding the label `tc-hold` to it and
     @-mentioning the TC GitHub team.
   - An issue with the `tc-hold` tag MUST NOT be merged.
   - The TC members will confer in whatever manner they deem most convenient, public or private or both.
-    * The TC SHOULD consult with relevant other individuals, including the core developers involved in the PR, Release
+    * The TC SHOULD consult with relevant other individuals, including the core developers involved in the issue, Release
       Managers, and impacted extension maintainers as appropriate.
   - The TC MUST deliver a decision within one month, via the mechanism described below.
-  - The TC Secretary MUST announce the decision and reasoning for it on the issue or PR in a comment on the issue and
+  - The TC Secretary MUST announce the decision and reasoning for it on the issue or issue in a comment on the issue and
     removing the `tc-hold` tag.
   - The decision of the TC is binding.  That means a relevant change MUST NOT be merged until and unless it conforms
     with the TC's decision.  Depending on the decision, the core developer involved may merge the issue, close it, or
