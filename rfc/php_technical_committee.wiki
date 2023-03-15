@@ -15,29 +15,28 @@ contributors that sometimes happen.
 ===== Proposal =====
 
 This RFC proposes an introduction of the PHP Technical Committee (TC) that would decide about all technical aspects of
-php-src. Specifically its main purpose is to decide about disagreements between contributors but it is not limited to
-that only.
+php-src. Its primary but not only role is to resolve disagreements between contributors.
 
 ==== Definitions ====
 
 The text contains various terms that need further clarification to prevent future wording dispute. Here are their
 definitions:
 
-  * contributor - Anyone who has already contributed to php-src.
-  * core developer - Anyone with write commit right to php-src.
-  * dev branch - php-src branch consisting of PHP- prefix and major and minor version number (e.g. PHP-8.2).
-  * issue - php-src GitHub issue.
-  * maintainer - person responsible for extension or SAPI that is listed in php-src EXTENSION file.
   * php-src - Source code in https://github.com/php/php-src/.
-  * PR - Pull request.
+  * contributor - Anyone who has already contributed to php-src.
+  * core developer - Anyone with write commit access to php-src.
+  * dev branch - php-src branch consisting of PHP- prefix and major and minor version number (e.g. PHP-8.2).
+  * maintainer - person responsible for extension or SAPI that is listed in the php-src EXTENSION file.
+  * issue - php-src GitHub issue.
+  * PR - Pull request
   * process changes - Any changes impacting the way how PHP project is managed and its bylaws.
-  * pull request - php-src GitHub pull request.
+  * pull request - php-src GitHub pull request or issue.
   * RM - PHP release managers.
-  * technical aspect - Technical change of any issue or pull request in php-src or commit to php-src master and dev branches.
-  * technical decision - Decision on a technical aspect.
-  * technical change - Any php-src change excluding user facing changes. It covers also the implementation of user facing changes.
-  * TC - PHP Technical Committee.
   * user facing changes - Changes in PHP language, user visible functions, classes, interfaces, constants and other user visible constructs.
+  * technical change - Any change to php-src that has no user-facing change, including the implementation details of an RFC-accepted user facing change.
+  * technical aspect - The portions of  pull request or commit in php-src or commit to php-src master and dev branches that would be technical changes.
+  * technical decision - Decision on a technical aspect.
+  * TC - PHP Technical Committee.
 
 To further clarify some of the defined terms, following subsection provides some useful examples.
 
@@ -52,83 +51,122 @@ For example if there is a proposal to add accessors for PHP classes, then everyt
 like the constructs and their usage in PHP code is a user facing change. The actual C implementation and tests are
 a technical change.
 
-==== Work flow ====
-
-The work flow for TC is following:
-
-  - Any core developer can add label tc-hold on issue or pull request. 
-  - The core developer should mention the TC GitHub team to notify members of the TC.
-  - The TC discusses the issue or pull request and vote on it (this can be done privately)
-    * The TC should consult with maintainers if the issue / PR changes or impacts code maintained by the maintainer
-    * The TC should consult with RM if the issue / PR is about classification of the self contained feature or a bug
-  - The TC announce its decision and reasoning by commenting on the issue or pull request
-  - The core developer will follow the decision which can mean (not limited to):
-    * merging the issue / PR
-    * closing / rejecting the issue / PR  
-    * making requested change to the PR
-
-It should be noted that if the problem is with a specific commit, the core developer can create an issue specifying the
-problem and put label on it.
-
-The TC decision should not take longer than month. If it takes longer than one month, the following work flow can be
-applied:
-  - After a month of no response from the TC the core developer can send a formal notification to the internals mailing list.
-  - If the notification is ignored for more than one month by the TC, the core developer can send a formal warning to the internals mailing list.
-  - If the formal warning is also ignored for more than a month, then the core developer can call for new election of TC members
-  - New election happen within a month.
-
-There is a caveat that if the election happens due to yearly elections between any steps of the workflow above, the
-core developer needs to send a new notification after the elections and starts the workflow again.
-
 ==== TC membership ====
 
-The TC candidates nominate themself to become a TC member. They must be a core developers and should have a general
-knowledge about PHP internals. If the candidates are paid to work on php-src or PHP extensions, they must state in
-their nomination which company or organization they work for.
+The TC consists of five elected members.  Any core developer is eligible to run for the TC.  One member of the TC,
+selected by the TC members themselves, is the TC Secretary.
 
-The TC shoudl be composed of 5 members. If there are not enough candidates, it can be composed of reduced number of
-members but it must have at least 3 members. The TC election of members will happen every year together with
-release managers selection. The RFC voting process using a single transferable vote will be used if more than 5
-candiates volunteer. Otherwise the candidates will be selected automatically.
+The TC Secretary is responsible for:
 
-One member will be selected by other TC members as a TC secretary. The TC secretary is responsible for preparing a vote,
-and communicating the decision. The secretary also have a casting vote if the TC decision vote is a draw.
+* Administering the election of the next set of TC members.
+* Documenting and communicating any decisions of the TC.
+* In case of a tie, the Secretary's vote will be considered the winning position.
 
-Any member can decide to drop out of being part of the TC. The TC can continue in reduced number unless their number
-goes below 3. If that happens, the new election needs to be scheduled within a month. If the number of member is 3 or
-more but the secretary is the member that dropped out, then s new secretary must be selected.
+=== Elections ===
+
+The election process takes place annually, concurrent with the election of a release manager in approximately
+March/April.  (The exact date may vary year to hear.)  The sitting TC Secretary officially begins the process with
+a call for nominations.  The nomination period lasts for one week.
+
+During that week, any eligible core developer may self-nominate by posting to the Internals mailing list.  If the
+candidate is paid to work on php-src or PHP extensions, they must state in their nomination which company or organization
+they work for.  Failure to do so will result in disqualification, as determined by the TC Secretary.
+
+Once nominations are over, the voting process will begin.  Eligible voters are the same as for any RFC.
+
+If there are five or fewer nominees, there is no vote and all nominated individuals are elected.
+
+If there are six or more nominees, a two week vote using the Single Transferable Vote method will take place.  The five
+winning candidates at the end of the vote are elected.
+
+The newly elected TC members will elect from their own number a TC Secretary by simple majority.
+
+=== Vacancies ===
+
+Any TC member may resign at any time via an email to the Internals mailing list.  If the resigning member is the TC
+Secretary, then the TC will elect a new Secretary from its number.
+
+If the number of TC members is reduced to three or fewer and there are more than two months until the next regularly
+scheduled election, the Secretary must call for a special election for the vacant seats.  The election process is the
+same as for any other election, but the newly elected TC members will serve only until the next regular election.
+
+==== Work flow ====
+
+The TC is primarily a reactive body, and is not expected to proactively search PRs for issues.  However, TC members
+are permitted to comment on any open PR, and core developers are encouraged to give their comments appropriate weight.
+
+Should a dispute or question about a change arise, the TC may be called on to resolve it.
+
+  - Any developer (including a TC member) may ask for TC resolution of a PR by adding the label `tc-hold` to it and
+    @-mentioning the TC GitHub team.
+  - An issue with the `tc-hold` tag MUST NOT be merged.
+  - The TC members will confer in whatever manner they deem most convenient, public or private or both.
+    * The TC SHOULD consult with relevant other individuals, including the core developers involved in the PR, Release
+      Managers, and impacted extension maintainers as appropriate.
+  - The TC MUST deliver a decision within one month, via the mechanism described below.
+  - The TC Secretary MUST announce the decision and reasoning for it on the issue or PR in a comment on the issue and
+    removing the `tc-hold` tag.
+  - The decision of the TC is binding.  That means a relevant change MUST NOT be merged until and unless it conforms
+    with the TC's decision.  Depending on the decision, the core developer involved may merge the issue, close it, or
+    revise it accordingly.
+
+If an issue has been marked `tc-hold` for more than two weeks with no response or acknowledgement from the TC, the
+developer SHOULD post to the Internals mailing list a notification of absence.
+
+If a notification of absence receives no response from the TC or any member of it for one month, then the entire TC
+is considered AWOL.  The senior-most Release Manager of the current stable release will step in to act as TC Secretary
+and immediately call for a new vacancy election as described above.
+
+The election of a new TC will "reset the clock" on any outstanding `tc-hold` issues.
 
 ==== Decision process ====
 
-=== RFC ===
+=== User-facing changes ===
 
-The RFC process will continue to be used for user facing changes. It will also continue to be used for all process
-changes. However, it will no longer be used for any technical decisions.
+The RFC process will continue to be used for user facing changes.  However, it will no longer be used for
+non-user-facing technical decisions.
 
-=== TC ===
+TC members have no special role or authority in the RFC process.
 
-The TC members will only consider technical aspects. Specifically the decision is not made for the user facing changes
-which continue to be decided by the RFC process. The TC can however decide on the implementation of those features. In
-other words the TC can decide about implementation and ABI but not about API.
+=== Process changes ===
 
-The TC does not need to follow technical decisions made by the RFC process in past. It means that if the RFC was used
-for a technical aspects like for example changing some internal structure, the TC would not be required to keep such
-internal structure unchanged. The TC should always make decision on case by case basis and not to be limited by
-previous decisions. However, it can and should consider those previous decisions.
+The RFC process will continue to be used for process changes, including changes to the role of the TC.
 
-The TC can decide whether the issue / pull request is a feature or a bug if there is a disagreement between RM and a
-core developer. If it is a feature, the TC can also decide whether it is a self contained feature by assessing its
-technical impact on php-src. This happens only on request like described in the work flow section.
+=== Technical changes ===
 
-The way how to discuss the issue is up to the TC members.
+As noted, the TC has no special role or authority on user-facing changes.  The TC may, however, decide on the
+implementation of those features. In other words the TC can decide about implementation and ABI but not about API.
 
-The vote happens between the TC members and can be private. Each member can either vote or abstain from the vote. The
-vote can take up to one week. It can finish earlier if all members vote or explicitly abstain from the vote. If the TC
-members do not vote or explicitly abstain from the vote during the voting week, they are automatically considered as if
-they explicitly abstain from the vote. If the result of the vote is draw, the secretary has got a casting vote.
+The TC SHOULD NOT block the merging of a user-facing change approved by the RFC process, unless the provided implementation
+would result in security issues or significant performance penalties.  If so, TC members are expected to actively participate
+in finding a more acceptable alternative.
 
-The decision needs to be communicated publicly by commenting on GitHub issue or pull request that is being decided.
+The TC SHOULD give due consideration and weight to previous decisions regarding technical aspects, either by the TC
+or by RFCs prior to the TC's creation.  However, it is NOT REQUIRED to abide by them, and may make decisions as it
+sees best to ensure the quality and maintainability of the code at the time the decision is made.
 
+Technical aspects on which the TC may make a decision include, but are not limited to:
+
+* Whether a given PR is a feature or a bug.
+* Whether a given change qualifies as user-facing, and thus requires an RFC.
+* Whether a given technical aspect or implementation approach is acceptable.
+
+=== TC voting ===
+
+Once an issue has been brought to the TC, the Secretary must allow all TC members time to offer their input within one
+week.  Once the Secretary feels the issue has been sufficiently discussed, the Secretary will call a vote of the TC members.
+The vote may be public or private and conducted however the TC chooses.
+
+The vote will last for one week or until all TC members have voted, whichever comes first.  All votes are simple-majority,
+with no quorum on a binary question (which could be yes/no or either/or, depending on the situation, as determined by
+the Secretary).  Members may explicitly abstain, and refraining from voting counts as an abstention.  Abstentions
+do not count toward the result.
+
+In case of a tie, the Secretary's vote will be considered the winning position.
+
+Alternatively, if there is clear consensus among the TC members the Secretary may opt to skip the vote and report the
+consensus decision, provided all members have been given time to weigh in.  Any member of the TC may require that a vote
+be held.
 
 ===== Proposed Voting Choices =====
 
