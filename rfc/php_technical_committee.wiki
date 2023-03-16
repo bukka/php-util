@@ -15,7 +15,7 @@ contributors that sometimes happen.
 ===== Proposal =====
 
 This RFC proposes an introduction of the PHP Technical Committee (TC) that would decide about all technical aspects of
-php-src. Its primary but not only role is to resolve disagreements between contributors.
+php-src when there is a disagreements between core developers.
 
 ==== Definitions ====
 
@@ -26,13 +26,12 @@ definitions:
   * contributor - Anyone who has already contributed to php-src.
   * core developer - Anyone with write commit access to php-src.
   * dev branch - php-src branch consisting of PHP- prefix and major and minor version number (e.g. PHP-8.2).
-  * maintainer - person responsible for extension or SAPI that is listed in the php-src EXTENSION file.
+  * maintainer - person responsible for extension or SAPI that is listed in the php-src EXTENSION file or the php-src OWNERS file if added in the future.
   * issue - php-src GitHub issue, including pull requests.
-  * PR - Pull request
   * process changes - Any changes impacting the way how PHP project is managed and its bylaws.
-  * pull request - php-src GitHub pull request or issue.
+  * pull request - php-src GitHub pull request.
   * RM - PHP release managers.
-  * user facing changes - Changes in PHP language, user visible functions, classes, interfaces, constants and other user visible constructs.
+  * user facing changes - Changes in PHP language and its semantics, user visible functions, classes, interfaces, constants and other user visible constructs.
   * technical change - Any change to php-src that has no user-facing change, including the implementation details of an RFC-accepted user facing change.
   * technical aspect - The portions of  pull request or commit in php-src or commit to php-src master and dev branches that would be technical changes.
   * technical decision - Decision on a technical aspect.
@@ -98,7 +97,7 @@ Should the number of TC members fall to zero, the senior-most Release Manager of
 
 ==== Work flow ====
 
-The TC is primarily a reactive body, and is not expected to proactively search PRs for issues.  However, TC members
+The TC is primarily a reactive body, and is not expected to proactively search for issues.  However, TC members
 are permitted to comment on any open issue, and contributors are encouraged to give their comments appropriate weight.
 
 Should a dispute or question about a change arise, the TC may be called on to resolve it.
@@ -106,8 +105,7 @@ Should a dispute or question about a change arise, the TC may be called on to re
   - Any core developer (including a TC member) may ask for TC resolution of an issue by adding the label `tc-hold` to it and @-mentioning the TC GitHub team.
   - An issue with the `tc-hold` tag MUST NOT be merged.
   - The TC members will confer in whatever manner they deem most convenient, public or private or both.
-    * The TC SHOULD consult with relevant other individuals, including the core developers involved in the issue, Release
-      Managers, and impacted extension maintainers as appropriate.
+    * The TC SHOULD consult with relevant other individuals, including the core developers involved in the issue, Release Managers, and impacted extension maintainers as appropriate.
   - The TC MUST deliver a decision within one month, via the mechanism described below.
   - The TC Secretary MUST announce the decision and reasoning for it on the issue in question and remove the `tc-hold` tag.
   - The decision of the TC is binding.  That means a relevant change MUST NOT be merged until and unless it conforms with the TC's decision.  Depending on the decision, the core developer involved may merge the issue, close it, or revise it accordingly.
@@ -136,11 +134,12 @@ The RFC process will continue to be used for process changes, including changes 
 === Technical changes ===
 
 As noted, the TC has no special role or authority on user-facing changes.  The TC may, however, decide on the
-implementation of those features. In other words the TC can decide about implementation and ABI but not about API.
+implementation of those features. In other words the TC can decide about implementation and C ABI and API but
+not about PHP API.
 
 The TC SHOULD NOT block the merging of a user-facing change approved by the RFC process, unless the provided
 implementation would result in introduction of new bugs, side effects not mentioned in the RFC, significant performance
-penalties, or if there is an equivalent implementation in progress that TC finds more appropriate.
+penalties not mentioned in RFC, or if there is an equivalent implementation in progress that TC finds more appropriate.
 
 The TC SHOULD give due consideration and weight to previous decisions regarding technical aspects, either by the TC
 or by RFCs prior to the TC's creation.  However, it is NOT REQUIRED to abide by them, and may make decisions as it
@@ -148,7 +147,7 @@ sees best to ensure the quality and maintainability of the code at the time the 
 
 Technical aspects on which the TC may make a decision include, but are not limited to:
 
-  * Whether a given PR implements a feature or resolves a bug.
+  * Whether a given pull request implements a feature or resolves a bug.
   * Whether a given change qualifies as user-facing, and thus requires an RFC.
   * Whether a given technical aspect or implementation approach is acceptable.
 
@@ -156,7 +155,7 @@ Technical aspects on which the TC may make a decision include, but are not limit
 
 Once an issue has been brought to the TC, the Secretary must allow all TC members time to offer their input within one
 week.  Once the Secretary feels the issue has been sufficiently discussed, the Secretary will call a vote of the TC
-members. The vote may be public or private and conducted however the TC chooses.
+members. The vote may be private and conducted however the TC chooses.
 
 The vote will last for one week or until all TC members have voted, whichever comes first.  All votes are
 simple-majority, with no quorum on a binary question (which could be yes/no or either/or, depending on the situation,
