@@ -26,7 +26,7 @@ definitions:
   * contributor - Anyone who has already contributed to php-src.
   * core developer - Anyone with write commit access to php-src.
   * dev branch - php-src branch consisting of PHP- prefix and major and minor version number (e.g. PHP-8.2).
-  * maintainer - person responsible for extension or SAPI that is listed in the php-src EXTENSION file or the php-src OWNERS files if added in the future.
+  * maintainer - person responsible for core subsystem (e.g. extension or SAPI) that is listed in the php-src EXTENSION file or the php-src OWNERS files if added in the future.
   * issue - php-src GitHub issue, including pull requests.
   * process changes - Any changes impacting the way how PHP project is managed and its bylaws.
   * pull request - php-src GitHub pull request.
@@ -105,7 +105,7 @@ Should a dispute or question about a change arise, the TC may be called on to re
   - Any core developer (including a TC member) may ask for TC resolution of an issue by adding the label `tc-hold` to it and @-mentioning the TC GitHub team.
   - An issue with the `tc-hold` tag MUST NOT be merged.
   - The TC members will confer in whatever manner they deem most convenient, public or private or both.
-    * The TC SHOULD consult with relevant other individuals, including the core developers involved in the issue, Release Managers, and impacted extension maintainers as appropriate.
+    * The TC SHOULD consult with relevant other individuals, including the core developers involved in the issue, Release Managers, and impacted maintainers as appropriate.
   - The TC MUST deliver a decision within one month, via the mechanism described below.
   - The TC Secretary MUST announce the decision and reasoning for it on the issue in question and remove the `tc-hold` tag.
   - The decision of the TC is binding.  That means a relevant change MUST NOT be merged until and unless it conforms with the TC's decision.  Depending on the decision, the core developer involved may merge the issue, close it, or revise it accordingly.
