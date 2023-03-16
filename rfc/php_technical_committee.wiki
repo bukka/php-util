@@ -58,9 +58,9 @@ selected by the TC members themselves, is the TC Secretary.
 
 The TC Secretary is responsible for:
 
-* Administering the election of the next set of TC members.
-* Documenting and communicating any decisions of the TC.
-* In case of a tie, the Secretary's vote will be considered the winning position.
+  * Administering the election of the next set of TC members.
+  * Documenting and communicating any decisions of the TC.
+  * In case of a tie, the Secretary's vote will be considered the winning position.
 
 === Elections ===
 
@@ -103,17 +103,14 @@ are permitted to comment on any open issue, and contributors are encouraged to g
 
 Should a dispute or question about a change arise, the TC may be called on to resolve it.
 
-  - Any core developer (including a TC member) may ask for TC resolution of an issue by adding the label `tc-hold` to it and
-    @-mentioning the TC GitHub team.
+  - Any core developer (including a TC member) may ask for TC resolution of an issue by adding the label `tc-hold` to it and @-mentioning the TC GitHub team.
   - An issue with the `tc-hold` tag MUST NOT be merged.
   - The TC members will confer in whatever manner they deem most convenient, public or private or both.
     * The TC SHOULD consult with relevant other individuals, including the core developers involved in the issue, Release
       Managers, and impacted extension maintainers as appropriate.
   - The TC MUST deliver a decision within one month, via the mechanism described below.
   - The TC Secretary MUST announce the decision and reasoning for it on the issue in question and remove the `tc-hold` tag.
-  - The decision of the TC is binding.  That means a relevant change MUST NOT be merged until and unless it conforms
-    with the TC's decision.  Depending on the decision, the core developer involved may merge the issue, close it, or
-    revise it accordingly.
+  - The decision of the TC is binding.  That means a relevant change MUST NOT be merged until and unless it conforms with the TC's decision.  Depending on the decision, the core developer involved may merge the issue, close it, or revise it accordingly.
 
 If an issue has been marked `tc-hold` for more than two weeks with no response or acknowledgement from the TC, the
 developer SHOULD post to the Internals mailing list a notification of absence.
@@ -141,9 +138,9 @@ The RFC process will continue to be used for process changes, including changes 
 As noted, the TC has no special role or authority on user-facing changes.  The TC may, however, decide on the
 implementation of those features. In other words the TC can decide about implementation and ABI but not about API.
 
-The TC SHOULD NOT block the merging of a user-facing change approved by the RFC process, unless the provided implementation
-would result in introduction of new bugs, side effects not mentioned in the RFC, significant performance penalties,
- or if there is an equivalent implementation in progress that TC finds more appropriate.
+The TC SHOULD NOT block the merging of a user-facing change approved by the RFC process, unless the provided
+implementation would result in introduction of new bugs, side effects not mentioned in the RFC, significant performance
+penalties, or if there is an equivalent implementation in progress that TC finds more appropriate.
 
 The TC SHOULD give due consideration and weight to previous decisions regarding technical aspects, either by the TC
 or by RFCs prior to the TC's creation.  However, it is NOT REQUIRED to abide by them, and may make decisions as it
@@ -151,20 +148,20 @@ sees best to ensure the quality and maintainability of the code at the time the 
 
 Technical aspects on which the TC may make a decision include, but are not limited to:
 
-* Whether a given PR is a feature or a bug.
-* Whether a given change qualifies as user-facing, and thus requires an RFC.
-* Whether a given technical aspect or implementation approach is acceptable.
+  * Whether a given PR is a feature or a bug.
+  * Whether a given change qualifies as user-facing, and thus requires an RFC.
+  * Whether a given technical aspect or implementation approach is acceptable.
 
 === TC voting ===
 
 Once an issue has been brought to the TC, the Secretary must allow all TC members time to offer their input within one
-week.  Once the Secretary feels the issue has been sufficiently discussed, the Secretary will call a vote of the TC members.
-The vote may be public or private and conducted however the TC chooses.
+week.  Once the Secretary feels the issue has been sufficiently discussed, the Secretary will call a vote of the TC
+members. The vote may be public or private and conducted however the TC chooses.
 
-The vote will last for one week or until all TC members have voted, whichever comes first.  All votes are simple-majority,
-with no quorum on a binary question (which could be yes/no or either/or, depending on the situation, as determined by
-the Secretary).  Members may explicitly abstain, and refraining from voting counts as an abstention.  Abstentions
-do not count toward the result.
+The vote will last for one week or until all TC members have voted, whichever comes first.  All votes are
+simple-majority, with no quorum on a binary question (which could be yes/no or either/or, depending on the situation,
+as determined by the Secretary).  Members may explicitly abstain, and refraining from voting counts as an abstention.
+Abstentions do not count toward the result.
 
 In case of a tie, the Secretary's vote will be considered the winning position.
 
