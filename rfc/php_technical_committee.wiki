@@ -155,7 +155,7 @@ Technical aspects on which the TC may make a decision include, but are not limit
 
 Once an issue has been brought to the TC, the Secretary must allow all TC members time to offer their input within one
 week.  Once the Secretary feels the issue has been sufficiently discussed, the Secretary will call a vote of the TC
-members. The vote may be private and conducted however the TC chooses.
+members. The vote will be private and conducted however the TC chooses.
 
 The vote will last for one week or until all TC members have voted, whichever comes first.  All votes are
 simple-majority, with no quorum on a binary question (which could be yes/no or either/or, depending on the situation,
