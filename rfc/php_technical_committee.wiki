@@ -28,7 +28,7 @@ definitions:
   * dev branch - php-src branch consisting of PHP- prefix and major and minor version number (e.g. PHP-8.2).
   * maintainer - person responsible for core subsystem (e.g. extension or SAPI) that is listed in the php-src EXTENSION file or the php-src OWNERS files if added in the future.
   * issue - php-src GitHub issue, including pull requests.
-  * process changes - Any changes impacting the way how PHP project is managed and its bylaws.
+  * process changes - Any changes impacting the way how PHP project is managed.
   * pull request - php-src GitHub pull request.
   * RM - PHP release managers.
   * user facing changes - Changes in PHP language and its semantics, user visible functions, classes, interfaces, constants and other user visible constructs.
