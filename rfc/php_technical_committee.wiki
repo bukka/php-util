@@ -1,7 +1,7 @@
 ====== PHP RFC: PHP Technical Committee ======
-  * Version: 0.2
+  * Version: 0.3
   * Date: 2023-03-03
-  * Author: Jakub Zelenka, bukka@php.net
+  * Author: Jakub Zelenka (bukka@php.net), Larry Garfield (larry@garfieldtech.com)
   * Status: Draft
 
 ===== Introduction =====
