@@ -148,7 +148,7 @@ sees best to ensure the quality and maintainability of the code at the time the 
 
 Technical aspects on which the TC may make a decision include, but are not limited to:
 
-  * Whether a given PR is a feature or a bug.
+  * Whether a given PR implements a feature or resolves a bug.
   * Whether a given change qualifies as user-facing, and thus requires an RFC.
   * Whether a given technical aspect or implementation approach is acceptable.
 
