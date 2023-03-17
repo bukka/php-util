@@ -6,10 +6,10 @@
 
 ===== Introduction =====
 
-PHP uses its voting system to decide about changes to PHP. This was created mainly for user facing changes. It works
-well for that purpose but it is not that effective for deciding about purely technical changes that impact PHP
-internals and extension API's. It is not clear how it should resolve conflicts on the technical basis between
-contributors that sometimes happen.
+The Open Source project that develops the PHP language and its reference implementation uses an RFC process to discuss
+and vote on proposed changes. This was created mainly for user facing changes. It works well for that purpose but it is
+not that effective for deciding about purely technical changes that impact PHP internals and extension API's. It is not
+clear how it should resolve conflicts on the technical basis between contributors that sometimes happen.
 
 
 ===== Proposal =====
