@@ -139,7 +139,7 @@ not about PHP API.
 
 The TC SHOULD NOT block the merging of a user-facing change approved by the RFC process, unless the provided
 implementation would result in introduction of new bugs, side effects not mentioned in the RFC, significant performance
-penalties not mentioned in RFC, or if there is an equivalent implementation in progress that TC finds more appropriate.
+penalties not mentioned in RFC, or if there is an equivalent implementation in progress that the TC finds more appropriate.
 
 The TC SHOULD give due consideration and weight to previous decisions regarding technical aspects, either by the TC
 or by RFCs prior to the TC's creation.  However, it is NOT REQUIRED to abide by them, and may make decisions as it
