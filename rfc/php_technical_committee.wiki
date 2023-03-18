@@ -157,7 +157,7 @@ Once an issue has been brought to the TC, the Secretary must allow all TC member
 week.  Once the Secretary feels the issue has been sufficiently discussed, the Secretary will call a vote of the TC
 members. The vote will be private and conducted however the TC chooses.
 
-The vote will last for one week or until all TC members have voted, whichever comes first.  All votes are
+The vote will last for two weeks or until all TC members have voted, whichever comes first.  All votes are
 simple-majority, with no quorum on a binary question (which could be yes/no or either/or, depending on the situation,
 as determined by the Secretary).  Members may explicitly abstain, and refraining from voting counts as an abstention.
 Abstentions do not count toward the result.
