@@ -85,7 +85,7 @@ The newly elected TC members will elect from their own number a TC Secretary by 
 Any TC member may resign at any time via an email to the Internals mailing list.  If the resigning member is the TC
 Secretary, then the TC will elect a new Secretary from its number.
 
-The TC may declare one of its members AWOL after no communication from that individual for one month, by a majority vote.
+Should a TC member become inactive for more than 30 days, the TC may declare that member's seat vacant, by a majority vote.
 If the vote passes, the TC member is removed.
 
 If the number of TC members is reduced to three or fewer and there are more than two months until the next regularly
