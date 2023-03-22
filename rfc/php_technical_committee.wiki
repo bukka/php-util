@@ -113,8 +113,7 @@ Should a dispute or question about a change arise, the TC may be called on to re
 If an issue has been marked `tc-hold` for more than two weeks with no response or acknowledgement from the TC, the
 developer SHOULD post to the Internals mailing list a notification of absence.
 
-If a notification of absence receives no response from the TC or any member of it for one month, then the entire TC
-is considered AWOL and removed.  New elections must then be immediately called as described above.
+If a notification of absence receives no response from the TC or any member of it for 30 days, then the entire TC is automatically removed.  New elections must then be immediately called as described above.
 
 The election of a new TC will "reset the clock" on any outstanding `tc-hold` issues.
 
