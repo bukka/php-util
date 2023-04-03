@@ -1,5 +1,5 @@
 ====== PHP RFC: PHP Technical Committee ======
-  * Version: 0.3
+  * Version: 0.4
   * Date: 2023-03-03
   * Author: Jakub Zelenka (bukka@php.net), Larry Garfield (larry@garfieldtech.com)
   * Status: Draft
@@ -9,7 +9,7 @@
 The Open Source project that develops the PHP language and its reference implementation uses an RFC process to discuss
 and vote on proposed changes. This was created mainly for user facing changes. It works well for that purpose but it is
 not that effective for deciding about purely technical changes that impact PHP internals and extension APIs. It is not
-clear how it should resolve technical conflicts between contributors.
+clear how it should resolve technical conflicts between core developers.
 
 
 ===== Proposal =====
@@ -23,7 +23,6 @@ The text contains various terms that need further clarification to prevent futur
 definitions:
 
   * php-src - Source code in https://github.com/php/php-src/.
-  * contributor - Anyone who has already contributed to php-src.
   * core developer - Anyone with write commit access to php-src.
   * dev branch - php-src branch consisting of PHP- prefix and major and minor version number (e.g. PHP-8.2).
   * maintainer - person responsible for core subsystem (e.g. extension or SAPI) that is listed in the php-src EXTENSION file or the php-src OWNERS files if added in the future.
@@ -43,7 +42,8 @@ To further clarify some of the defined terms, following subsection provides some
 
 It is important to clarify difference between user facing change and technical changes. As it is defined, the technical
 change is any php-src change that is not a user facing change. However, the implementation of user facing change is
-still a technical change. Put another way, the _definition_ of the user interface is user facing only, while the _implementation_ itself is a technical change.
+still a technical change. Put another way, the _definition_ of the user interface is user facing only, while the
+_implementation_ itself is a technical change.
 
 For example if there is a proposal to add accessors for PHP classes, then everything that is visible to user space
 like the constructs and their usage in PHP code is a user facing change. The actual C implementation and tests are
@@ -64,11 +64,12 @@ The TC Secretary is responsible for:
 
 The election process takes place annually, concurrent with the election of the Release Managers in approximately
 March/April.  (The exact date may vary year to year.)  The sitting TC Secretary officially begins the process with
-a call for nominations.  The nomination period lasts for one week.
+a call for nominations.  The nomination period lasts for one month.
 
 During that week, any eligible core developer may self-nominate by posting to the Internals mailing list.  If the
-candidate is paid to work on php-src or PHP extensions, they must state in their nomination which company or organization
-they work for.  Failure to do so will result in disqualification, as determined by the TC Secretary.
+candidate is paid to work on php-src or PHP extensions, they must state in their nomination which company or
+organization they work for to prevent potential conflicts of interest.  Failure to do so will result in
+disqualification, as determined by the TC Secretary.
 
 Once nominations are over, the voting process will begin.  Eligible voters are the same as for any RFC.
 
@@ -96,8 +97,7 @@ Should the number of TC members fall to zero, the senior-most Release Manager of
 
 ==== Work flow ====
 
-The TC is primarily a reactive body, and is not expected to proactively search for issues.  However, TC members
-are permitted to comment on any open issue, and contributors are encouraged to give their comments appropriate weight.
+The TC is primarily a reactive body, and is not expected to proactively search for issues.
 
 Should a dispute or question about a change arise, the TC may be called on to resolve it.
 
