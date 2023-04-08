@@ -1,8 +1,8 @@
 ====== PHP RFC: PHP Technical Committee ======
-  * Version: 0.4
+  * Version: 1.0
   * Date: 2023-03-03
   * Author: Jakub Zelenka (bukka@php.net), Larry Garfield (larry@garfieldtech.com)
-  * Status: Draft
+  * Status: Under Discussion
 
 ===== Introduction =====
 
@@ -42,8 +42,8 @@ To further clarify some of the defined terms, following subsection provides some
 
 It is important to clarify difference between user facing change and technical changes. As it is defined, the technical
 change is any php-src change that is not a user facing change. However, the implementation of user facing change is
-still a technical change. Put another way, the _definition_ of the user interface is user facing only, while the
-_implementation_ itself is a technical change.
+still a technical change. Put another way, the //definition// of the user interface is user facing only, while the
+//implementation// itself is a technical change.
 
 For example if there is a proposal to add accessors for PHP classes, then everything that is visible to user space
 like the constructs and their usage in PHP code is a user facing change. The actual C implementation and tests are
@@ -101,20 +101,20 @@ The TC is primarily a reactive body, and is not expected to proactively search f
 
 Should a dispute or question about a change arise, the TC may be called on to resolve it.
 
-  - Any core developer (including a TC member) may ask for TC resolution of an issue by adding the label `tc-hold` to it and @-mentioning the TC GitHub team.
-  - An issue with the `tc-hold` tag MUST NOT be merged.
+  - Any core developer (including a TC member) may ask for TC resolution of an issue by adding the label ''tc-hold'' to it and @-mentioning the TC GitHub team.
+  - An issue with the ''tc-hold'' tag MUST NOT be merged.
   - The TC members will confer in whatever manner they deem most convenient, public or private or both.
     * The TC SHOULD consult with relevant other individuals, including the core developers involved in the issue, Release Managers, and impacted maintainers as appropriate.
   - The TC MUST deliver a decision within one month, via the mechanism described below.
-  - The TC Secretary MUST announce the decision and reasoning for it on the issue in question and remove the `tc-hold` tag.
+  - The TC Secretary MUST announce the decision and reasoning for it on the issue in question and remove the ''tc-hold'' tag.
   - The decision of the TC is binding.  That means a relevant change MUST NOT be merged until and unless it conforms with the TC's decision.  Depending on the decision, the core developer involved may merge the issue, close it, or revise it accordingly.
 
-If an issue has been marked `tc-hold` for more than two weeks with no response or acknowledgement from the TC, the
+If an issue has been marked ''tc-hold'' for more than two weeks with no response or acknowledgement from the TC, the
 developer SHOULD post to the Internals mailing list a notification of absence.
 
 If a notification of absence receives no response from the TC or any member of it for 30 days, then the entire TC is automatically removed.  New elections must then be immediately called as described above.
 
-The election of a new TC will "reset the clock" on any outstanding `tc-hold` issues.
+The election of a new TC will "reset the clock" on any outstanding ''tc-hold'' issues.
 
 ==== Decision process ====
 
