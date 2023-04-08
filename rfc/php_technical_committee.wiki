@@ -25,7 +25,7 @@ definitions:
   * php-src - Source code in https://github.com/php/php-src/.
   * core developer - Anyone with write commit access to php-src.
   * dev branch - php-src branch consisting of PHP- prefix and major and minor version number (e.g. PHP-8.2).
-  * maintainer - person responsible for core subsystem (e.g. extension or SAPI) that is listed in the php-src EXTENSION file or the php-src CODEOWNERS files if added in the future.
+  * maintainer - person responsible for core subsystem (e.g. extension or SAPI) that is listed in the php-src CODEOWNERS files.
   * issue - php-src GitHub issue, including pull requests.
   * process changes - Any changes impacting how the PHP project is managed.
   * pull request - php-src GitHub pull request.
