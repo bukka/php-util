@@ -1,0 +1,20 @@
+[07-Apr-2023 13:19:16] NOTICE: fpm is running, pid 861184
+[07-Apr-2023 13:19:16] NOTICE: ready to handle connections
+[07-Apr-2023 13:32:22] NOTICE: Terminating ...
+[07-Apr-2023 13:32:22] NOTICE: exiting, bye-bye!
+[07-Apr-2023 13:41:07] NOTICE: fpm is running, pid 865121
+[07-Apr-2023 13:41:07] NOTICE: ready to handle connections
+[07-Apr-2023 13:47:48] ERROR: unable to bind listening socket for address '127.0.0.1:9012': Address already in use (98)
+[07-Apr-2023 13:47:48] ERROR: FPM initialization failed
+[07-Apr-2023 13:48:09] NOTICE: Terminating ...
+[07-Apr-2023 13:48:09] NOTICE: exiting, bye-bye!
+[07-Apr-2023 13:48:12] NOTICE: fpm is running, pid 866235
+[07-Apr-2023 13:48:12] NOTICE: ready to handle connections
+[07-Apr-2023 13:48:24] WARNING: [pool unconfined] child 866236 said into stderr: "NOTICE: PHP message: PHP Fatal error:  Uncaught Error: Undefined constant "test" in /home/jakub/prog/php/tests/fpm/fcgi-envs/fail.php:3"
+[07-Apr-2023 13:48:24] WARNING: [pool unconfined] child 866236 said into stderr: "Stack trace:"
+[07-Apr-2023 13:48:24] WARNING: [pool unconfined] child 866236 said into stderr: "#0 {main}"
+[07-Apr-2023 13:48:24] WARNING: [pool unconfined] child 866236 said into stderr: "  thrown in /home/jakub/prog/php/tests/fpm/fcgi-envs/fail.php on line 3"
+[10-Apr-2023 11:16:20] ERROR: unable to bind listening socket for address '127.0.0.1:9012': Address already in use (98)
+[10-Apr-2023 11:16:20] ERROR: FPM initialization failed
+[10-Apr-2023 11:17:14] NOTICE: Terminating ...
+[10-Apr-2023 11:17:14] NOTICE: exiting, bye-bye!

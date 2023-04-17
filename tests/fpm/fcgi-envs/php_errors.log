@@ -1,0 +1,33 @@
+
+[07-Apr-2023 12:20:11 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "test" in /home/jakub/prog/php/tests/fpm/fcgi-envs/fail.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/jakub/prog/php/tests/fpm/fcgi-envs/fail.php on line 3
+[07-Apr-2023 12:35:59 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "test" in /home/jakub/prog/php/tests/fpm/fcgi-envs/fail.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/jakub/prog/php/tests/fpm/fcgi-envs/fail.php on line 3
+[07-Apr-2023 12:36:49 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "test" in /home/jakub/prog/php/tests/fpm/fcgi-envs/fail.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/jakub/prog/php/tests/fpm/fcgi-envs/fail.php on line 3
+[07-Apr-2023 12:37:53 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "test" in /home/jakub/prog/php/tests/fpm/fcgi-envs/fail.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/jakub/prog/php/tests/fpm/fcgi-envs/fail.php on line 3
+[07-Apr-2023 12:38:10 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "test" in /home/jakub/prog/php/tests/fpm/fcgi-envs/fail.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/jakub/prog/php/tests/fpm/fcgi-envs/fail.php on line 3
+[07-Apr-2023 12:39:12 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "test" in /home/jakub/prog/php/tests/fpm/fcgi-envs/fail.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/jakub/prog/php/tests/fpm/fcgi-envs/fail.php on line 3
+[07-Apr-2023 12:41:16 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "test" in /home/jakub/prog/php/tests/fpm/fcgi-envs/fail.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/jakub/prog/php/tests/fpm/fcgi-envs/fail.php on line 3
+[07-Apr-2023 12:45:04 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "test" in /home/jakub/prog/php/tests/fpm/fcgi-envs/fail.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/jakub/prog/php/tests/fpm/fcgi-envs/fail.php on line 3
