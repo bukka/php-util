@@ -19,6 +19,7 @@ runtest/
 /80/
 /81/
 /82/
+/83/
 /master/
 phpc/
 test/
@@ -28,6 +29,7 @@ pickle/
 phalcon/
 libs/
 phd/
+releases/
 valgrind/
 xdebug/
 output/
