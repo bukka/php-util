@@ -1,3 +1,3 @@
 <?php
 echo getmypid();
-exec("sleep 1 &");
+//exec("sleep 1 &");
