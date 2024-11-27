@@ -60,6 +60,10 @@ PHPU_CONF_EXT_5_2="$PHPU_CONF/ext-5-2.conf"
 PHPU_MASTER="$PHPU_ROOT/master"
 PHPU_MASTER_EXT="$PHPU_MASTER/ext"
 PHPU_MASTER_CLI="$PHPU_MASTER/sapi/cli/php"
+# PHP 8.4 build branch location
+PHPU_84="$PHPU_ROOT/84"
+PHPU_84_EXT="$PHPU_84/ext"
+PHPU_84_CLI="$PHPU_84/sapi/cli/php"
 # PHP 8.3 build branch location
 PHPU_83="$PHPU_ROOT/83"
 PHPU_83_EXT="$PHPU_83/ext"
@@ -173,6 +177,11 @@ function phpu_test_build {
   $TEST_PHP_EXECUTABLE $PHPU_BUILD_DIR/run-tests.php $*
 }
 
+# run php 8.4 test(s)
+function phpu_test_84 {
+  export TEST_PHP_EXECUTABLE=$PHPU_84_CLI
+  $TEST_PHP_EXECUTABLE $PHPU_84/run-tests.php $*
+}
 
 # run php 8.3 test(s)
 function phpu_test_83 {
@@ -410,7 +419,7 @@ function phpu_conf {
   # extra options for configure
   PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_ETC"
   PHPU_CURRENT_DIR=$( basename `pwd` )
-  if [[ $PHPU_CURRENT_DIR =~ ^(src|std|sec|master|7|71|72|73|74|80|81|82|83)$ ]]; then
+  if [[ $PHPU_CURRENT_DIR =~ ^(src|std|sec|master|7|71|72|73|74|80|81|82|83|84)$ ]]; then
     if [[ ! "$*" =~ "no-debug" ]]; then
       PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-debug"
     fi
@@ -472,7 +481,7 @@ function phpu_conf {
     fi
   fi
   # set conf active ext and options path
-  if [[ $PHPU_CURRENT_DIR =~ ^(master|81|82|83)$ ]]; then
+  if [[ $PHPU_CURRENT_DIR =~ ^(master|81|82|83|84)$ ]]; then
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
     if [ "$PHPU_SANITIZE" == "1" ]; then
       PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_MASTER_SANITIZE"
@@ -625,7 +634,7 @@ function phpu_use {
     elif [[ "$1" == "sec" ]]; then
        cd "$PHPU_SEC"
       _phpu_init_install_vars sec
-    elif [[ "$1" =~ ^(master|7|71|72|73|74|80|81|82|83)$ ]]; then
+    elif [[ "$1" =~ ^(master|7|71|72|73|74|80|81|82|83|84)$ ]]; then
       if [[ "$1" == "7" ]]; then
         cd "$PHPU_7"
       elif [[ "$1" == "71" ]]; then
@@ -647,6 +656,9 @@ function phpu_use {
         PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
       elif [[ "$1" == "83" ]]; then
         cd "$PHPU_83"
+        PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
+      elif [[ "$1" == "84" ]]; then
+        cd "$PHPU_84"
         PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
       else
         cd "$PHPU_MASTER"
@@ -709,7 +721,7 @@ function phpu_use {
         fi
       done < "$PHPU_CONF_ACTIVE_EXT"
       # restart httpd server
-      if ! [[ "$1" =~ ^(master|7|71|72|73|74|80|81|82|83)$ ]]; then
+      if ! [[ "$1" =~ ^(master|7|71|72|73|74|80|81|82|83|84)$ ]]; then
         sudo $PHPU_HTTPD_RESTART
       fi
     fi
@@ -757,6 +769,9 @@ function phpu_update {
       ;;
     "83")
       cd "$PHPU_83"
+      ;;
+    "84")
+      cd "$PHPU_84"
       ;;
     *)
       echo "Unknown branch to update"
@@ -927,6 +942,9 @@ case $PHPU_ACTION in
     ;;
   test_83)
     phpu_test_83 $@
+    ;;
+  test_84)
+    phpu_test_84 $@
     ;;
   test_master)
     phpu_test_master $@
