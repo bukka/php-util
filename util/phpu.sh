@@ -256,6 +256,9 @@ function phpu_test_sec {
 function phpu_test_live {
   export TEST_PHP_EXECUTABLE=/usr/local/bin/php
   export FPM_RUN_RESOURCE_HEAVY_TESTS=1
+  export MYSQL_TEST_DB=php_test
+  export MYSQL_TEST_USER=php_test
+  export MYSQL_TEST_PASSWD=PHPdev0*
   PHPU_GIT_TOP_LEVEL=`git rev-parse --show-toplevel`
   if [ -f "$PHPU_GIT_TOP_LEVEL/run-tests.php" ]; then
     PHPU_RUN_TEST_LIVE_PATH=$PHPU_GIT_TOP_LEVEL/run-tests.php
@@ -380,7 +383,7 @@ function _phpu_ext_dynamic_clean {
 # run configure script
 function _phpu_configure {
   echo "OPTIONS: $@"
-  if [ -n "$PKG_CONFIG_PATH" ]; then
+  if [ -n "$PKG_CONFIG_OVERWRIT" -a -n "$PKG_CONFIG_PATH" ]; then
     ./configure -C $@
   else
     phpu_pkg_config ssl ./configure -C $@
@@ -451,6 +454,10 @@ function phpu_conf {
     PHPU_OPENSSL_VERSION_DIR=ssl30
   elif [[ "$*" =~ "openssl31" ]]; then
     PHPU_OPENSSL_VERSION_DIR=ssl31
+  elif [[ "$*" =~ "openssl32" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=ssl32
+  elif [[ "$*" =~ "openssl33" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=ssl33
   elif [[ "$*" =~ "libressl25" ]]; then
     PHPU_OPENSSL_VERSION_DIR=libressl25
   elif [[ "$*" =~ "libressl26" ]]; then
