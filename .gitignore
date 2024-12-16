@@ -21,6 +21,7 @@ runtest/
 /81/
 /82/
 /83/
+/84/
 /master/
 phpc/
 test/
@@ -28,6 +29,7 @@ doc/
 web/
 pickle/
 phalcon/
+frankenphp/
 libs/
 phd/
 releases/
@@ -39,5 +41,11 @@ zephir/
 fpmt/
 fpmti/
 fpmb/
+rfc/
 todo/
 issues/gh8517/
+static-php-cli/
+tests/
+win/
+
+
