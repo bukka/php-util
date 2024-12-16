@@ -1,1 +1,0 @@
-docker run php:8.1-alpine -r 'mail("jakub.php@gmail.com", "This is the subject", "This is the body");'
