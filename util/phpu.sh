@@ -46,6 +46,7 @@ PHPU_CONF="$PHPU_ROOT/conf"
 PHPU_CONF_OPT="$PHPU_CONF/options.conf"
 PHPU_CONF_OPT_MASTER="$PHPU_CONF/options-master.conf"
 PHPU_CONF_OPT_MASTER_SANITIZE="$PHPU_CONF/options-master-sanitize.conf"
+PHPU_CONF_OPT_MASTER_UNIT="$PHPU_CONF/options-master-unit.conf"
 PHPU_CONF_OPT_8="$PHPU_CONF/options-8.conf"
 PHPU_CONF_OPT_74="$PHPU_CONF/options-74.conf"
 PHPU_CONF_OPT_7="$PHPU_CONF/options-7.conf"
@@ -437,6 +438,9 @@ function phpu_conf {
     if [[ "$*" =~ "presanit" ]]; then
       PHPU_SANITIZE=1
     fi
+    if [[ "$*" =~ "unit" ]]; then
+      PHPU_UNIT=1
+    fi
     if [[ ! "$*" =~ "no-zts" ]]; then
       if [[ $PHPU_CURRENT_DIR =~ ^(src|std|sec|7|71|72|73|74)$ ]]; then
         PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-maintainer-zts"
@@ -485,6 +489,8 @@ function phpu_conf {
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
     if [ "$PHPU_SANITIZE" == "1" ]; then
       PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_MASTER_SANITIZE"
+     elif  [ "$PHPU_UNIT" == "1" ]; then
+      PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_MASTER_UNIT"
     else
       PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_MASTER"
     fi
