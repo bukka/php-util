@@ -126,6 +126,10 @@ PHPU_DOC_REFERENCE="$PHPU_DOC/en/reference"
 PHPU_OPENSSL_BASE_DIR="/usr/local/"
 # The directory prefix for version 1.0.x is empty
 PHPU_OPENSSL_VERSION_DIR="ssl"
+PHPU_LIBRESSL_VERSION_DER="libressl/"
+# Curl base dir
+PHPU_CURL_BASEDIR="/usr/local/curl/"
+PHPU_CURL_VERSION="master"
 # Dockerfiles
 PHPU_DOCKER_DIR="$PHPU_ROOT/docker"
 
@@ -471,17 +475,23 @@ function phpu_conf {
     PHPU_OPENSSL_VERSION_DIR=ssl32
   elif [[ "$*" =~ "openssl33" ]]; then
     PHPU_OPENSSL_VERSION_DIR=ssl33
-  elif [[ "$*" =~ "libressl25" ]]; then
-    PHPU_OPENSSL_VERSION_DIR=libressl25
-  elif [[ "$*" =~ "libressl26" ]]; then
-    PHPU_OPENSSL_VERSION_DIR=libressl26
-  elif [[ "$*" =~ "libressl27" ]]; then
-    PHPU_OPENSSL_VERSION_DIR=libressl27
+  elif [[ "$*" =~ "openssl34" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=ssl34
+  elif [[ "$*" =~ "libressl35" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=libressl/35
+  elif [[ "$*" =~ "libressl36" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=libressl/36
+  elif [[ "$*" =~ "libressl37" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=libressl/37
+  elif [[ "$*" =~ "libressl39" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=libressl/39
   else
     if [[ $PHPU_CURRENT_DIR =~ ^(src|std|sec)$ ]]; then
       PHPU_OPENSSL_VERSION_DIR=ssl102
-    else
+    elif  [[ $PHPU_CURRENT_DIR =~ ^(7|70|71|72|73|74|80)$ ]]; then
       PHPU_OPENSSL_VERSION_DIR=ssl111
+    else
+      PHPU_OPENSSL_VERSION_DIR=ssl30
     fi
   fi
   # set conf active ext and options path
@@ -825,7 +835,9 @@ function phpu_pkg_config {
         else
           PKG_CONFIG_LIB_DIR=lib
         fi
-        PKG_CONFIG_PATH="$PHPU_OPENSSL_BASE_DIR$PHPU_OPENSSL_VERSION_DIR/$PKG_CONFIG_LIB_DIR/pkgconfig" $@
+        PHPU_PKG_CONFIG_PATH_OPENSSL="$PHPU_OPENSSL_BASE_DIR$PHPU_OPENSSL_VERSION_DIR/$PKG_CONFIG_LIB_DIR/pkgconfig"
+        PHPU_PKG_CONFIG_PATH_CURL="${PHPU_CURL_BASEDIR}curl-${PHPU_CURL_VERSION}-$PHPU_OPENSSL_VERSION_DIR/lib/pkgconfig"
+        PKG_CONFIG_PATH="$PHPU_PKG_CONFIG_PATH_CURL:$PHPU_PKG_CONFIG_PATH_OPENSSL" $@
         ;;
       *)
         echo "Unknown PKG_CONFIG_PATH for $PHPU_PKG"
