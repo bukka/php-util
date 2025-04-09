@@ -129,7 +129,7 @@ PHPU_OPENSSL_VERSION_DIR="ssl"
 PHPU_LIBRESSL_VERSION_DER="libressl/"
 # Curl base dir
 PHPU_CURL_BASEDIR="/usr/local/curl/"
-PHPU_CURL_VERSION="master"
+PHPU_CURL_VERSION="curl-master"
 # Dockerfiles
 PHPU_DOCKER_DIR="$PHPU_ROOT/docker"
 
@@ -494,6 +494,12 @@ function phpu_conf {
       PHPU_OPENSSL_VERSION_DIR=ssl30
     fi
   fi
+  # check curl version
+  if [[ "$*" =~ "curl-7_9_8" ]]; then
+    PHPU_CURL_VERSION=curl-7_9_8
+  else
+    PHPU_CURL_VERSION=curl-master
+  fi
   # set conf active ext and options path
   if [[ $PHPU_CURRENT_DIR =~ ^(master|81|82|83|84)$ ]]; then
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
@@ -836,7 +842,7 @@ function phpu_pkg_config {
           PKG_CONFIG_LIB_DIR=lib
         fi
         PHPU_PKG_CONFIG_PATH_OPENSSL="$PHPU_OPENSSL_BASE_DIR$PHPU_OPENSSL_VERSION_DIR/$PKG_CONFIG_LIB_DIR/pkgconfig"
-        PHPU_PKG_CONFIG_PATH_CURL="${PHPU_CURL_BASEDIR}curl-${PHPU_CURL_VERSION}-$PHPU_OPENSSL_VERSION_DIR/lib/pkgconfig"
+        PHPU_PKG_CONFIG_PATH_CURL="${PHPU_CURL_BASEDIR}${PHPU_CURL_VERSION}-$PHPU_OPENSSL_VERSION_DIR/lib/pkgconfig"
         PKG_CONFIG_PATH="$PHPU_PKG_CONFIG_PATH_CURL:$PHPU_PKG_CONFIG_PATH_OPENSSL" $@
         ;;
       *)
