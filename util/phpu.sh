@@ -61,6 +61,10 @@ PHPU_CONF_EXT_5_2="$PHPU_CONF/ext-5-2.conf"
 PHPU_MASTER="$PHPU_ROOT/master"
 PHPU_MASTER_EXT="$PHPU_MASTER/ext"
 PHPU_MASTER_CLI="$PHPU_MASTER/sapi/cli/php"
+# PHP 8.5 build branch location
+PHPU_85="$PHPU_ROOT/85"
+PHPU_85_EXT="$PHPU_85/ext"
+PHPU_85_CLI="$PHPU_85/sapi/cli/php"
 # PHP 8.4 build branch location
 PHPU_84="$PHPU_ROOT/84"
 PHPU_84_EXT="$PHPU_84/ext"
@@ -130,6 +134,8 @@ PHPU_LIBRESSL_VERSION_DER="libressl/"
 # Curl base dir
 PHPU_CURL_BASEDIR="/usr/local/curl/"
 PHPU_CURL_VERSION="curl-master"
+# LDAP base dir
+PHPU_LDAP_BASEDIR="/usr/local/ldap"
 # Dockerfiles
 PHPU_DOCKER_DIR="$PHPU_ROOT/docker"
 
@@ -180,6 +186,12 @@ function phpu_test_build {
   shift
   export TEST_PHP_EXECUTABLE=$PHPU_BUILD_CLI
   $TEST_PHP_EXECUTABLE $PHPU_BUILD_DIR/run-tests.php $*
+}
+
+# run php 8.5 test(s)
+function phpu_test_85 {
+  export TEST_PHP_EXECUTABLE=$PHPU_85_CLI
+  $TEST_PHP_EXECUTABLE $PHPU_85/run-tests.php $*
 }
 
 # run php 8.4 test(s)
@@ -424,7 +436,7 @@ function phpu_conf {
   # extra options for configure
   PHPU_EXTRA_OPTS="--with-config-file-path=$PHPU_ETC"
   PHPU_CURRENT_DIR=$( basename `pwd` )
-  if [[ $PHPU_CURRENT_DIR =~ ^(src|std|sec|master|7|71|72|73|74|80|81|82|83|84)$ ]]; then
+  if [[ $PHPU_CURRENT_DIR =~ ^(src|std|sec|master|7|71|72|73|74|80|81|82|83|84|85)$ ]]; then
     if [[ ! "$*" =~ "no-debug" ]]; then
       PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-debug"
     fi
@@ -452,6 +464,9 @@ function phpu_conf {
         PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-zts"
       fi
     fi
+    if [[ $PHPU_CURRENT_DIR =~ ^(7|71|72|73|74|80|81|82|83|84|85)$ ]]; then
+      PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --enable-opcache"
+    fi
     if [[ $PHPU_CURRENT_DIR =~ ^(src|std|sec|7|71|72|73|74)$ ]]; then
       PHPU_EXT_LIB_EXTENSION=".so"
     fi
@@ -477,6 +492,9 @@ function phpu_conf {
     PHPU_OPENSSL_VERSION_DIR=ssl33
   elif [[ "$*" =~ "openssl34" ]]; then
     PHPU_OPENSSL_VERSION_DIR=ssl34
+  elif [[ "$*" =~ "openssl35" ]]; then
+    PHPU_OPENSSL_VERSION_DIR=ssl35
+    PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --with-openssl-argon2"
   elif [[ "$*" =~ "libressl35" ]]; then
     PHPU_OPENSSL_VERSION_DIR=libressl/35
   elif [[ "$*" =~ "libressl36" ]]; then
@@ -500,8 +518,21 @@ function phpu_conf {
   else
     PHPU_CURL_VERSION=curl-master
   fi
+  # check ldap
+  if [[ "$*" =~ "ldap26" ]]; then
+    PHPU_LDAP_VERSION_DIR="openldap-2.6"
+  elif [[ "$*" =~ "ldap25" ]]; then
+    PHPU_LDAP_VERSION_DIR="openldap-2.5"
+  elif [[ "$*" =~ "ldap24" ]]; then
+    PHPU_LDAP_VERSION_DIR="openldap-2.4"
+  elif [[ "$*" =~ "ldap" ]]; then
+    PHPU_LDAP_VERSION_DIR="openldap"
+  fi
+  if [ -n "$PHPU_LDAP_VERSION_DIR" ] && [[ $PHPU_OPENSSL_VERSION_DIR == ssl30 ]]; then
+    PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --with-ldap=$PHPU_LDAP_BASEDIR/$PHPU_LDAP_VERSION_DIR-$PHPU_OPENSSL_VERSION_DIR"
+  fi
   # set conf active ext and options path
-  if [[ $PHPU_CURRENT_DIR =~ ^(master|81|82|83|84)$ ]]; then
+  if [[ $PHPU_CURRENT_DIR =~ ^(master|81|82|83|84|85)$ ]]; then
     PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
     if [ "$PHPU_SANITIZE" == "1" ]; then
       PHPU_CONF_ACTIVE_OPT="$PHPU_CONF_OPT_MASTER_SANITIZE"
@@ -627,7 +658,7 @@ function phpu_new {
       exit
     fi
 
-    # create branch that either tracks upstream branch or is from tag
+    # create branch that either tracks upstrem branch or is from tag
     if git branch $PHPU_NEW_BRANCH_FLAGS $PHPU_BRANCH $PHPU_NEW_BRANCH_COMMIT; then
       cd "$PHPU_BUILD"
       # copy
@@ -656,7 +687,7 @@ function phpu_use {
     elif [[ "$1" == "sec" ]]; then
        cd "$PHPU_SEC"
       _phpu_init_install_vars sec
-    elif [[ "$1" =~ ^(master|7|71|72|73|74|80|81|82|83|84)$ ]]; then
+    elif [[ "$1" =~ ^(master|7|71|72|73|74|80|81|82|83|84|85)$ ]]; then
       if [[ "$1" == "7" ]]; then
         cd "$PHPU_7"
       elif [[ "$1" == "71" ]]; then
@@ -681,6 +712,9 @@ function phpu_use {
         PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
       elif [[ "$1" == "84" ]]; then
         cd "$PHPU_84"
+        PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
+      elif [[ "$1" == "85" ]]; then
+        cd "$PHPU_85"
         PHPU_CONF_ACTIVE_EXT="$PHPU_CONF_EXT_MASTER"
       else
         cd "$PHPU_MASTER"
@@ -743,7 +777,7 @@ function phpu_use {
         fi
       done < "$PHPU_CONF_ACTIVE_EXT"
       # restart httpd server
-      if ! [[ "$1" =~ ^(master|7|71|72|73|74|80|81|82|83|84)$ ]]; then
+      if ! [[ "$1" =~ ^(master|7|71|72|73|74|80|81|82|83|84|85)$ ]]; then
         sudo $PHPU_HTTPD_RESTART
       fi
     fi
@@ -794,6 +828,9 @@ function phpu_update {
       ;;
     "84")
       cd "$PHPU_84"
+      ;;
+    "85")
+      cd "$PHPU_85"
       ;;
     *)
       echo "Unknown branch to update"
@@ -969,6 +1006,9 @@ case $PHPU_ACTION in
     ;;
   test_84)
     phpu_test_84 $@
+    ;;
+  test_85)
+    phpu_test_85 $@
     ;;
   test_master)
     phpu_test_master $@
