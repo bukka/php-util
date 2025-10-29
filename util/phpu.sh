@@ -133,7 +133,7 @@ PHPU_OPENSSL_VERSION_DIR="ssl"
 PHPU_LIBRESSL_VERSION_DER="libressl/"
 # Curl base dir
 PHPU_CURL_BASEDIR="/usr/local/curl/"
-PHPU_CURL_VERSION="curl-master"
+PHPU_CURL_VERSION=""
 # LDAP base dir
 PHPU_LDAP_BASEDIR="/usr/local/ldap"
 # Dockerfiles
@@ -515,8 +515,17 @@ function phpu_conf {
   # check curl version
   if [[ "$*" =~ "curl-7_9_8" ]]; then
     PHPU_CURL_VERSION=curl-7_9_8
-  else
+  elif [[ "$*" =~ "curl-8_5_0" ]]; then
+    PHPU_CURL_VERSION=curl-8_5_0
+  elif [[ "$*" =~ "curl-8_15_0" ]]; then
+    PHPU_CURL_VERSION=curl-8_15_0
+  elif [[ "$*" =~ "curl-8_16_0" ]]; then
+    PHPU_CURL_VERSION=curl-8_16_0
+  elif [[ "$*" =~ "curl-master" ]]; then
     PHPU_CURL_VERSION=curl-master
+  fi
+  if [ -n "$PHPU_CURL_VERSION" ]; then
+    PHPU_EXTRA_OPTS="$PHPU_EXTRA_OPTS --with-curl"
   fi
   # check ldap
   if [[ "$*" =~ "ldap26" ]]; then
@@ -597,7 +606,7 @@ function phpu_conf {
     rm config.cache
   fi
   ./buildconf --force
- _phpu_configure $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_ACTIVE_OPT"`
+  _phpu_configure $PHPU_EXTRA_OPTS `cat "$PHPU_CONF_ACTIVE_OPT"`
 }
 
 # run make

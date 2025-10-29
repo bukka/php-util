@@ -10,6 +10,7 @@ internals/
 runtest/
 /conf/pull-request
 /src/
+/src-async/
 /std/
 /sec/
 /7/
@@ -22,7 +23,10 @@ runtest/
 /82/
 /83/
 /84/
+/85/
 /master/
+/policies/
+/sapi/
 phpc/
 test/
 doc/
